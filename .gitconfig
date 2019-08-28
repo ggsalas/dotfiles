@@ -1,0 +1,46 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Gabriel Salas
+	email = ggsalas@gmail.com
+[alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  dt = difftool
+  ch = checkout
+  br = branch
+  co = commit -m
+  st = status -s
+  cp = cherry-pick
+  ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%C(magenta)\\ [%an]" --decorate --date=relative
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%C(magenta)\\ [a:%an,c:%cn]" --decorate --numstat
+
+[github]
+  user = ggsalas
+[core]
+  editor = nvim
+[diff]
+  tool = vimdiff
+[difftool "vimdiff"]
+  cmd = nvim -d ~/.vimrc \"$LOCAL\" \"$REMOTE\"
+[mergetool "vimdiff"]
+  cmd = nvim -d \"$MERGED\" \"$REMOTE\" 
+  ; cmd = nvim -d \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+[difftool]
+  prompt = true
+[merge]
+  tool = vimdiff
+[mergetool]
+  path = nvim
+  keepBackup = false
+[mergetool "vimdiff"]
+  path = nvim
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[color "status"]
+  added = green
+  changed = red
+  untracked = blue
+  deleted = red

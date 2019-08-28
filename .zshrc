@@ -72,9 +72,6 @@ alias reload='source ~/.zshrc'
 alias untar='tar -xvf'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-
-alias marketplace='kitty --session ~/kittySesions/marketplace'
-
 export ZSH_TMUX_FORCEUTF8=true
 
 #################################################################################
