@@ -11,23 +11,30 @@ brew tap caskroom/cask
 
 #Programming Languages
 brew install node
+brew install ruby
+brew install python
 brew install python@2
 
 #Databases
 brew install postgresql
 brew install mongodb
 brew install mongodb-community
+brew cask install postico
 
 #Dev Tools
 brew install git
 brew install yarn
 brew install tmux
 brew install neovim
+brew cask install alacritty
+brew cask install iterm2
+brew cask install docker
+brew cask install postman
 brew cask install visual-studio-code
-
 brew install tree
 brew install zsh
 brew install zsh-autosuggestions
+brew cask install virtualbox
 
 #Communication Apps
 brew cask install keybase
@@ -40,9 +47,13 @@ brew cask install firefox
 
 #Other tools
 brew cask install google-drive
-brew cask install alacritty
 brew cask install easy-move-plus-resize
 brew cask install gimp
 brew cask install inkscape
 brew cask install xquartz
 brew cask install font-source-code-pro
+brew cask install alfred
+brew cask install vlc
+brew cask install transmission
+brew cask install spotify
+brew cask install whatsup
