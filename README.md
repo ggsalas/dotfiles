@@ -18,7 +18,7 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 dotfiles config --local status.showUntrackedFiles no
 
 // add this repo as remote origin
-dotfiles remote add origin https://github.com/ggsalas/dotfiles.git
+dotfiles remote add origin git@github.com:ggsalas/dotfiles.git
 
 // replace all tracked files with the repo files
 dotfiles fetch
