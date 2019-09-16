@@ -28,6 +28,9 @@ brew cask install postico
 brew install git
 brew install yarn
 brew install tmux
+brew install gnupg
+brew install ripgrep
+brew install the_silver_searcher
 brew install neovim
 brew cask install alacritty
 brew cask install iterm2
@@ -36,6 +39,7 @@ brew cask install postman
 brew cask install visual-studio-code
 brew install tree
 brew install zsh
+brew install antigen
 brew install zsh-autosuggestions
 brew cask install virtualbox
 
@@ -51,14 +55,13 @@ brew cask install google-chrome
 brew cask install google-chrome-canary
 
 #Other tools
-brew cask install google-drive
+brew cask install spectacle
 brew cask install easy-move-plus-resize
 brew cask install gimp
-brew cask install inkscape
 brew cask install xquartz
+brew cask install inkscape
 brew cask install blender
 brew cask install scribus
-brew cask install font-source-code-pro
 brew cask install alfred
 brew cask install vlc
 brew cask install transmission
@@ -73,7 +76,13 @@ pip install pynvim
 pip install neovim
 pip3 install pynvim
 pip3 install neovim
-# pip2 install --upgrade neovim
-# pip3 install --upgrade neovim
+sudo gem install neovim
+# install Plug for vim
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# install plug for tmux
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+npm install --global git-open
 
 # brew upgrade

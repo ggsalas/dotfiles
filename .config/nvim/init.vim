@@ -235,6 +235,9 @@ let g:slime_target = "tmux"
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
+" Coc extensions
+let g:coc_global_extensions = ['coc-prettier', 'coc-eslint',  'coc-tsserver', 'coc-json', 'coc-css']
+
 " MAPINGS
 " ******************************************************************************
 " Map leader
