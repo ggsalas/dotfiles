@@ -161,9 +161,9 @@ hi CocWarningSign guifg=yellow
 hi CocInfoSign guifg=magenta
 hi CocHintSign guifg=cyan
 
-hi PMenu guifg=#eeeeee guibg=#222222 gui=NONE
+hi PMenu guifg=#eeeeee guibg=#111111 gui=NONE
 hi PMenuSel guifg=#282828 guibg=#bbbbbb gui=NONE
-hi PmenuSbar guifg=#222222 guibg=#222222 gui=NONE
+hi PmenuSbar guifg=#111111 guibg=#111111 gui=NONE
 hi PmenuThumb guifg=#333333 guibg=#333333 gui=NONE
 
 hi TabLineSel guifg=#282828 guibg=#bbbbbb gui=bold 

@@ -20,9 +20,10 @@ brew install python@2
 
 #Databases
 brew install postgresql
+brew cask install postico
+# TODO: seems failing both mongo...
 brew install mongodb
 brew install mongodb-community
-brew cask install postico
 
 #Dev Tools
 brew install git
@@ -47,7 +48,6 @@ brew cask install virtualbox
 brew cask install keybase
 brew cask install slack
 brew cask install skype
-brew cask install skype-for-business
 
 #Web Tools
 brew cask install firefox-developer-edition
@@ -68,6 +68,7 @@ brew cask install transmission
 brew cask install spotify
 brew cask install libreoffice
 brew cask install the-unarchiver
+brew cask install calibre
 
 echo "Installing other sofware without brew"
 gem update neovim
