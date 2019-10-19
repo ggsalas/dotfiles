@@ -64,7 +64,7 @@ set nobackup
 set nowritebackup
 set signcolumn=yes
 set nowrap
-set updatetime=100
+set updatetime=300
 
 " highlighted yank
 set inccommand=nosplit          " preview replace
@@ -189,8 +189,8 @@ set guicursor=a:blinkon0
 
 " Status Line 
 set statusline =\ [\%{gitbranch#name()}%*\]\ %f\ %m
-" set statusline +=\ %*%=\ %*
-" set statusline +=\ %*%=\ %*%{StatusDiagnostic()}\ %*
+set statusline +=\ %*%=\ %*
+set statusline +=\ %*%=\ %*%{coc#status()}\ %*
 
 " ******************************************************************************
 " grep.vim
@@ -273,6 +273,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent><C-c> :CocRestart<CR>
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 " CocDetail similar to AleDetail
@@ -497,25 +498,3 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" COC StatusLine
-function! StatusDiagnostic() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, '✗ ' . info['error'])
-  endif
-  return join(msgs, ' ')
-endfunction
-
-function! CustomFoldText() abort
-  let s:middot=' '
-  let s:raquo='✚'
-  let s:small_l='ℓ'
-
-  let l:lines='[' . (v:foldend - v:foldstart + 1) . s:small_l . ']'
-  let l:first=substitute(getline(v:foldstart), '\v *', '', '')
-  return s:raquo . '  ' . l:lines . '  ' . l:first
-endfunction
-

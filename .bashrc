@@ -14,3 +14,5 @@
 # alias dotfiles='/usr/bin/git --git-dir=/Users/ggsalas/.dotfiles/ --work-tree=/Users/ggsalas'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export AWS_PROFILE=indigo-ag
