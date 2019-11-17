@@ -9,7 +9,6 @@ Plug 'jacoborus/tender.vim'                                   " colorscheme
 Plug 'justinmk/vim-dirvish'                                   " file explorer 
 Plug 'pbrisbin/vim-mkdir'                                     " create new dirs on save file
 Plug 'tpope/vim-fugitive'                                     " Git 
-Plug 'airblade/vim-gitgutter'                                 " display Git changes on left column
 Plug 'itchyny/vim-gitbranch'                                  " Git branch name
 Plug 'neoclide/coc.nvim', {'branch': 'release'}                 " LSP, completion, linting
 Plug 'tomtom/tcomment_vim'
@@ -23,9 +22,9 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'                                   " userful mappings
 Plug 'janko-m/vim-test'
+
 Plug 'vim-scripts/grep.vim'
 Plug 'machakann/vim-highlightedyank'
-Plug 'meain/vim-package-info', { 'do': 'npm install' }
 Plug 'tpope/vim-rhubarb'                                      " Github
 
 " syntax
@@ -33,7 +32,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'mxw/vim-jsx'
 
 " extras
-Plug 'godlygeek/tabular'                                      " tables format, and more.
+" Plug 'godlygeek/tabular'                                      " tables format, and more.
 Plug 'jpalardy/vim-slime'                                     " 
 Plug 'christoomey/vim-tmux-navigator'                         " same navigation for vim and tmux
 
@@ -65,10 +64,14 @@ set nowritebackup
 set signcolumn=yes
 set nowrap
 set updatetime=300
+set laststatus=2
+set wildmenu
+set incsearch
+set hlsearch
 
-" highlighted yank
-set inccommand=nosplit          " preview replace
-
+" " highlighted yank
+" set inccommand=nosplit          " preview replace
+"
 " Undo persistent after close file
 set undofile
 set undodir=$HOME/.vimUndoFiles
@@ -80,20 +83,19 @@ set shortmess+=c
 set wildignore+=*/min/*,*/vendor/*,*/node_modules/*,*/bower_components/*
 
 " ckeck for external changes with buffer gains focus
-au FocusGained,BufEnter * :silent! checktime " automatic reload changed files
+" au FocusGained,BufEnter * :silent! checktime " automatic reload changed files
 set autoread
-
-language en_US
 
 " comments
 filetype plugin on
 
 " cursorline only active window
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup END
+" augroup CursorLine
+"   au!
+"   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"   au WinLeave * setlocal nocursorline
+" augroup END
+setlocal cursorline
 
 " Spell
 let g:spellfile_URL = 'http://ftp.vim.org/vim/runtime/spell'
@@ -121,19 +123,19 @@ let g:markdown_folding = 1
 " Open all folds on load markdown file
 au BufRead,BufNewFile *.md normal zR
 au BufRead,BufNewFile *.mkd normal zR
-
-" omnifunc
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-
-" remove preview buffer
-autocmd BufEnter * set completeopt-=preview
-
-" remove trailing white spaces on phyton and js files
-autocmd BufWritePre *.py,*.js :call <SID>StripTrailingWhitespaces()
-
-" apply css3 syntax (by plugin) to saas file
-au BufRead,BufNewFile *.scss set filetype=scss.css
-
+"
+" " omnifunc
+" autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+"
+" " remove preview buffer
+" " autocmd BufEnter * set completeopt-=preview
+"
+" " remove trailing white spaces on phyton and js files
+" " autocmd BufWritePre *.py,*.js :call <SID>StripTrailingWhitespaces()
+"
+" " apply css3 syntax (by plugin) to saas file
+" au BufRead,BufNewFile *.scss set filetype=scss.css
+"
 " highlight fenced code blocks in markdown
 let g:markdown_fenced_languages = [
   \ 'css', 'less',
@@ -147,7 +149,11 @@ let g:markdown_fenced_languages = [
 " VISUAL  
 " ******************************************************************************
 set termguicolors
+" https://www.reddit.com/r/vim/comments/5416d0/true_colors_in_vim_under_tmux/
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set background=dark
+syntax enable
 colorscheme tender
 hi StatusLine guifg=#282828 guibg=#bbbbbb gui=bold 
 hi StatusLineNC guifg=#282828 guibg=#666666 gui=bold 
@@ -167,8 +173,8 @@ hi PmenuSbar guifg=#111111 guibg=#111111 gui=NONE
 hi PmenuThumb guifg=#333333 guibg=#333333 gui=NONE
 
 hi TabLineSel guifg=#282828 guibg=#bbbbbb gui=bold 
-hi TabLineFill guifg=#bbbbbb guibg=none gui=bold 
-hi TabLine guifg=#bbbbbb guibg=none gui=bold 
+hi TabLineFill guifg=#bbbbbb guibg=NONE gui=bold 
+hi TabLine guifg=#bbbbbb guibg=NONE gui=bold 
 
 hi Comment guifg=#666666 guibg=NONE gui=italic 
 
@@ -187,8 +193,13 @@ set guicursor=a:blinkon0
   \,n-c-v:block-nCursor
   \,i:ver25-iCursor
 
+" for vim
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+
 " Status Line 
-set statusline =\ [\%{gitbranch#name()}%*\]\ %f\ %m
+set statusline =\[%{gitbranch#name()}]\ %f\ %m
 set statusline +=\ %*%=\ %*
 set statusline +=\ %*%=\ %*%{coc#status()}\ %*
 
@@ -231,18 +242,28 @@ let g:dirvish_mode = ':sort ,^.*[\/],'
 
 " Slime
 let g:slime_target = "tmux"
+let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+noremap <leader>t. :SlimeSend1 yarn run test --findRelatedTests <c-r>%<CR>
+
+
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
 " Coc extensions
-let g:coc_global_extensions = ['coc-prettier', 'coc-eslint',  'coc-tsserver', 'coc-json', 'coc-css']
+let g:coc_global_extensions = ['coc-prettier', 'coc-eslint',  'coc-tsserver', 'coc-json', 'coc-css', 'coc-git']
+
+" tmux
+let g:tmux_navigator_disable_when_zoomed = 1
 
 " MAPINGS
 " ******************************************************************************
 " Map leader
 let mapleader = '\'
 let maplocalleader = '\'
+
+" clear screen (alt-l)
+noremap ¬ <C-l>
 
 " copy and paste with the system register
 noremap y "+y
@@ -254,7 +275,7 @@ cnoremap <C-r>r <C-r>+
 xnoremap p pgvy 
 
 " Use %% on the command line to expand to the dir of the current file
-" cnoremap %% <C-R>=fnameescape(expand("%:h")) . "/" <CR>
+cnoremap %% <C-R>=fnameescape(expand("%:h")) . "/" <CR>
 
 " Copy path current buffer
 nnoremap <Leader>c :let @+=expand('%:p')<CR>
@@ -272,8 +293,10 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <silent><C-c> :CocRestart<CR>
+nnoremap <silent>ç :CocRebuild<CR>
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 " CocDetail similar to AleDetail
@@ -291,8 +314,19 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+" Coc git
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+
 " grep
 nnoremap <silent> <leader>F :Rgrep<CR>
+
+" close quick fix on "enter" and open with "o"
+autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
+autocmd FileType qf nnoremap <buffer> o <CR>
 
 " replace and save quick fix list
 nnoremap <leader>r :cfdo %s%%%gc
@@ -426,25 +460,25 @@ augroup dirvish_config
     \  nnoremap <buffer> mm :e %
 augroup END
 
-if has("nvim")
-  au TermOpen * tnoremap <Esc> <c-\><c-n>
-  au FileType fzf tunmap <Esc>
-endif
+" if has("nvim")
+"   au TermOpen * tnoremap <Esc> <c-\><c-n>
+"   au FileType fzf tunmap <Esc>
+" endif
 
 " FUNCTIONS
 " ******************************************************************************
 " remove trailing white spaces
- function! <SID>StripTrailingWhitespaces()
-   " Preparation: save last search, and cursor position.
-   let _s=@/
-   let l = line(".")
-   let c = col(".")
-   " Do the business:
-   %s/\s\+$//e
-   " Clean up: restore previous search history, and cursor position
-   let @/=_s
-   call cursor(l, c)
- endfunction
+"  function! <SID>StripTrailingWhitespaces()
+"    " Preparation: save last search, and cursor position.
+"    let _s=@/
+"    let l = line(".")
+"    let c = col(".")
+"    " Do the business:
+"    %s/\s\+$//e
+"    " Clean up: restore previous search history, and cursor position
+"    let @/=_s
+"    call cursor(l, c)
+"  endfunction
 
 "FZF decide what file find to use
 fun! FzfOmniFiles()

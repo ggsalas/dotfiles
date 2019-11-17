@@ -1,0 +1,1 @@
+/Users/ggsalas/.config/nvim/init.vim

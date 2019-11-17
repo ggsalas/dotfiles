@@ -16,3 +16,19 @@
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export AWS_PROFILE=indigo-ag
+export IA_ENV=staging
+export AWS_REGION=us-east-1
+export AWS_SDK_LOAD_CONFIG=1
+export AWS_PROFILE=credstash_stage
+export PYENV_ROOT="$HOME/.pyenv"}
+export PATH="$PYENV_ROOT/bin:$PATH"
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+export PYENV_ROOT="$HOME/.pyenv"}
+export PATH="$PYENV_ROOT/bin:$PATH"
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+export PYENV_ROOT="$HOME/.pyenv"}
+export PATH="$PYENV_ROOT/bin:$PATH"
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
