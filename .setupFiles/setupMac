@@ -98,3 +98,5 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
 
+# For Alacritty: smooth font rendering
+defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
