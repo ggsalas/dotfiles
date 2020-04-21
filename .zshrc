@@ -71,6 +71,14 @@ alias test="npm run test -- --watch"
 alias reload='source ~/.zshrc'
 alias untar='tar -xvf'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias yrc="yarn --registry ''"
+
+alias vid="kittyColorDark && nvim +'colorscheme base16-tomorrow-night'"
+alias vil="kittyColorLight && nvim +'colorscheme base16-solarized-light'"
+alias kittyColorLight="kitty @ set-colors --configured $HOME/.config/kitty/kitty_colorLight.conf"
+alias kittyColorDark="kitty @ set-colors --configured $HOME/.config/kitty/kitty_colorDark.conf"
+
+alias canary='open -a Google\ Chrome\ Canary --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security'
 
 export ZSH_TMUX_FORCEUTF8=true
 
@@ -176,3 +184,14 @@ export NVM_DIR="$HOME/.nvm"
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
 [[ -f /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/sls.zsh
+
+# Enable Credstash to load local AWS config
+export AWS_SDK_LOAD_CONFIG=true
+
+
+# Enable Credstash to load local AWS config
+export AWS_SDK_LOAD_CONFIG=true
+
+
+# Enable Credstash to load local AWS config
+export AWS_SDK_LOAD_CONFIG=true

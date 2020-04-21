@@ -5,15 +5,25 @@
 call plug#begin()
 
 " main
+Plug 'chriskempson/base16-vim'
 Plug 'jacoborus/tender.vim'                                   " colorscheme
+
 Plug 'justinmk/vim-dirvish'                                   " file explorer 
 Plug 'pbrisbin/vim-mkdir'                                     " create new dirs on save file
 Plug 'tpope/vim-fugitive'                                     " Git 
 Plug 'itchyny/vim-gitbranch'                                  " Git branch name
-Plug 'neoclide/coc.nvim', {'branch': 'release'}                 " LSP, completion, linting
 Plug 'tomtom/tcomment_vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}                 " LSP, completion, linting
+
+" Coc Plugins
+Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-eslint', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-git', {'do': 'yarn install --frozen-lockfile'}
 
 " helpers
 Plug 'justinmk/vim-sneak'                                     " easy motions
@@ -95,7 +105,7 @@ filetype plugin on
 "   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
 "   au WinLeave * setlocal nocursorline
 " augroup END
-setlocal cursorline
+set cursorline
 
 " Spell
 let g:spellfile_URL = 'http://ftp.vim.org/vim/runtime/spell'
@@ -123,6 +133,7 @@ let g:markdown_folding = 1
 " Open all folds on load markdown file
 au BufRead,BufNewFile *.md normal zR
 au BufRead,BufNewFile *.mkd normal zR
+
 "
 " " omnifunc
 " autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -150,35 +161,64 @@ let g:markdown_fenced_languages = [
 " ******************************************************************************
 set termguicolors
 " https://www.reddit.com/r/vim/comments/5416d0/true_colors_in_vim_under_tmux/
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set background=dark
 syntax enable
-colorscheme tender
-hi StatusLine guifg=#282828 guibg=#bbbbbb gui=bold 
-hi StatusLineNC guifg=#282828 guibg=#666666 gui=bold 
-hi MatchParen guifg=Magenta guibg=Black gui=NONE 
-hi Visual guifg=NONE guibg=#444444 gui=NONE 
 
-hi Error guibg=NONE guifg=#f43753 gui=italic cterm=NONE
-hi CocErrorHighlight guibg=NONE guifg=NONE gui=undercurl
-hi CocErrorSign guifg=red
-hi CocWarningSign guifg=yellow
-hi CocInfoSign guifg=magenta
-hi CocHintSign guifg=cyan
+" base 16 colors
+" Color list: http://chriskempson.com/projects/base15/
+function! s:base16_customize() abort
+  call Base16hi("StatusLine ", g:base16_gui00, g:base16_gui05, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("StatusLineNC", g:base16_gui05, g:base16_gui02, g:base16_cterm01, g:base16_cterm05, "bold", "")
 
-hi PMenu guifg=#eeeeee guibg=#111111 gui=NONE
-hi PMenuSel guifg=#282828 guibg=#bbbbbb gui=NONE
-hi PmenuSbar guifg=#111111 guibg=#111111 gui=NONE
-hi PmenuThumb guifg=#333333 guibg=#333333 gui=NONE
+  call Base16hi("LineNr", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "", "")
+  call Base16hi("FoldColumn", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "", "")
+  call Base16hi("SignColumn", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocErrorHighlight", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocErrorSign", g:base16_gui08, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocWarningSign", g:base16_gui09, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocInfoSign", g:base16_gui0E, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocHintSign", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
 
-hi TabLineSel guifg=#282828 guibg=#bbbbbb gui=bold 
-hi TabLineFill guifg=#bbbbbb guibg=NONE gui=bold 
-hi TabLine guifg=#bbbbbb guibg=NONE gui=bold 
+  call Base16hi("TabLineSel", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("nCursor", g:base16_gui00, "#FF00FF", g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("iCursor", g:base16_gui00, "#FF00FF", g:base16_cterm00, g:base16_cterm05, "bold", "")
+endfunction
 
-hi Comment guifg=#666666 guibg=NONE gui=italic 
+augroup on_change_colorschema
+  autocmd!
+  autocmd ColorScheme * call s:base16_customize()
+augroup END
 
-let g:polyglot_disabled = ['jsx']
+colorscheme base16-tomorrow-night
+" colorscheme base16-solarized-light
+" colorscheme tender
+
+" hi StatusLine guifg=#282828 guibg=#bbbbbb gui=bold 
+" hi StatusLineNC guifg=#282828 guibg=#666666 gui=bold 
+" hi MatchParen guifg=Magenta guibg=Black gui=NONE 
+" hi Visual guifg=NONE guibg=#444444 gui=NONE 
+"
+" hi Error guibg=NONE guifg=#f43753 gui=italic cterm=NONE
+" hi CocErrorHighlight guibg=NONE guifg=NONE gui=undercurl
+" hi CocErrorSign guifg=red
+" hi CocWarningSign guifg=yellow
+" hi CocInfoSign guifg=magenta
+" hi CocHintSign guifg=cyan
+"
+" hi PMenu guifg=#eeeeee guibg=#111111 gui=NONE
+" hi PMenuSel guifg=#282828 guibg=#bbbbbb gui=NONE
+" hi PmenuSbar guifg=#111111 guibg=#111111 gui=NONE
+" hi PmenuThumb guifg=#333333 guibg=#333333 gui=NONE
+"
+" hi TabLineSel guifg=#282828 guibg=#bbbbbb gui=bold 
+" hi TabLineFill guifg=#bbbbbb guibg=NONE gui=bold 
+" hi TabLine guifg=#bbbbbb guibg=NONE gui=bold 
+"
+" hi Comment guifg=#666666 guibg=NONE gui=italic 
+
+let g:polyglot_disabled = ['jsx', 'graphql']
 " For vim-jsx-pretty, inside vim polyglot
 " hi jsxPunct guifg=#73cef4
 " hi jsxTagName guifg=#73cef4
@@ -187,16 +227,17 @@ let g:polyglot_disabled = ['jsx']
 " hi jsxAttrib guifg=#b3deef 
 
 " cursor config. Commented because not work with tmux
-" hi nCursor guifg=Black guibg=Magenta gui=bold
-" hi iCursor guifg=Black guibg=White gui=bold
+hi nCursor guifg=Black guibg=Magenta gui=bold
+hi iCursor guifg=Black guibg=Magenta gui=bold
 set guicursor=a:blinkon0
   \,n-c-v:block-nCursor
   \,i:ver25-iCursor
 
+
 " for vim
-let &t_SI.="\e[5 q" "SI = INSERT mode
-let &t_SR.="\e[4 q" "SR = REPLACE mode
-let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+" let &t_SI.="\e[5 q" "SI = INSERT mode
+" let &t_SR.="\e[4 q" "SR = REPLACE mode
+" let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 " Status Line 
 set statusline =\[%{gitbranch#name()}]\ %f\ %m
@@ -251,7 +292,7 @@ noremap <leader>t. :SlimeSend1 yarn run test --findRelatedTests <c-r>%<CR>
 autocmd VimResized * :wincmd =
 
 " Coc extensions
-let g:coc_global_extensions = ['coc-prettier', 'coc-eslint',  'coc-tsserver', 'coc-json', 'coc-css', 'coc-git']
+" let g:coc_global_extensions = ['coc-prettier', 'coc-eslint',  'coc-tsserver', 'coc-json', 'coc-css', 'coc-git']
 
 " tmux
 let g:tmux_navigator_disable_when_zoomed = 1
@@ -408,6 +449,9 @@ command! -nargs=1 -bang NoteNew :e ~/Google Drive/Notas/<args><bang>
 command! -bang NoteList call NoteList()<bang>
 command! -bang NoteSearch call NoteSearch()<bang>
 
+command! -bang ColorDark call ColorDark()<bang>
+command! -bang ColorLight call ColorLight()<bang>
+
 " Config
 command! -bang ConfigNvim :e ~/.config/nvim/init.vim<bang>
 
@@ -516,6 +560,15 @@ function! NoteSearch()
   execute "cd ~/Google Drive/Notas/"
   execute "Ag"
   execute "cd ".path
+endfunction
+
+function! ColorLight()
+    silent !clear
+    execute "!" .  "kitty @ set-colors /Users/ggsalas/.config/kitty/kitty_solarized_light.conf"
+endfunction
+
+function! ColorDark()
+  execute "! kitty @ set-colors --configured '/Users/ggsalas/.config/kitty/kitty_colorDark.conf"
 endfunction
 
 " COC documentation

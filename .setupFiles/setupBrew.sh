@@ -33,6 +33,7 @@ brew install gnupg
 brew install ripgrep
 brew install the_silver_searcher
 brew install neovim
+brew cask install kitty
 brew cask install alacritty
 brew cask install iterm2
 brew cask install docker
