@@ -14,21 +14,6 @@ antigen apply
 #################################################################################
 # Bindings
 #################################################################################
-# bindkey -v # -e emacs bindings, set to -v for vi bindings
-  
-# cursor colors
-# function zle-line-init zle-keymap-select {
-#   if [ $KEYMAP = vicmd  ]; then
-#     echo -ne "\033]12;magenta\x7\e[1 q"
-#   else
-#     # the insert mode for vi
-#     echo -ne "\033]12;white\x7\e[1 q"
-#   fi
-#   zle reset-prompt
-# }
-# zle -N zle-line-init
-# zle -N zle-keymap-select
-
 # edit command line inside vim
 autoload -U edit-command-line
 zle -N edit-command-line
@@ -73,12 +58,20 @@ alias untar='tar -xvf'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias yrc="yarn --registry ''"
 
-alias vid="kittyColorDark && nvim +'colorscheme base16-tomorrow-night'"
-alias vil="kittyColorLight && nvim +'colorscheme base16-solarized-light'"
-alias kittyColorLight="kitty @ set-colors --configured $HOME/.config/kitty/kitty_colorLight.conf"
-alias kittyColorDark="kitty @ set-colors --configured $HOME/.config/kitty/kitty_colorDark.conf"
 
 alias canary='open -a Google\ Chrome\ Canary --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security'
+
+#################################################################################
+# Dark/Light modes
+#################################################################################
+local LIGHT=(kitty @ set-colors --all --configured $HOME/.config/kitty/kitty_colorLight.conf)
+local DARK=(kitty @ set-colors --all --configured $HOME/.config/kitty/kitty_colorDark.conf)
+
+if [[ ( $(dark-mode status) =~ 'on' ) ]]; then
+  $DARK
+else
+  $LIGHT
+fi
 
 export ZSH_TMUX_FORCEUTF8=true
 
@@ -133,12 +126,6 @@ function +vi-git-untracked() {
 }
 RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}%~%f "
 setopt PROMPT_SUBST
-# function () {
-#     local LVL=$SHLVL
-#     local SUFFIX=$(printf '❯%.0s' {1..$LVL})
-#     # export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{blue}%1~%F{yellow}%B%(1j.*.)%(?..!)%b%f%F{yellow}%B${SUFFIX}%b%f "
-#     export PS1="%F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{cyan}%B%(1j.* .)%b%f%F{yellow}%B${SUFFIX}%b%f "
-# }
 
 function () {
   if [[ -n "$TMUX" ]]; then

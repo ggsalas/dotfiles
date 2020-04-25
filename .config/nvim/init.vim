@@ -167,9 +167,9 @@ set background=dark
 syntax enable
 
 " base 16 colors
-" Color list: http://chriskempson.com/projects/base15/
+" Color list: http://chriskempson.com/projects/base16/
 function! s:base16_customize() abort
-  call Base16hi("StatusLine ", g:base16_gui00, g:base16_gui05, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("StatusLine", g:base16_gui00, g:base16_gui05, g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("StatusLineNC", g:base16_gui05, g:base16_gui02, g:base16_cterm01, g:base16_cterm05, "bold", "")
 
   call Base16hi("LineNr", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "", "")
@@ -184,6 +184,7 @@ function! s:base16_customize() abort
   call Base16hi("TabLineSel", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("nCursor", g:base16_gui00, "#FF00FF", g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("iCursor", g:base16_gui00, "#FF00FF", g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("MatchParen", "#FF00FF", g:base16_gui02, g:base16_cterm00, g:base16_cterm05, "bold", "")
 endfunction
 
 augroup on_change_colorschema
@@ -192,8 +193,14 @@ augroup on_change_colorschema
 augroup END
 
 colorscheme base16-tomorrow-night
-" colorscheme base16-solarized-light
-" colorscheme tender
+
+augroup ChangeColorsBasedOnMacos
+  autocmd!
+  autocmd VimEnter,FocusGained  * call s:changeColorsBasedOnMacos()
+augroup END
+
+
+hi MatchParen guifg=Magenta
 
 " hi StatusLine guifg=#282828 guibg=#bbbbbb gui=bold 
 " hi StatusLineNC guifg=#282828 guibg=#666666 gui=bold 
@@ -233,16 +240,10 @@ set guicursor=a:blinkon0
   \,n-c-v:block-nCursor
   \,i:ver25-iCursor
 
-
-" for vim
-" let &t_SI.="\e[5 q" "SI = INSERT mode
-" let &t_SR.="\e[4 q" "SR = REPLACE mode
-" let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
-
 " Status Line 
 set statusline =\[%{gitbranch#name()}]\ %f\ %m
 set statusline +=\ %*%=\ %*
-set statusline +=\ %*%=\ %*%{coc#status()}\ %*
+set statusline +=\ %*%=\ %*%{StatusDiagnostic()}\ %*
 
 " ******************************************************************************
 " grep.vim
@@ -286,13 +287,8 @@ let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
 noremap <leader>t. :SlimeSend1 yarn run test --findRelatedTests <c-r>%<CR>
 
-
-
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
-
-" Coc extensions
-" let g:coc_global_extensions = ['coc-prettier', 'coc-eslint',  'coc-tsserver', 'coc-json', 'coc-css', 'coc-git']
 
 " tmux
 let g:tmux_navigator_disable_when_zoomed = 1
@@ -511,19 +507,6 @@ augroup END
 
 " FUNCTIONS
 " ******************************************************************************
-" remove trailing white spaces
-"  function! <SID>StripTrailingWhitespaces()
-"    " Preparation: save last search, and cursor position.
-"    let _s=@/
-"    let l = line(".")
-"    let c = col(".")
-"    " Do the business:
-"    %s/\s\+$//e
-"    " Clean up: restore previous search history, and cursor position
-"    let @/=_s
-"    call cursor(l, c)
-"  endfunction
-
 "FZF decide what file find to use
 fun! FzfOmniFiles()
   let is_git = system('git status')
@@ -563,12 +546,13 @@ function! NoteSearch()
 endfunction
 
 function! ColorLight()
-    silent !clear
-    execute "!" .  "kitty @ set-colors /Users/ggsalas/.config/kitty/kitty_solarized_light.conf"
+  set background=light
+  color base16-solarized-light
 endfunction
 
 function! ColorDark()
-  execute "! kitty @ set-colors --configured '/Users/ggsalas/.config/kitty/kitty_colorDark.conf"
+  set background=dark
+  color base16-tomorrow-night
 endfunction
 
 " COC documentation
@@ -584,4 +568,38 @@ endfunction
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" COC statusline
+function! StatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, 'E' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, 'W' . info['warning'])
+  endif
+  return join(msgs, ' ') . ' ' 
+endfunction
+
+function! s:changeColorsBasedOnMacos() abort
+  let hasDarkmode = system('dark-mode status')
+
+  if (hasDarkmode=~'on')
+    call ColorDark()
+  else 
+    call ColorLight()
+  endif
+endfunction
+
+function! CustomFoldText() abort
+  let s:middot='•'
+  let s:raquo='»'
+  let s:small_l='ℓ'
+
+  let l:lines='' . (v:foldend - v:foldstart + 1) . ' ' . s:small_l . ''
+  let l:first=substitute(getline(v:foldstart), '\v *', '', '')
+  return s:raquo . ' ' . l:lines . ' // ' . l:first
 endfunction
