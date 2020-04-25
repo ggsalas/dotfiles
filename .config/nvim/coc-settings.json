@@ -4,7 +4,6 @@
   "diagnostic.errorSign": "x",
   "diagnostic.warningSign": "i",
   "diagnostic.infoSign": "-",
-  "codeLens.enable": true,
   "git.addedSign.hlGroup": "GitGutterAdd",
   "git.changedSign.hlGroup": "GitGutterChange",
   "git.removedSign.hlGroup": "GitGutterDelete",

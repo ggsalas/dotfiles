@@ -196,7 +196,7 @@ colorscheme base16-tomorrow-night
 
 augroup ChangeColorsBasedOnMacos
   autocmd!
-  autocmd VimEnter,FocusGained  * call s:changeColorsBasedOnMacos()
+  autocmd VimEnter,FocusGained  * call s:changeColorsBasedOnMacos() 
 augroup END
 
 
@@ -589,8 +589,10 @@ function! s:changeColorsBasedOnMacos() abort
 
   if (hasDarkmode=~'on')
     call ColorDark()
+    call s:base16_customize()
   else 
     call ColorLight()
+    call s:base16_customize()
   endif
 endfunction
 
