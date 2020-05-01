@@ -39,7 +39,7 @@ Plug 'tpope/vim-rhubarb'                                      " Github
 
 " syntax
 Plug 'sheerun/vim-polyglot'
-Plug 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx'
 
 " extras
 " Plug 'godlygeek/tabular'                                      " tables format, and more.
@@ -134,20 +134,6 @@ let g:markdown_folding = 1
 au BufRead,BufNewFile *.md normal zR
 au BufRead,BufNewFile *.mkd normal zR
 
-"
-" " omnifunc
-" autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-"
-" " remove preview buffer
-" " autocmd BufEnter * set completeopt-=preview
-"
-" " remove trailing white spaces on phyton and js files
-" " autocmd BufWritePre *.py,*.js :call <SID>StripTrailingWhitespaces()
-"
-" " apply css3 syntax (by plugin) to saas file
-" au BufRead,BufNewFile *.scss set filetype=scss.css
-"
-" highlight fenced code blocks in markdown
 let g:markdown_fenced_languages = [
   \ 'css', 'less',
   \ 'html',
@@ -160,10 +146,6 @@ let g:markdown_fenced_languages = [
 " VISUAL  
 " ******************************************************************************
 set termguicolors
-" https://www.reddit.com/r/vim/comments/5416d0/true_colors_in_vim_under_tmux/
-" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-set background=dark
 syntax enable
 
 " base 16 colors
@@ -182,9 +164,6 @@ function! s:base16_customize() abort
   call Base16hi("CocHintSign", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
 
   call Base16hi("TabLineSel", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("nCursor", g:base16_gui00, "#FF00FF", g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("iCursor", g:base16_gui00, "#FF00FF", g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("MatchParen", "#FF00FF", g:base16_gui02, g:base16_cterm00, g:base16_cterm05, "bold", "")
 endfunction
 
 augroup on_change_colorschema
@@ -192,53 +171,20 @@ augroup on_change_colorschema
   autocmd ColorScheme * call s:base16_customize()
 augroup END
 
-colorscheme base16-tomorrow-night
+" colorscheme base16-tomorrow-night
 
 augroup ChangeColorsBasedOnMacos
   autocmd!
   autocmd VimEnter,FocusGained  * call s:changeColorsBasedOnMacos() 
 augroup END
 
-
-hi MatchParen guifg=Magenta
-
-" hi StatusLine guifg=#282828 guibg=#bbbbbb gui=bold 
-" hi StatusLineNC guifg=#282828 guibg=#666666 gui=bold 
-" hi MatchParen guifg=Magenta guibg=Black gui=NONE 
-" hi Visual guifg=NONE guibg=#444444 gui=NONE 
-"
-" hi Error guibg=NONE guifg=#f43753 gui=italic cterm=NONE
-" hi CocErrorHighlight guibg=NONE guifg=NONE gui=undercurl
-" hi CocErrorSign guifg=red
-" hi CocWarningSign guifg=yellow
-" hi CocInfoSign guifg=magenta
-" hi CocHintSign guifg=cyan
-"
-" hi PMenu guifg=#eeeeee guibg=#111111 gui=NONE
-" hi PMenuSel guifg=#282828 guibg=#bbbbbb gui=NONE
-" hi PmenuSbar guifg=#111111 guibg=#111111 gui=NONE
-" hi PmenuThumb guifg=#333333 guibg=#333333 gui=NONE
-"
-" hi TabLineSel guifg=#282828 guibg=#bbbbbb gui=bold 
-" hi TabLineFill guifg=#bbbbbb guibg=NONE gui=bold 
-" hi TabLine guifg=#bbbbbb guibg=NONE gui=bold 
-"
-" hi Comment guifg=#666666 guibg=NONE gui=italic 
-
-let g:polyglot_disabled = ['jsx', 'graphql']
+let g:polyglot_disabled = ['graphql']
 " For vim-jsx-pretty, inside vim polyglot
 " hi jsxPunct guifg=#73cef4
 " hi jsxTagName guifg=#73cef4
 " hi jsxComponentName guifg=#73cef4
 " hi jsxCloseString guifg=#73cef4
 " hi jsxAttrib guifg=#b3deef 
-
-" cursor config. Commented because not work with tmux
-hi nCursor guifg=Black guibg=Magenta gui=bold
-hi iCursor guifg=Black guibg=Magenta gui=bold
-set guicursor=a:blinkon0
-  \,n-c-v:block-nCursor
-  \,i:ver25-iCursor
 
 " Status Line 
 set statusline =\[%{gitbranch#name()}]\ %f\ %m
@@ -256,6 +202,7 @@ let g:jsx_ext_required = 0
 
 " FZF
 " ***********
+let g:fzf_preview_window = ''
 " Ag search only on file contents
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
@@ -552,7 +499,7 @@ endfunction
 
 function! ColorDark()
   set background=dark
-  color base16-tomorrow-night
+  color base16-dracula
 endfunction
 
 " COC documentation
