@@ -37,3 +37,5 @@ if which pyenv > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 # Enable Credstash to load local AWS config
 export AWS_SDK_LOAD_CONFIG=true
+
+source /Users/ggsalas/Library/Preferences/org.dystroy.broot/launcher/bash/br

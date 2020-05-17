@@ -6,7 +6,6 @@ call plug#begin()
 
 " main
 Plug 'chriskempson/base16-vim'
-Plug 'jacoborus/tender.vim'                                   " colorscheme
 
 Plug 'justinmk/vim-dirvish'                                   " file explorer 
 Plug 'pbrisbin/vim-mkdir'                                     " create new dirs on save file
@@ -39,12 +38,11 @@ Plug 'tpope/vim-rhubarb'                                      " Github
 
 " syntax
 Plug 'sheerun/vim-polyglot'
-" Plug 'mxw/vim-jsx'
 
 " extras
-" Plug 'godlygeek/tabular'                                      " tables format, and more.
 Plug 'jpalardy/vim-slime'                                     " 
-Plug 'christoomey/vim-tmux-navigator'                         " same navigation for vim and tmux
+" Plug 'godlygeek/tabular'                                      " tables format, and more.
+" Plug 'christoomey/vim-tmux-navigator'                         " same navigation for vim and tmux
 
 call plug#end()
 
@@ -166,19 +164,35 @@ function! s:base16_customize() abort
   call Base16hi("TabLineSel", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
 endfunction
 
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
 augroup on_change_colorschema
   autocmd!
   autocmd ColorScheme * call s:base16_customize()
 augroup END
-
-" colorscheme base16-tomorrow-night
 
 augroup ChangeColorsBasedOnMacos
   autocmd!
   autocmd VimEnter,FocusGained  * call s:changeColorsBasedOnMacos() 
 augroup END
 
+" Syntax config
+" let g:jsx_ext_required = 0
 let g:polyglot_disabled = ['graphql']
+
 " For vim-jsx-pretty, inside vim polyglot
 " hi jsxPunct guifg=#73cef4
 " hi jsxTagName guifg=#73cef4
@@ -397,6 +411,8 @@ command! -bang ColorLight call ColorLight()<bang>
 
 " Config
 command! -bang ConfigNvim :e ~/.config/nvim/init.vim<bang>
+nnoremap <silent> <c-s>s :so $MYVIMRC<CR>
+
 
 " Git
 inoremap ∫ <C-R>=Branch()<CR>

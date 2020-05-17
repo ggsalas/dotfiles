@@ -45,6 +45,8 @@ brew install zsh
 brew install antigen
 brew install zsh-autosuggestions
 brew cask install virtualbox
+brew install broot
+brew install nnn
 
 #Communication Apps
 brew cask install keybase
