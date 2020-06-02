@@ -1,6 +1,8 @@
 source /usr/local/share/antigen/antigen.zsh
 export PATH="/usr/local/bin:$PATH"
 export EDITOR='nvim'
+export GOPATH="$HOME/go"
+export PATH="$PATH:$HOME/bin:$GOPATH/bin"
 
 #################################################################################
 # Load plugins
@@ -47,8 +49,9 @@ alias vip="nvim -c 'term' -c 'file Console' -c 'term' -c 'file Server'"
 
 # file snd folders
 alias ..='cd ..'
-alias ls='br -gh'
-alias ll='br -dp -gh'
+alias ls="ls -Gla"
+alias ll='br'
+# alias ll='br -dp -gh'
 
 # test with jest
 alias tdebug="ndb npm run test -- --watch"
@@ -82,6 +85,19 @@ export ZSH_TMUX_FORCEUTF8=true
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 export LANG="en_US.UTF-8"
+
+#################################################################################
+# TWF                                                                       START
+#################################################################################
+twf-widget() {
+  local selected=$(twf --height=0.5)
+  BUFFER="$BUFFER$selected"
+  zle reset-prompt
+  zle end-of-line
+  return $ret
+}
+zle -N twf-widget
+bindkey '^T' twf-widget
 
 #################################################################################
 # Prompt                                                                    START

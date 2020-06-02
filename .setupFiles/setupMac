@@ -100,3 +100,7 @@ defaults write com.apple.terminal StringEncodings -array 4
 
 # For Alacritty: smooth font rendering
 defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
+
+# Rectangle config
+defaults write com.knollsoft.Rectangle almostMaximizeHeight -float 0
+defaults write com.knollsoft.Rectangle gapSize -float 0
