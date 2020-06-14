@@ -1,17 +1,18 @@
-source /usr/local/share/antigen/antigen.zsh
 export PATH="/usr/local/bin:$PATH"
 export EDITOR='nvim'
 export GOPATH="$HOME/go"
 export PATH="$PATH:$HOME/bin:$GOPATH/bin"
 
+export ZSH_TMUX_FORCEUTF8=true
 #################################################################################
-# Load plugins
+# Basic auto/tab complete:
 #################################################################################
-antigen use oh-my-zsh
-antigen bundle git
-antigen bundle command-not-found
-antigen bundle zsh-users/zsh-autosuggestions
-antigen apply
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+kitty + complete setup zsh | source /dev/stdin # Completion for kitty
+_comp_options+=(globdots)		# Include hidden files.
 
 #################################################################################
 # Bindings
@@ -36,13 +37,31 @@ bindkey '^Z' fg-bg
 bindkey '^P' '\ed'
 
 # autosuggestions config
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=243'
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=243'
+
 bindkey '^P' autosuggest-execute
+
+#################################################################################
+# Dark/Light modes for kitty terminal
+#################################################################################
+
+kittyDarkMode() {
+  if [[ $(echo $TERM) == 'xterm-kitty' ]] then
+    local LIGHT=(kitty @ set-colors --all --configured $HOME/.config/kitty/kitty_colorLight.conf)
+    local DARK=(kitty @ set-colors --all --configured $HOME/.config/kitty/kitty_colorDark.conf)
+
+    if [[ ( $(dark-mode status) =~ 'on' ) ]]; then
+      $DARK
+    else
+      $LIGHT
+    fi
+  fi
+}
+
 
 #################################################################################
 # Aliases
 #################################################################################
-
 # Neovim
 alias vi="nvim"
 alias vip="nvim -c 'term' -c 'file Console' -c 'term' -c 'file Server'"
@@ -50,7 +69,7 @@ alias vip="nvim -c 'term' -c 'file Console' -c 'term' -c 'file Server'"
 # file snd folders
 alias ..='cd ..'
 alias ls="ls -Gla"
-alias ll='br'
+alias ll='nnn'
 # alias ll='br -dp -gh'
 
 # test with jest
@@ -65,19 +84,9 @@ alias yrc="yarn --registry ''"
 
 alias canary='open -a Google\ Chrome\ Canary --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security'
 
-#################################################################################
-# Dark/Light modes
-#################################################################################
-local LIGHT=(kitty @ set-colors --all --configured $HOME/.config/kitty/kitty_colorLight.conf)
-local DARK=(kitty @ set-colors --all --configured $HOME/.config/kitty/kitty_colorDark.conf)
-
-if [[ ( $(dark-mode status) =~ 'on' ) ]]; then
-  $DARK
-else
-  $LIGHT
-fi
-
-export ZSH_TMUX_FORCEUTF8=true
+alias clear="clear && kittyDarkMode"
+alias colorDark="dark-mode on && kittyDarkMode"
+alias colorLight="dark-mode off && kittyDarkMode"
 
 #################################################################################
 # FZF                                                                       START
@@ -101,6 +110,9 @@ bindkey '^T' twf-widget
 
 #################################################################################
 # Prompt                                                                    START
+setopt PROMPT_CR
+setopt PROMPT_SP
+export PROMPT_EOL_MARK=""
 autoload -U colors
 colors
 autoload -Uz vcs_info
@@ -193,8 +205,7 @@ n ()
     #     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
     # NOTE: NNN_TMPFILE is fixed, should not be modified
     export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-
-    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+# Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
     # stty start undef
     # stty stop undef
     # stty lwrap undef
@@ -214,23 +225,47 @@ n ()
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/sls.zsh
-
-# Enable Credstash to load local AWS config
-export AWS_SDK_LOAD_CONFIG=true
-
+#
+# # tabtab source for serverless package
+# # uninstall by removing these lines or running `tabtab uninstall serverless`
+# [[ -f /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/serverless.zsh
+# # tabtab source for sls package
+# # uninstall by removing these lines or running `tabtab uninstall sls`
+# [[ -f /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/sls.zsh
 
 # Enable Credstash to load local AWS config
 export AWS_SDK_LOAD_CONFIG=true
 
+# #################################################################################
+# # nvm with lazy load to spped up terminal
+# #################################################################################
+# # https://gist.github.com/fl0w/07ce79bd44788f647deab307c94d6922#gistcomment-3275421
+# # Add every binary that requires nvm, npm or node to run to an array of node globals
+# NODE_GLOBALS=(`find ~/.nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
+# NODE_GLOBALS+=("node")
+# NODE_GLOBALS+=("nvm")
+# NODE_GLOBALS+=("npx")
+#
+# # Lazy-loading nvm + npm on node globals call
+# load_nvm () {
+#   export NVM_DIR=~/.nvm
+#   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+#   if [ -f "$NVM_DIR/bash_completion" ]; then
+#     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+#   fi
+# }
+#
+# # Making node global trigger the lazy loading
+# for cmd in "${NODE_GLOBALS[@]}"; do
+#   eval "${cmd}(){ unset -f ${cmd} >/dev/null 2>&1; load_nvm; ${cmd} \$@; }"
+# done
 
-# Enable Credstash to load local AWS config
-export AWS_SDK_LOAD_CONFIG=true
-
+#################################################################################
+# Load plugins
+#################################################################################
+# git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Broot
 source /Users/ggsalas/Library/Preferences/org.dystroy.broot/launcher/bash/br

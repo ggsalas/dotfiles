@@ -424,6 +424,7 @@ nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tv :TestVisit<CR>
+" nmap <silent> <leader>tf :!kitty @ launch --env PATH="/usr/local/bin:$PATH" --cwd=current yarn test --findRelatedTests %<cr>
 
 " Execure current file with node
 nmap <leader>en :!node %<CR>
