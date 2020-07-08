@@ -1,0 +1,50 @@
+# News
+https://www.infobae.com/feeds/rss/ "news"
+https://www.freefullrss.com/feed.php?url=https%3A%2F%2Frss.nytimes.com%2Fservices%2Fxml%2Frss%2Fnyt%2FHomePage.xml&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS "news" "~NYT Top Stories"
+https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fwww.batimes.com.ar%2Ffeed&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS "news" "~batimes"
+https://jorgeasisdigital.com/feed "news" "~Jorge Asis Digital"
+https://politepol.com/fd/fiKhtvOOu4Gz "news" "videos" "~YouTube: Jorge Asis"
+https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fpolitepol.com%2Ffd%2FO8KhwXgg2Cq8&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS "news" "~Periodismo Puro"
+
+# Developer
+https://www.reddit.com/r/javascript.rss "developer" "js" "~reddit: javascript"
+https://hnrss.org/newest?q=javascript+OR+js?points=40 "developer" "js" "~hackerNews-js"
+https://overreacted.io/rss.xml "developer" "js" "~Dan Abramov Blog"
+
+# Vim
+https://www.reddit.com/r/neovim.rss "vim" "~reddit: neovim"
+https://www.reddit.com/r/vim.rss "vim" "~reddit: vim"
+https://hnrss.org/newest?q=git+OR+vim+OR+neovim&?points=20 "vim" "~hackerNews-vim"
+
+# Videos
+https://www.youtube.com/feeds/videos.xml?channel_id=UCQX_MZRCaluNKxkywkLEgfA "videos" "~YouTube: Javier Santaolalla"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCi3DtpoKKaaG7RL1gKLhDdw "videos" "~YouTube: Domunio Digital"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCAuUUnT6oDeKwE6v1NGQxug "videos" "~YouTube: TED"
+
+https://www.youtube.com/feeds/videos.xml?channel_id=UClb90NQQcskPUGDIXsQEz5Q "videos" "developer" "js" "~YouTube: Dev Ed"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCoebwHSTvwalADTJhps0emA "videos" "developer" "js" "~YouTube: Wes Bos"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCcabW7890RKJzL968QWEykA "videos" "developer" "js" "~YouTube: CS50"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCWf2ZlNsCGDS89VBF_awNvA "videos" "developer" "js" "~YouTube: Google Webmasters"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCNtFk-g4CCmXMYL4pYNmoEA "videos" "developer" "js" "~YouTube: Todd Motto"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCUR1pFG_3XoZn3JNKjulqZg "videos" "developer" "js" "~YouTube: thoughtbot"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCImede_bms8k9kEWc-kNVSA "videos" "developer" "js" "~YouTube: Adevinta Spain Engineers"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCCCsA_HyM8k1R0khRVAsEbA "videos" "developer" "js" "react" "~YouTube: Carlos Villuendas"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCz5vTaEhvh7dOHEyd1efcaQ "videos" "developer" "js" "react" "~YouTube: React Conf"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCu1omdof2OhRsM_9YtRaM4Q "videos" "developer" "js" "react" "~YouTube: Michael Jackson"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCyf2y7p9CKf1baDEvo_mWRQ "videos" "developer" "js" "react" "~YouTube: Ryan Florence"
+https://www.youtube.com/c/JSNation "videos" "developer" "js" "react" "~YouTube: GitNation"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCsFrt8oKNYXGspSlX9u6uXw "videos" "developer" "js" "react" "~YouTube: React Conferences by GitNation"
+
+https://www.youtube.com/feeds/videos.xml?channel_id=UCvP5cfpfIgkb0Dt8o7Qt21A "videos" "developer" "~YouTube: Automattic"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCpJf6LGZ0a4n9Lj4aVt9spg "videos" "developer" "~YouTube: WordPress"
+
+https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA "videos" "vim" "~YouTube: Luke"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCXPHFM88IlFn68OmLwtPmZA "videos" "vim" "~YouTube: Greg Hurrell"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCa0tJguRNbU6I8OO3nUvXxQ "videos" "vim" "~YouTube: Josh Branchaud"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCgw9Rc36PWfT4OWy7FyGR_w "videos" "vim" "~YouTube: vimfest"
+https://www.youtube.com/feeds/videos.xml?user=gotbletu "videos" "vim" "~YouTube: gotbletu"
+
+https://www.youtube.com/feeds/videos.xml?channel_id=UC9qrzX4vlTvh8OX1EdTLviA "videos" "pipes" "~YouTube: Smokingpipes"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCyzAMeGkT4N82NXOXN584aw "videos" "pipes" "~YouTube: STUFFandTHINGS"
+https://www.youtube.com/feeds/videos.xml?user=SmokingDagners "videos" "pipes" "~YouTube: Smoking Dagners"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCgf1yYZW9N4ZkCxzbYlB3dw "videos" "pipes" "~YouTube: Matches860"

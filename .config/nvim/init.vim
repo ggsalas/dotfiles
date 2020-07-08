@@ -1,4 +1,5 @@
 " To find text inside files install globally rg: https://github.com/BurntSushi/ripgrep
+" spell-checker: disable
 
 " PLUGINS
 " ******************************************************************************
@@ -23,6 +24,7 @@ Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-git', {'do': 'yarn install --frozen-lockfile'}
+Plug 'iamcco/coc-spell-checker', {'do': 'yarn install --frozen-lockfile'}
 
 " helpers
 Plug 'justinmk/vim-sneak'                                     " easy motions
@@ -105,10 +107,7 @@ filetype plugin on
 " augroup END
 set cursorline
 
-" Spell
-let g:spellfile_URL = 'http://ftp.vim.org/vim/runtime/spell'
-
-" Autosave for markdown files
+" AutoSave for markdown files
 au BufRead,BufNewFile     *.md set autowriteall
 au BufRead,BufNewFile     *.md set wrap
 au FocusLost,WinLeave     *.md :silent! w 
@@ -141,6 +140,11 @@ let g:markdown_fenced_languages = [
   \ 'ruby', 'rb=ruby',
   \ ]
 
+" Horfix TSX syntax
+" au bufnewfile,bufread *.tsx ++once :so $MYVIMRC
+" au bufnewfile,bufread *.tsx ++once call s:base16_customize()
+" au bufread,bufnewfile *.tsx call plug#load()
+
 " VISUAL  
 " ******************************************************************************
 set termguicolors
@@ -152,14 +156,14 @@ function! s:base16_customize() abort
   call Base16hi("StatusLine", g:base16_gui00, g:base16_gui05, g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("StatusLineNC", g:base16_gui05, g:base16_gui02, g:base16_cterm01, g:base16_cterm05, "bold", "")
 
-  call Base16hi("LineNr", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "", "")
-  call Base16hi("FoldColumn", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "", "")
-  call Base16hi("SignColumn", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("CocErrorHighlight", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("CocErrorSign", g:base16_gui08, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("CocWarningSign", g:base16_gui09, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("CocInfoSign", g:base16_gui0E, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("CocHintSign", g:base16_gui03, g:base16_gui01, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("LineNr", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "", "")
+  call Base16hi("FoldColumn", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "", "")
+  call Base16hi("SignColumn", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocErrorHighlight", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocErrorSign", g:base16_gui08, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocWarningSign", g:base16_gui09, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocInfoSign", g:base16_gui0E, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocHintSign", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
 
   call Base16hi("TabLineSel", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
 endfunction
@@ -186,19 +190,12 @@ augroup END
 
 augroup ChangeColorsBasedOnMacos
   autocmd!
-  autocmd VimEnter,FocusGained  * call s:changeColorsBasedOnMacos() 
+  autocmd VimEnter,FocusGained  * call s:changeColorsBasedOnMacos()  
 augroup END
 
 " Syntax config
 " let g:jsx_ext_required = 0
-let g:polyglot_disabled = ['graphql']
-
-" For vim-jsx-pretty, inside vim polyglot
-" hi jsxPunct guifg=#73cef4
-" hi jsxTagName guifg=#73cef4
-" hi jsxComponentName guifg=#73cef4
-" hi jsxCloseString guifg=#73cef4
-" hi jsxAttrib guifg=#b3deef 
+" let g:polyglot_disabled = ['graphql']
 
 " Status Line 
 set statusline =\[%{gitbranch#name()}]\ %f\ %m
@@ -210,9 +207,6 @@ set statusline +=\ %*%=\ %*%{StatusDiagnostic()}\ %*
 let Grep_Default_Options = '-IR'
 let Grep_Skip_Files = '*.log *.db'
 let Grep_Skip_Dirs = '.git node_modules'
-
-" jsx
-let g:jsx_ext_required = 0
 
 " FZF
 " ***********
@@ -229,7 +223,6 @@ let g:fzf_history_dir = '~/.local/share/fzf-history'
 " Sneak
 let g:sneak#use_ic_scs = 0        " use global case sensitive
 let g:sneak#f_reset = 1
-let g:sneak#t_reset = 1
 " Sneak use global colors
 hi! link Sneak Search        
 
@@ -257,8 +250,9 @@ let g:tmux_navigator_disable_when_zoomed = 1
 " MAPINGS
 " ******************************************************************************
 " Map leader
-let mapleader = '\'
-let maplocalleader = '\'
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+let maplocalleader=" "
 
 " clear screen (alt-l)
 noremap ¬ <C-l>
@@ -282,7 +276,7 @@ nnoremap <Leader>c :let @+=expand('%:p')<CR>
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
 nnoremap <leader>= :wincmd =<cr>
 
-" Re-select the last pasted text
+" Re-select the last pasted text text Normal
 nnoremap gp `[v`]
 
 " COC
@@ -319,6 +313,10 @@ nmap ]g <Plug>(coc-git-nextchunk)
 " show chunk diff at current position
 nmap gs <Plug>(coc-git-chunkinfo)
 
+" coc Spell
+vmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
+
 " grep
 nnoremap <silent> <leader>F :Rgrep<CR>
 
@@ -331,13 +329,13 @@ nnoremap <leader>r :cfdo %s%%%gc
 nnoremap <silent> <leader>rs :cfdo update<CR>
 
 " find
-nnoremap <leader>f :find
+" nnoremap <leader>f :find
 
 " Tabs & splits
 nnoremap <C-J> <C-w><C-w>
 nnoremap <C-K> <C-w><C-p>
-noremap <Leader>s :<C-u>split<CR>
-noremap <Leader>v :<C-u>vsplit<CR>
+" noremap <Leader>s :<C-u>split<CR>
+" noremap <Leader>v :<C-u>vsplit<CR>
 
 " Disable arrow movement, resize splits instead.
 nnoremap <Up>    :resize -2<CR>
@@ -389,9 +387,18 @@ xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
 
 " FZF
 nnoremap <leader><leader> :Commands<CR>
-nmap <space> :Buffers<CR>
+
+" File search
 nmap   :Ag<CR>
 nnoremap <C-p> :call FzfOmniFiles()<CR>
+
+nnoremap <leader>f :call FzfOmniFiles()<CR>
+nmap <leader>s :Ag<CR>
+
+" Buffers
+nmap <leader>b :Buffers<CR>
+nnoremap <silent> <leader>] :bn<CR>
+nnoremap <silent> <leader>[ :bp<CR>
 
 inoremap <expr> <c-x><c-l> fzf#vim#complete(fzf#wrap({
   \ 'prefix': '^.*$',
@@ -413,6 +420,8 @@ command! -bang ColorLight call ColorLight()<bang>
 command! -bang ConfigNvim :e ~/.config/nvim/init.vim<bang>
 nnoremap <silent> <c-s>s :so $MYVIMRC<CR>
 
+" NewsBoat urls
+command! -bang News :e ~/.newsboat/urls<bang>
 
 " Git
 inoremap ∫ <C-R>=Branch()<CR>

@@ -52,6 +52,7 @@ brew install nnn
 brew cask install keybase
 brew cask install slack
 brew cask install skype
+brew install newsboat
 
 #Web Tools
 brew cask install firefox-developer-edition
