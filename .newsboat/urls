@@ -7,14 +7,15 @@ https://politepol.com/fd/fiKhtvOOu4Gz "news" "videos" "~YouTube: Jorge Asis"
 https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fpolitepol.com%2Ffd%2FO8KhwXgg2Cq8&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS "news" "~Periodismo Puro"
 
 # Developer
-https://www.reddit.com/r/javascript.rss "developer" "js" "~reddit: javascript"
-https://hnrss.org/newest?q=javascript+OR+js?points=40 "developer" "js" "~hackerNews-js"
+https://www.reddit.com/r/javascript/top.rss "developer" "js" "~reddit: javascript"
+https://hnrss.org/newest?q=javascript&points=100 "developer" "js" "~hackerNews: javascript"
 https://overreacted.io/rss.xml "developer" "js" "~Dan Abramov Blog"
 
 # Vim
-https://www.reddit.com/r/neovim.rss "vim" "~reddit: neovim"
-https://www.reddit.com/r/vim.rss "vim" "~reddit: vim"
-https://hnrss.org/newest?q=git+OR+vim+OR+neovim&?points=20 "vim" "~hackerNews-vim"
+https://www.reddit.com/r/neovim/top.rss "vim" "~reddit: neovim"
+https://www.reddit.com/r/vim/top.rss "vim" "~reddit: vim"
+https://hnrss.org/newest?q=neovim+OR+vim+OR+git&points=100 "vim" "~hackerNews: vim"
+https://github.com/neovim/neovim/tags.atom "vim" "~Neovim App Updates"
 
 # Videos
 https://www.youtube.com/feeds/videos.xml?channel_id=UCQX_MZRCaluNKxkywkLEgfA "videos" "~YouTube: Javier Santaolalla"

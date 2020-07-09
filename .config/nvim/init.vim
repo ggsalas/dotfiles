@@ -79,9 +79,9 @@ set wildmenu
 set incsearch
 set hlsearch
 
-" " highlighted yank
-" set inccommand=nosplit          " preview replace
-"
+" highlighted yank
+set inccommand=nosplit          " preview replace
+
 " Undo persistent after close file
 set undofile
 set undodir=$HOME/.vimUndoFiles
@@ -96,15 +96,11 @@ set wildignore+=*/min/*,*/vendor/*,*/node_modules/*,*/bower_components/*
 " au FocusGained,BufEnter * :silent! checktime " automatic reload changed files
 set autoread
 
-" comments
+" " comments
 filetype plugin on
 
-" cursorline only active window
-" augroup CursorLine
-"   au!
-"   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-"   au WinLeave * setlocal nocursorline
-" augroup END
+" check if with lazyredraw cursorline works more fluid on scroll
+set lazyredraw
 set cursorline
 
 " AutoSave for markdown files
@@ -139,11 +135,6 @@ let g:markdown_fenced_languages = [
   \ 'python',
   \ 'ruby', 'rb=ruby',
   \ ]
-
-" Horfix TSX syntax
-" au bufnewfile,bufread *.tsx ++once :so $MYVIMRC
-" au bufnewfile,bufread *.tsx ++once call s:base16_customize()
-" au bufread,bufnewfile *.tsx call plug#load()
 
 " VISUAL  
 " ******************************************************************************
@@ -244,8 +235,8 @@ noremap <leader>t. :SlimeSend1 yarn run test --findRelatedTests <c-r>%<CR>
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
-" tmux
-let g:tmux_navigator_disable_when_zoomed = 1
+" " tmux
+" let g:tmux_navigator_disable_when_zoomed = 1
 
 " MAPINGS
 " ******************************************************************************
@@ -421,7 +412,7 @@ command! -bang ConfigNvim :e ~/.config/nvim/init.vim<bang>
 nnoremap <silent> <c-s>s :so $MYVIMRC<CR>
 
 " NewsBoat urls
-command! -bang News :e ~/.newsboat/urls<bang>
+command! -bang Feeds :e ~/.newsboat/urls<bang>
 
 " Git
 inoremap ∫ <C-R>=Branch()<CR>
