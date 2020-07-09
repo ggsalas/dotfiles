@@ -1,3 +1,8 @@
+export EDITOR="nvim"
+export VISUAL="nvim"
+export PAGER="less"
+export BROWSER="brave"
+
 #################################################################################
 # Basic auto/tab complete:
 #################################################################################
@@ -69,7 +74,7 @@ alias vip="nvim -c 'term' -c 'file Console' -c 'term' -c 'file Server'"
 # file snd folders
 alias ..='cd ..'
 alias ls="ls -Gla"
-alias ll='nnn'
+alias ll='lf'
 # alias ll='br -dp -gh'
 
 # test with jest
@@ -82,7 +87,7 @@ alias untar='tar -xvf'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias yrc="yarn --registry ''"
 
-alias news="newsboat"
+alias feeds="newsboat"
 
 alias canary='open -a Google\ Chrome\ Canary --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security'
 alias chrome="open -a 'Google Chrome'"
@@ -90,7 +95,6 @@ alias chrome="open -a 'Google Chrome'"
 alias clear="clear && kittyDarkMode"
 alias colorDark="dark-mode on && kittyDarkMode"
 alias colorLight="dark-mode off && kittyDarkMode"
-
 
 #################################################################################
 # TWF                                                                       START
@@ -182,37 +186,6 @@ export SPROMPT="zsh: correct %F{red}'%R'%f to %F{red}'%r'%f [%B%Uy%u%bes, %B%Un%
 autoload -U add-zsh-hook
 # for prompt
 add-zsh-hook precmd vcs_info
-#
-#################################################################################
-# nnn config                                                                START
-n ()
-{
-    # Block nesting of nnn in subshells
-    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
-        echo "nnn is already running"
-        return
-    fi
-
-    # The default behaviour is to cd on quit (nnn checks if NNN_TMPFILE is set)
-    # To cd on quit only on ^G, remove the "export" as in:
-    #     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    # NOTE: NNN_TMPFILE is fixed, should not be modified
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-# Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-    # stty start undef
-    # stty stop undef
-    # stty lwrap undef
-    # stty lnext undef
-
-    nnn -e "$@"
-
-    if [ -f "$NNN_TMPFILE" ]; then
-            . "$NNN_TMPFILE"
-            rm -f "$NNN_TMPFILE" > /dev/null
-    fi
-}
-# nnn config                                                                  END
-#################################################################################
 
 #################################################################################
 # Load plugins

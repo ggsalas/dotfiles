@@ -47,6 +47,8 @@ brew install zsh-autosuggestions
 brew cask install virtualbox
 brew install broot
 brew install nnn
+brew install lf
+brew install highlight
 
 #Communication Apps
 brew cask install keybase

@@ -79,8 +79,9 @@ set wildmenu
 set incsearch
 set hlsearch
 
-" highlighted yank
-set inccommand=nosplit          " preview replace
+if has("nvim")
+  set inccommand=nosplit          " preview replace
+endif
 
 " Undo persistent after close file
 set undofile
