@@ -2,6 +2,12 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less"
 export BROWSER="brave"
+export PATH="/usr/local/sbin:$PATH"
+export PYENV_ROOT="$HOME/.pyenv"}
+export PATH="$PYENV_ROOT/bin:$PATH"
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 #################################################################################
 # Basic auto/tab complete:
@@ -95,6 +101,15 @@ alias chrome="open -a 'Google Chrome'"
 alias clear="clear && kittyDarkMode"
 alias colorDark="dark-mode on && kittyDarkMode"
 alias colorLight="dark-mode off && kittyDarkMode"
+
+# open git repo on current branch
+gopen() {
+    file=${1:-""}
+    git_branch=${2:-$(git symbolic-ref --quiet --short HEAD)}
+    git_project_root=$(git config remote.origin.url | sed "s~git@\(.*\):\(.*\)~https://\1/\2~" | sed "s~\(.*\).git\$~\1~")
+    git_directory=$(git rev-parse --show-prefix)
+    open ${git_project_root}/tree/${git_branch}/${git_directory}${file}
+}
 
 #################################################################################
 # TWF                                                                       START

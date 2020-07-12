@@ -49,6 +49,7 @@ brew install broot
 brew install nnn
 brew install lf
 brew install highlight
+brew install mediainfo
 
 #Communication Apps
 brew cask install keybase

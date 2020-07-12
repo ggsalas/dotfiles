@@ -1,5 +1,20 @@
 set hidden
-set previewer ~/.config/lf/pv.sh
 cmd open $nvim $f
+set previewer ~/.config/lf/pv.sh
+map i $~/.config/lf/pv.sh $f | less -R
 
+# Bookmarks
+map ~ cd
+map g` cd
+
+map gdo cd ~/Downloads
+map gde cd ~/Developer
+map gds cd ~/Desktop
+map ggd cd ~/Google Drive
+map gt cd ~/tmp
+
+map gcc cd ~/.config
+map gcv cd ~/.config/nvim
+map gcl cd ~/.config/lf
+map gck cd ~/.config/kitty
 
