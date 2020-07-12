@@ -1,6 +1,17 @@
 {
-  "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-  "coc.preferences.formatOnSaveFiletypes": ["javascript", "javascriptreact", "typescript", "typescriptreact", "json"],
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "json"
+  ],
   "diagnostic.errorSign": "x",
   "diagnostic.warningSign": ">",
   "diagnostic.infoSign": "i",
@@ -11,8 +22,5 @@
   "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
   "git.branchCharacter": "",
   "cSpell.showStatus": true,
-  "cSpell.userWords": [
-    "fontawesome",
-    "fortawesome"
-  ]
+  "cSpell.userWords": ["dirvish", "fontawesome"]
 }
