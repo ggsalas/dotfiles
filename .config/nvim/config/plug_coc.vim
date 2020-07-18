@@ -7,7 +7,7 @@ Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-git', {'do': 'yarn install --frozen-lockfile'}
-Plug 'iamcco/coc-spell-checker', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'iamcco/coc-spell-checker', {'do': 'yarn install --frozen-lockfile'}
 
 let g:coc_global_extensions = ['coc-prettier', 'coc-eslint',  'coc-tsserver', 'coc-json', 'coc-css', 'coc-git']
 
@@ -64,5 +64,5 @@ nmap ]g <Plug>(coc-git-nextchunk)
 nmap gs <Plug>(coc-git-chunkinfo)
 
 " coc Spell
-vmap <leader>a <Plug>(coc-codeaction-selected)
-nmap <leader>a <Plug>(coc-codeaction-selected)
+" vmap <leader>a <Plug>(coc-codeaction-selected)
+" nmap <leader>a <Plug>(coc-codeaction-selected)

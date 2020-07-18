@@ -47,6 +47,10 @@ set wildmenu
 set incsearch
 set hlsearch
 
+set nospell
+au BufNewFile,BufReadPost,FilterReadPost,FileReadPost  * set nospell
+
+
 if has("nvim")
   set inccommand=nosplit          " preview replace
 endif

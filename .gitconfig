@@ -18,6 +18,9 @@
   user = ggsalas
 [core]
   editor = nvim
+  pager = delta --navigate
+[interactive]
+  diffFilter  = delta --color-only
 [diff]
   tool = vimdiff
 [difftool "vimdiff"]
@@ -44,3 +47,5 @@
   changed = red
   untracked = blue
   deleted = red
+[pull]
+	rebase = false

@@ -8,13 +8,13 @@ https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fpolitepol.com%2Ffd%2FO8Kh
 
 # Developer
 https://www.reddit.com/r/javascript/top.rss "developer" "js" "~reddit: javascript"
-https://hnrss.org/newest?q=javascript&points=100 "developer" "js" "~hackerNews: javascript"
+https://hnrss.org/newest?q=javascript&points=50 "developer" "js" "~hackerNews: javascript"
 https://overreacted.io/rss.xml "developer" "js" "~Dan Abramov Blog"
 
 # Vim
 https://www.reddit.com/r/neovim/top.rss "vim" "~reddit: neovim"
 https://www.reddit.com/r/vim/top.rss "vim" "~reddit: vim"
-https://hnrss.org/newest?q=neovim+OR+vim+OR+git&points=100 "vim" "~hackerNews: vim"
+https://hnrss.org/newest?q=neovim+OR+vim+OR+git&points=30 "vim" "~hackerNews: vim"
 https://github.com/neovim/neovim/tags.atom "vim" "~Neovim App Updates"
 
 # Videos
@@ -47,5 +47,4 @@ https://www.youtube.com/feeds/videos.xml?user=gotbletu "videos" "vim" "~YouTube:
 
 https://www.youtube.com/feeds/videos.xml?channel_id=UC9qrzX4vlTvh8OX1EdTLviA "videos" "pipes" "~YouTube: Smokingpipes"
 https://www.youtube.com/feeds/videos.xml?channel_id=UCyzAMeGkT4N82NXOXN584aw "videos" "pipes" "~YouTube: STUFFandTHINGS"
-https://www.youtube.com/feeds/videos.xml?user=SmokingDagners "videos" "pipes" "~YouTube: Smoking Dagners"
 https://www.youtube.com/feeds/videos.xml?channel_id=UCgf1yYZW9N4ZkCxzbYlB3dw "videos" "pipes" "~YouTube: Matches860"

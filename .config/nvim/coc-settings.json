@@ -21,6 +21,6 @@
   "git.topRemovedSign.hlGroup": "GitGutterDelete",
   "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
   "git.branchCharacter": "",
-  "cSpell.showStatus": true,
-  "cSpell.userWords": ["dirvish", "fontawesome"]
+  "cSpell.showStatus": false,
+  "cSpell.enabled": false
 }

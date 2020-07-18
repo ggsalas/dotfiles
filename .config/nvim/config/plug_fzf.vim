@@ -3,6 +3,17 @@
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+" remove file preview
+let g:fzf_preview_window = ''
+
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+" Close with Esc
+autocmd! FileType fzf tnoremap <buffer> <Esc> <c-c>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Functios
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "FZF decide what file find to use
 function! FzfOmniFiles()
   let is_git = system('git status')
@@ -29,28 +40,57 @@ function! NoteSearch()
   execute "cd ".path
 endfunction
 
-let g:fzf_preview_window = ''
+" using fzf to search for a file and generate a relative path
+" relative to the current buffer
+" https://github.com/FabioAntunes/dotfiles/blob/c05f7ff3dc6061068b6de39485f5ff801cc557db/nvim/config/plugins-keymaps.vim
+function! s:make_path(path)
+  let l:currentFile = expand('%:p:h')
+  let l:filePath = fnamemodify(join(a:path), ":p")
+
+  " my implementation to generate relative paths, a golang binary
+  " check if it exists, if not we default to perl
+  if executable("rel-path")
+    let l:relPath = system("rel-path " . l:filePath . " " . l:currentFile)
+  else
+    let l:relPath = system("perl -e 'use File::Spec; print File::Spec->abs2rel(@ARGV) . \"\n\"' " . l:filePath . " " . l:currentFile)
+    if l:relPath !~ '^\.\.\/'
+      let l:relPath = \"./" . l:relPath
+    endif
+  endif
+
+  " strip extensions from the file, if it's tsx? jsx?
+  " or strip the entire name if it's an "index.jsx?" or "index.tsx?"
+  return substitute(l:relPath, '\(\(\/index\)\?\(\.tsx\?\|\.jsx\?\)\)\?\n\+$', '', '')
+endfunction
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Ag search only on file contents
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
-inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
-    \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
-    \ fzf#wrap({'dir': expand('%:p:h')}))
+" Create a new note inside note folder
+command! -nargs=1 -bang NoteNew :e ~/Google Drive/Notas/<args><bang>
 
-let g:fzf_history_dir = '~/.local/share/fzf-history'
+" list and search inside notes folder
+command! -bang NoteList call NoteList()<bang>
+command! -bang NoteSearch call NoteSearch()<bang>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" complete relative file path
+inoremap <expr> <c-x><c-f> fzf#complete(fzf#wrap({
+  \ 'source':  'ag -g ""',
+  \ 'reducer': function('<sid>make_path')}))
+
+" complete lines
 inoremap <expr> <c-x><c-l> fzf#vim#complete(fzf#wrap({
   \ 'prefix': '^.*$',
   \ 'source': 'rg -n ^ --color always',
   \ 'options': '--ansi --delimiter : --nth 3..',
   \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
 
-
-command! -nargs=1 -bang NoteNew :e ~/Google Drive/Notas/<args><bang>
-command! -bang NoteList call NoteList()<bang>
-command! -bang NoteSearch call NoteSearch()<bang>
-
-" Mappings
 nnoremap <leader><leader> :Commands<CR>
 
 " File search
@@ -58,13 +98,11 @@ nmap   :Ag<CR>
 nnoremap <C-p> :call FzfOmniFiles()<CR>
 
 nnoremap <leader>f :call FzfOmniFiles()<CR>
+nnoremap <leader>gf :GFiles?<CR>
 nmap <leader>s :Ag<CR>
 
 " Buffers
 nmap <leader>b :Buffers<CR>
-nnoremap <silent> <leader>] :bn<CR>
-nnoremap <silent> <leader>[ :bp<CR>
-
-" Close with Esc
-autocmd! FileType fzf tnoremap <buffer> <Esc> <c-c>
-
+nnoremap <silent> <leader>bn :bn<CR>
+nnoremap <silent> <leader>bb :b#<CR>
+nnoremap <silent> <leader>bm :bm<CR>
