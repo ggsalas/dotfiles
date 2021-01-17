@@ -1,22 +1,9 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
-export PAGER="less"
-export BROWSER="brave"
+export PAGER="less -R"
+export BROWSER="Google Chrome"
 export LANG="en_US.UTF-8"
-
-export AWS_PROFILE=indigo-ag
-export IA_ENV=staging
-export AWS_REGION=us-east-1
-export AWS_SDK_LOAD_CONFIG=1
-export PYENV_ROOT="$HOME/.pyenv"}
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-if which pyenv > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
-export PATH="/usr/local/sbin:$PATH"
-export AWS_PROFILE=credstash_stage
 export BAT_THEME=Dracula
-export NNN_PLUG='p:-_less -iR $nnn*;g:-_git diff;l:-_git log;o:_preview-tui'
 
 # Kitty terminal
 source ~/.config/zsh/kitty.zsh
@@ -29,6 +16,12 @@ source ~/.config/zsh/prompt.zsh
 
 # git
 source ~/.config/zsh/git.zsh
+
+# nnn
+source ~/.config/nnn/nnn.zsh
+
+# Moodys config
+source ~/Developer/Rocket/Moodys/config.zsh
 
 #################################################################################
 # Basic auto/tab complete:
@@ -78,7 +71,7 @@ alias vip="nvim -c 'term' -c 'file Console' -c 'term' -c 'file Server'"
 # file snd folders
 alias ..='cd ..'
 alias ls="ls -Gla"
-alias ll='lf'
+alias ll='n'
 # alias ll='br -dp -gh'
 
 # test with jest
@@ -89,6 +82,7 @@ alias test="npm run test -- --watch"
 alias reload='source ~/.zshrc'
 alias untar='tar -xvf'
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias df='dotfiles'
 alias yrc="yarn --registry ''"
 
 alias feeds="newsboat"
@@ -96,19 +90,31 @@ alias feeds="newsboat"
 alias canary='open -a Google\ Chrome\ Canary --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security'
 alias chrome="open -a 'Google Chrome'"
 
+alias docker-stop='docker stop $(docker ps -aq)'
+alias docker-list='docker ps -aq'
+
+alias login-aws='okta-aws test sts get-caller-identity'
+
+# kill all proccess thar uses a specific port 
+function kill-port() {
+  port=$@
+
+  kill $(lsof -t -i:${port})
+}
+
+
+# readbility link open "Read Web"
+# alias read='readable URL -p html-title,html-content | w3m -T text/html'
+rw () {
+   readable $1 -p html-title,html-content | w3m -T text/html
+}
+
 #################################################################################
 # nvm
 #################################################################################
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-#
-# # tabtab source for serverless package
-# # uninstall by removing these lines or running `tabtab uninstall serverless`
-# [[ -f /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/serverless.zsh
-# # tabtab source for sls package
-# # uninstall by removing these lines or running `tabtab uninstall sls`
-# [[ -f /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/ggsalas/Developer/Rocket/Indigo/marketplace-api/node_modules/tabtab/.completions/sls.zsh
 
 # Enable Credstash to load local AWS config
 export AWS_SDK_LOAD_CONFIG=true
@@ -120,7 +126,7 @@ export AWS_SDK_LOAD_CONFIG=true
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh 
 # git clone https://github.com/wfxr/forgit.git ~/.zsh/forgit
 source ~/.zsh/forgit/forgit.plugin.zsh
-# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
-# source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# Broot
-# source /Users/ggsalas/Library/Preferences/org.dystroy.broot/launcher/bash/br
+# require install with brew: brew install autojump
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

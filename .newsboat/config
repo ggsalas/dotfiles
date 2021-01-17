@@ -16,9 +16,11 @@ feedlist-format "%2i %4U [%5T] - %t"
 articlelist-format "%2i %D - %t"
 
 # macros
-browser "open -a 'Brave Browser' %u"
-macro w set browser "w3m"; open-in-browser ; set browser "open -a 'Brave Browser' %u"
-macro m set browser "mpv %u" ; open-in-browser ; set browser "open -a 'Brave Browser' %u"
+# let browser="Firefox Developer Edition"
+# browser "open -a 'Firefox Developer Edition' %u"
+browser "open -a 'Google Chrome' %u"
+# macro w set browser "w3m"; open-in-browser ; set browser "open -a 'Brave Browser' %u"
+# macro m set browser "mpv %u" ; open-in-browser ; set browser "open -a 'Brave Browser' %u"
 
 bind-key ; macro-prefix
 bind-key j down
@@ -42,6 +44,8 @@ bind-key N prev-unread
 bind-key D pb-download
 bind-key U show-urls
 bind-key x pb-delete
+bind-key o open-in-browser-and-mark-read
+bind-key O open-in-browser
 
 color listnormal cyan default
 color listfocus black yellow standout bold

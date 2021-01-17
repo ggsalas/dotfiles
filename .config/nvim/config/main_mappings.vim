@@ -1,3 +1,11 @@
+" search current selection
+function! s:VSetSearch(cmdtype)
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+
 " Paste banch name
 function! Branch()
   return  gitbranch#name()
@@ -103,24 +111,16 @@ command! -bang Feeds :e ~/.newsboat/urls<bang>
 " Git
 inoremap ∫ <C-R>=Branch()<CR>
 
-" Tests JS
-nmap <leader>tc :!npm run test -- --coverage<CR>
-nmap <silent> <leader>tt :TestNearest<CR>
-nmap <silent> <leader>tf :TestFile<CR>
-nmap <silent> <leader>ts :TestSuite<CR>
-nmap <silent> <leader>tl :TestLast<CR>
-nmap <silent> <leader>tv :TestVisit<CR>
-" nmap <silent> <leader>tf :!kitty @ launch --env PATH="/usr/local/bin:$PATH" --cwd=current yarn test --findRelatedTests %<cr>
-
 " Execure current file with node
 nmap <leader>en :!node %<CR>
 
 " replace word under cursor, globally, with confirmation
-nnoremap <Leader>k :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
-vnoremap <Leader>k y :%s/<C-r>"//gc<Left><Left><Left>
+nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+vnoremap <Leader>r y :%s/<C-r>"//gc<Left><Left><Left>
 
 if has("nvim")
   au TermOpen * tnoremap <Esc> <c-\><c-n>
   au TermOpen set nonumber
+  nnoremap gq :bd!<CR>
 endif
 

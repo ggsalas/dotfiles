@@ -5,8 +5,14 @@ Plug 'junegunn/fzf.vim'
 
 " remove file preview
 let g:fzf_preview_window = ''
-
 let g:fzf_history_dir = '~/.local/share/fzf-history'
+let g:fzf_layout = { 'down': '40%' }
+" let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'none' } }
+" let g:fzf_action = {
+"   \ 'ctrl-d': 'bd',
+"   \ 'ctrl-t': 'tab split',
+"   \ 'ctrl-x': 'split',
+"   \ 'ctrl-v': 'vsplit' }
 
 " Close with Esc
 autocmd! FileType fzf tnoremap <buffer> <Esc> <c-c>
@@ -76,6 +82,26 @@ command! -nargs=1 -bang NoteNew :e ~/Google Drive/Notas/<args><bang>
 command! -bang NoteList call NoteList()<bang>
 command! -bang NoteSearch call NoteSearch()<bang>
 
+" Delete buffers
+" https://github.com/junegunn/fzf.vim/pull/733#issuecomment-559720813
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! BD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --bind ctrl-a:select-all'
+\ }))
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -91,18 +117,20 @@ inoremap <expr> <c-x><c-l> fzf#vim#complete(fzf#wrap({
   \ 'options': '--ansi --delimiter : --nth 3..',
   \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
 
-nnoremap <leader><leader> :Commands<CR>
+" nnoremap <leader><leader> :Commands<CR>
 
 " File search
-nmap   :Ag<CR>
-nnoremap <C-p> :call FzfOmniFiles()<CR>
-
 nnoremap <leader>f :call FzfOmniFiles()<CR>
 nnoremap <leader>gf :GFiles?<CR>
 nmap <leader>s :Ag<CR>
-
 " Buffers
-nmap <leader>b :Buffers<CR>
-nnoremap <silent> <leader>bn :bn<CR>
-nnoremap <silent> <leader>bb :b#<CR>
-nnoremap <silent> <leader>bm :bm<CR>
+nmap <leader>j :Buffers<CR>
+nmap <leader>J :BD<CR>
+nnoremap <leader>k :b#<CR>
+nnoremap <leader>bn :bn<CR>
+nnoremap <leader>bm :bm<CR>
+
+" nnoremap <leader>S :Ag<C-r>=txt<CR>
+" search word under cursor
+nnoremap <silent> <Leader>S :Ag <C-R><C-W><CR>
+vnoremap <silent> <Leader>S :Ag <C-R><C-W><CR>

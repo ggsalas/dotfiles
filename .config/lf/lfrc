@@ -1,6 +1,9 @@
 set hidden
-cmd open $nvim $f
-set previewer ~/.config/lf/pv.sh
+set incsearch
+
+cmd open $nvim $fx
+# set previewer ~/.config/lf/pv.sh
+set previewer less -R
 map i $~/.config/lf/pv.sh $f | less -R
 
 # Bookmarks

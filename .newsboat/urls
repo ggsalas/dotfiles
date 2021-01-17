@@ -10,6 +10,8 @@ https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fpolitepol.com%2Ffd%2FO8Kh
 https://www.reddit.com/r/javascript/top.rss "developer" "js" "~reddit: javascript"
 https://hnrss.org/newest?q=javascript&points=50 "developer" "js" "~hackerNews: javascript"
 https://overreacted.io/rss.xml "developer" "js" "~Dan Abramov Blog"
+https://jasonformat.com/rss/ "developer" "js" "~Jason Miller"
+https://feeds.feedburner.com/2ality "developer" "js" "~2ality.com"
 
 # Vim
 https://www.reddit.com/r/neovim/top.rss "vim" "~reddit: neovim"
@@ -35,6 +37,7 @@ https://www.youtube.com/feeds/videos.xml?channel_id=UCu1omdof2OhRsM_9YtRaM4Q "vi
 https://www.youtube.com/feeds/videos.xml?channel_id=UCyf2y7p9CKf1baDEvo_mWRQ "videos" "developer" "js" "react" "~YouTube: Ryan Florence"
 https://www.youtube.com/c/JSNation "videos" "developer" "js" "react" "~YouTube: GitNation"
 https://www.youtube.com/feeds/videos.xml?channel_id=UCsFrt8oKNYXGspSlX9u6uXw "videos" "developer" "js" "react" "~YouTube: React Conferences by GitNation"
+https://briefs.video/feed.xml "developer" "js" "~briefs.video"
 
 https://www.youtube.com/feeds/videos.xml?channel_id=UCvP5cfpfIgkb0Dt8o7Qt21A "videos" "developer" "~YouTube: Automattic"
 https://www.youtube.com/feeds/videos.xml?channel_id=UCpJf6LGZ0a4n9Lj4aVt9spg "videos" "developer" "~YouTube: WordPress"

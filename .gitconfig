@@ -20,7 +20,7 @@
   editor = nvim
   pager = delta --navigate
 [interactive]
-  diffFilter  = delta --color-only
+  diffFilter  = delta --color-only --navigate
 [diff]
   tool = vimdiff
 [difftool "vimdiff"]

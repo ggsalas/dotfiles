@@ -50,6 +50,7 @@ brew install nnn
 brew install lf
 brew install highlight
 brew install mediainfo
+brew install autojump
 
 #Communication Apps
 brew cask install keybase

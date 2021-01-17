@@ -1,19 +1,20 @@
-" search current selection
-function! s:VSetSearch(cmdtype)
-  let temp = @s
-  norm! gv"sy
-  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
-  let @s = temp
-endfunction
+" FUNCTIONS
+" ******************************************************************************
+function! CustomFoldText()
+    let line = getline(v:foldstart)
 
-function! CustomFoldText() abort
-  let s:middot='•'
-  let s:raquo='»'
-  let s:small_l='ℓ'
+    let nucolwidth = &foldcolumn + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart . ' lines '
 
-  let l:lines='' . (v:foldend - v:foldstart + 1) . ' ' . s:small_l . ''
-  let l:first=substitute(getline(v:foldstart), '\v *', '', '')
-  return s:raquo . ' ' . l:lines . ' // ' . l:first
+    " expand tabs into spaces
+    let chunks = split(line, "\t", 1)
+    let line = join(map(chunks[:-2], 'v:val . repeat(" ", &tabstop - strwidth(v:val) % &tabstop)'), '') . chunks[-1]
+
+    let line = strpart(line, 0, windowwidth - 2 - len(foldedlinecount)) . ' '
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+
+    return line . repeat('.', fillcharcount) . ' ' . foldedlinecount
 endfunction
 
 " BASE CONFIG
@@ -46,9 +47,10 @@ set laststatus=2
 set wildmenu
 set incsearch
 set hlsearch
+set relativenumber
 
 set nospell
-au BufNewFile,BufReadPost,FilterReadPost,FileReadPost  * set nospell
+" au BufNewFile,BufReadPost,FilterReadPost,FileReadPost  * set nospell
 
 
 if has("nvim")
@@ -71,35 +73,15 @@ filetype plugin on
 set lazyredraw
 set cursorline
 
-" AutoSave for markdown files
-au BufRead,BufNewFile     *.md set autowriteall
-au BufRead,BufNewFile     *.md set wrap
-au FocusLost,WinLeave     *.md :silent! w 
-au BufRead,BufNewFile     *.mkd set autowriteall
-au FocusLost,WinLeave     *.mkd :silent! w 
-
 " Help File speedups, <enter> to follow tag, delete for back
 au filetype help nnoremap <buffer><cr> <c-]>
 au filetype help nnoremap <buffer><bs> <c-T>
 au filetype help nnoremap <buffer>q :q<CR>
 au filetype help set nonumber
+
 set splitbelow " Split windows, ie Help, make more sense to me below
 
 " Folds
 set foldmethod=syntax
 set foldlevelstart=99         " start unfold
 set foldtext=CustomFoldText()
-let g:markdown_folding = 1
-
-" Open all folds on load markdown file
-au BufRead,BufNewFile *.md normal zR
-au BufRead,BufNewFile *.mkd normal zR
-
-let g:markdown_fenced_languages = [
-  \ 'css', 'less',
-  \ 'html',
-  \ 'javascript', 'js=javascript',
-  \ 'json',
-  \ 'python',
-  \ 'ruby', 'rb=ruby',
-  \ ]

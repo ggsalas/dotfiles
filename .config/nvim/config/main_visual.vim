@@ -49,7 +49,7 @@ function! s:base16_customize() abort
   call Base16hi("FoldColumn", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "", "")
   call Base16hi("SignColumn", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
 
-  call Base16hi("CocErrorHighlight", g:base16_gui03, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("CocErrorHighlight", "", "transparent", g:base16_cterm00, g:base16_cterm05, "", "")
   call Base16hi("CocErrorSign", g:base16_gui08, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("CocWarningSign", g:base16_gui09, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("CocInfoSign", g:base16_gui0E, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
@@ -76,10 +76,6 @@ let g:fzf_colors =
 augroup on_change_colorschema
   autocmd!
   autocmd ColorScheme * call s:base16_customize()
-augroup END
-
-augroup ChangeColorsBasedOnMacos
-  autocmd!
   autocmd VimEnter,FocusGained  * call s:changeColorsBasedOnMacos()  
 augroup END
 

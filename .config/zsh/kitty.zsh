@@ -13,6 +13,16 @@ kittyDarkMode() {
   fi
 }
 
+function ks() {
+  session=$@
+
+  kitty \
+    --session ~/.config/kitty/session/${session}.conf \
+    --title ${session} \
+    --single-instance \
+    </dev/null &>/dev/null &
+}
+
 alias clear="clear && kittyDarkMode"
 alias colorDark="dark-mode on && kittyDarkMode"
 alias colorLight="dark-mode off && kittyDarkMode"

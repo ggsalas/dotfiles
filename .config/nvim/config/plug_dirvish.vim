@@ -1,18 +1,15 @@
 Plug 'justinmk/vim-dirvish'                                   " file explorer 
 
 " Replace netrw plugin
-let g:loaded_netrwPlugin = 1
-command! -nargs=? -complete=dir Explore Dirvish <args>
-command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args> | belowright resize 15
-command! -nargs=? -complete=dir Vexplore belowright vsplit | silent Dirvish <args> | vertical resize 50
+" let g:loaded_netrwPlugin = 1
+" command! -nargs=? -complete=dir Explore Dirvish <args>
+" command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args> | belowright resize 15
+" command! -nargs=? -complete=dir Vexplore belowright vsplit | silent Dirvish <args> | vertical resize 50
+
+nnoremap _ :Dirvish<CR>
 
 " Sort folders first, then files
 let g:dirvish_mode = ':sort ,^.*[\/],'
-
-" vim-dirvish
-nnoremap _ :Explore<CR>
-nnoremap <leader>e :Vex %<CR>
-nnoremap <leader>E :Vex<CR>
 
 augroup dirvish_config
   autocmd!
@@ -39,3 +36,34 @@ augroup dirvish_config
   autocmd FileType dirvish
     \  nnoremap <buffer> mm :e %
 augroup END
+
+
+
+""
+" Netrw
+""
+" vim-dirvish
+nnoremap <leader>- :Explore<CR>
+" nnoremap <leader>e :Vex %<CR>
+" nnoremap <leader>E :Vex<CR>
+
+
+
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 0
+let g:netrw_winsize = 20
+let g:netrw_altv= 1
+
+" function! NetrwMappings()
+"     " Hack fix to make ctrl-l work properly
+"     " noremap <buffer> <A-l> <C-w>l
+"     " noremap <buffer> <C-l> <C-w>l
+"     noremap <silent> _ :call ToggleNetrw()<CR>
+"     noremap <buffer> T :call OpenTab()<cr>
+" endfunction
+"
+" augroup netrw_mappings
+"     autocmd!
+"     autocmd filetype netrw call NetrwMappings()
+" augroup END

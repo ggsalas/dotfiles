@@ -6,3 +6,5 @@ gopen() {
     git_directory=$(git rev-parse --show-prefix)
     open ${git_project_root}/tree/${git_branch}/${git_directory}${file}
 }
+
+alias gco='git cz'
