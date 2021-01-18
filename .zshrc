@@ -21,7 +21,7 @@ source ~/.config/zsh/git.zsh
 source ~/.config/nnn/nnn.zsh
 
 # Moodys config
-source ~/Developer/Rocket/Moodys/config.zsh
+source ~/.moodys.zsh
 
 #################################################################################
 # Basic auto/tab complete:

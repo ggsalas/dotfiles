@@ -6,11 +6,6 @@
 echo "Installing brew..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-# echo "Installing brew cask..."
-# brew tap caskroom/cask
-# echo "Installing brew cask versions"
-# brew tap homebrew/cask-versions
 
 #Programming Languages
 brew install node
@@ -85,12 +80,16 @@ pip install neovim
 pip3 install pynvim
 pip3 install neovim
 sudo gem install neovim
+
 # install Plug for vim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-# install plug for tmux
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-npm install --global git-open
+# install plug for tmux
+# git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+# zsh plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+git clone https://github.com/wfxr/forgit.git ~/.zsh/forgit
 
 # brew upgrade
