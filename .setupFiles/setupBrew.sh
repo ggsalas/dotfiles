@@ -4,13 +4,13 @@
 # To execute: save and `chmod +x ./brew-install-script.sh` then `./brew-install-script.sh`
 
 echo "Installing brew..."
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-echo "Installing brew cask..."
-brew tap caskroom/cask
-
-echo "Installing brew cask versions"
-brew tap homebrew/cask-versions
+# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# echo "Installing brew cask..."
+# brew tap caskroom/cask
+# echo "Installing brew cask versions"
+# brew tap homebrew/cask-versions
 
 #Programming Languages
 brew install node
@@ -20,7 +20,7 @@ brew install python@2
 
 #Databases
 brew install postgresql
-brew cask install postico
+brew install --cask postico
 # TODO: seems failing both mongo...
 brew install mongodb
 brew install mongodb-community
@@ -28,56 +28,54 @@ brew install mongodb-community
 #Dev Tools
 brew install git
 brew install yarn
-brew install tmux
+# brew install tmux
 brew install gnupg
 brew install ripgrep
 brew install the_silver_searcher
 brew install neovim
-brew cask install kitty
+brew install --cask kitty
 brew install dark-mode
-brew cask install alacritty
-brew cask install iterm2
-brew cask install docker
-brew cask install postman
-brew cask install visual-studio-code
+brew install --cask alacritty
+brew install --cask iterm2
+brew install --cask docker
+brew install --cask postman
+brew install --cask visual-studio-code
 brew install tree
 brew install zsh
-brew install antigen
 brew install zsh-autosuggestions
-brew cask install virtualbox
+brew install --cask virtualbox
 brew install broot
 brew install nnn
-brew install lf
 brew install highlight
 brew install mediainfo
 brew install autojump
 
 #Communication Apps
-brew cask install keybase
-brew cask install slack
-brew cask install skype
+brew install --cask keybase
+brew install --cask slack
+brew install --cask skype
 brew install newsboat
 
 #Web Tools
-brew cask install firefox-developer-edition
-brew cask install google-chrome
-brew cask install google-chrome-canary
+brew install --cask firefox-developer-edition
+brew install --cask google-chrome
+brew install --cask google-chrome-canary
 
 #Other tools
-brew cask install spectacle
-brew cask install easy-move-plus-resize
-brew cask install gimp
-brew cask install xquartz
-brew cask install inkscape
-brew cask install blender
-brew cask install scribus
-brew cask install alfred
-brew cask install vlc
-brew cask install transmission
-brew cask install spotify
-brew cask install libreoffice
-brew cask install the-unarchiver
-brew cask install calibre
+brew install --cask karabiner-elements
+brew install --cask rectangle
+brew install --cask easy-move-plus-resize
+brew install --cask gimp
+brew install --cask inkscape
+brew install --cask blender
+brew install --cask scribus
+brew install --cask alfred
+brew install --cask vlc
+brew install --cask transmission
+brew install --cask spotify
+brew install --cask libreoffice
+brew install --cask the-unarchiver
+brew install --cask calibre
 
 echo "Installing other sofware without brew"
 gem update neovim
