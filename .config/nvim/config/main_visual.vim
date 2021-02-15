@@ -48,6 +48,7 @@ function! s:base16_customize() abort
   call Base16hi("LineNr", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "", "")
   call Base16hi("FoldColumn", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "", "")
   call Base16hi("SignColumn", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+  call Base16hi("Visual", g:base16_gui00, g:base16_gui03, g:base16_cterm00, g:base16_cterm05, "", "")
 
   call Base16hi("CocErrorHighlight", "", "transparent", g:base16_cterm00, g:base16_cterm05, "", "")
   call Base16hi("CocErrorSign", g:base16_gui08, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
@@ -66,7 +67,7 @@ let g:fzf_colors =
   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
   \ 'hl+':     ['fg', 'Statement'],
   \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
+  \ 'border':  ['fg', 'LineNr', 'Comment'],
   \ 'prompt':  ['fg', 'Conditional'],
   \ 'pointer': ['fg', 'Exception'],
   \ 'marker':  ['fg', 'Keyword'],

@@ -3,7 +3,7 @@ export VISUAL="nvim"
 export PAGER="less -R"
 export BROWSER="Google Chrome"
 export LANG="en_US.UTF-8"
-export BAT_THEME=Dracula
+export BAT_THEME=OneHalfLight
 
 # Kitty terminal
 source ~/.config/zsh/kitty.zsh

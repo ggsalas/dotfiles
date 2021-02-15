@@ -3,16 +3,19 @@
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-" remove file preview
-let g:fzf_preview_window = ''
+" Preview window on the upper side of the window with 40% height,
+" hidden by default, ctrl-/ to toggle
+let g:fzf_preview_window = 'up:50%'
+" let g:fzf_preview_window = ''
+let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.8 , 'border': 'sharp' } }
+" let g:fzf_layout = { 'down': '40%' }
 let g:fzf_history_dir = '~/.local/share/fzf-history'
-let g:fzf_layout = { 'down': '40%' }
-" let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'none' } }
 " let g:fzf_action = {
 "   \ 'ctrl-d': 'bd',
 "   \ 'ctrl-t': 'tab split',
 "   \ 'ctrl-x': 'split',
 "   \ 'ctrl-v': 'vsplit' }
+
 
 " Close with Esc
 autocmd! FileType fzf tnoremap <buffer> <Esc> <c-c>

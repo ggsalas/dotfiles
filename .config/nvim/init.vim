@@ -8,22 +8,22 @@ call s:SourceConfigFile('main_mappings')
 call plug#begin()
   call s:SourceConfigFile('main_visual')
   call s:SourceConfigFile('main_undo')
+  call s:SourceConfigFile('plug_fzf')
   call s:SourceConfigFile('plug_coc')
   call s:SourceConfigFile('plug_dirvish')
   call s:SourceConfigFile('plug_grep')
   call s:SourceConfigFile('plug_slime')
   call s:SourceConfigFile('plug_sneak')
-  call s:SourceConfigFile('plug_fzf')
   call s:SourceConfigFile('plug_test')
   call s:SourceConfigFile('plug_syntax')
   call s:SourceConfigFile('plug_markdown')
+  call s:SourceConfigFile('plug_comment')
 
   " Plugins witout config
   """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   Plug 'pbrisbin/vim-mkdir'                                     " create new dirs on save file
   Plug 'tpope/vim-fugitive'                                     " Git 
   Plug 'itchyny/vim-gitbranch'                                  " Git branch name
-  Plug 'tomtom/tcomment_vim'
 
   " helpers
   Plug 'tmhedberg/matchit'                                      " extendeds % matching

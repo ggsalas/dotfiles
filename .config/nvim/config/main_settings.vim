@@ -40,7 +40,6 @@ set hidden            " Required for operations modifying multiple buffers like 
 set iskeyword+=-      " Allow word with dashes
 set nobackup
 set nowritebackup
-set signcolumn=yes
 set nowrap
 set updatetime=300
 set laststatus=2
@@ -48,6 +47,15 @@ set wildmenu
 set incsearch
 set hlsearch
 set relativenumber
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
 
 set nospell
 " au BufNewFile,BufReadPost,FilterReadPost,FileReadPost  * set nospell

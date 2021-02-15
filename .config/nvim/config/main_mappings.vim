@@ -67,10 +67,10 @@ nnoremap <Left>  :vertical resize -2<CR>
 nnoremap <Right> :vertical resize +2<CR>
 
 " Moovments
-nnoremap <C-u> <S-M><C-U>zz
-nnoremap <C-d> <S-M><C-D>zz
-nmap <C-f> <C-f>zz
-nmap <C-b> <C-b>zz
+" nnoremap <C-u> <S-M><C-U>zz
+" nnoremap <C-d> <S-M><C-D>zz
+" nmap <C-f> <C-f>zz
+" nmap <C-b> <C-b>zz
 
 " Center moovments
 nmap n nzz
@@ -111,8 +111,8 @@ command! -bang Feeds :e ~/.newsboat/urls<bang>
 " Git
 inoremap ∫ <C-R>=Branch()<CR>
 
-" Execure current file with node
-nmap <leader>en :!node %<CR>
+" Execute current file with node
+" nmap <leader>en :!node %<CR>
 
 " replace word under cursor, globally, with confirmation
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>

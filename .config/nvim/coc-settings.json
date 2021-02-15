@@ -1,10 +1,4 @@
 {
-  "eslint.filetypes": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
   "coc.preferences.formatOnSaveFiletypes": [
     "javascript",
     "javascriptreact",
@@ -22,5 +16,11 @@
   "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
   "git.branchCharacter": "",
   "cSpell.showStatus": false,
-  "cSpell.enabled": false
+  "cSpell.enabled": false,
+  "prettier.printWidth": 80,
+  "prettier.tabWidth": 2,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.semi": false,
+  "prettier.useTabs": false
 }
