@@ -73,13 +73,13 @@ brew install --cask the-unarchiver
 brew install --cask calibre
 
 echo "Installing other sofware without brew"
-gem update neovim
-npm install -g neovim
-pip install pynvim
-pip install neovim
-pip3 install pynvim
-pip3 install neovim
-sudo gem install neovim
+# gem update neovim
+# npm install -g neovim
+# pip install pynvim
+# pip install neovim
+# pip3 install pynvim
+# pip3 install neovim
+# sudo gem install neovim
 
 # install Plug for vim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \

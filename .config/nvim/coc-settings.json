@@ -6,21 +6,25 @@
     "typescriptreact",
     "json"
   ],
+
   "diagnostic.errorSign": "x",
   "diagnostic.warningSign": ">",
   "diagnostic.infoSign": "i",
+
   "git.addedSign.hlGroup": "GitGutterAdd",
   "git.changedSign.hlGroup": "GitGutterChange",
   "git.removedSign.hlGroup": "GitGutterDelete",
   "git.topRemovedSign.hlGroup": "GitGutterDelete",
   "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
   "git.branchCharacter": "",
-  "cSpell.showStatus": false,
-  "cSpell.enabled": false,
+
   "prettier.printWidth": 80,
   "prettier.tabWidth": 2,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
   "prettier.semi": false,
-  "prettier.useTabs": false
+  "prettier.useTabs": false,
+
+ "cSpell.showStatus": false,
+ "cSpell.enabled": false
 }

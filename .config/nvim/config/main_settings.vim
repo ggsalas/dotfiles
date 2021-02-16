@@ -58,8 +58,7 @@ else
 endif
 
 set nospell
-" au BufNewFile,BufReadPost,FilterReadPost,FileReadPost  * set nospell
-
+command! -bang Spell :setlocal spell! spelllang=en_us
 
 if has("nvim")
   set inccommand=nosplit          " preview replace

@@ -12,12 +12,14 @@ https://hnrss.org/newest?q=javascript&points=50 "developer" "js" "~hackerNews: j
 https://overreacted.io/rss.xml "developer" "js" "~Dan Abramov Blog"
 https://jasonformat.com/rss/ "developer" "js" "~Jason Miller"
 https://feeds.feedburner.com/2ality "developer" "js" "~2ality.com"
+https://stallman.org/rss/rss.xml "developer" "~Richard Stallman"
 
 # Vim
 https://www.reddit.com/r/neovim/top.rss "vim" "~reddit: neovim"
 https://www.reddit.com/r/vim/top.rss "vim" "~reddit: vim"
 https://hnrss.org/newest?q=neovim+OR+vim+OR+git&points=30 "vim" "~hackerNews: vim"
 https://github.com/neovim/neovim/tags.atom "vim" "~Neovim App Updates"
+https://neovim.io/news.xml "vim" "~Neovim Updates"
 
 # Videos
 https://www.youtube.com/feeds/videos.xml?channel_id=UCQX_MZRCaluNKxkywkLEgfA "videos" "~YouTube: Javier Santaolalla"

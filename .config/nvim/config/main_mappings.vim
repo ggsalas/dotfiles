@@ -103,7 +103,7 @@ command! -bang ColorLight call ColorLight()<bang>
 
 " Config
 command! -bang ConfigNvim :e ~/.config/nvim/init.vim<bang>
-nnoremap <silent> <c-s>s :so $MYVIMRC<CR>
+command! -bang ConfigReload :so ~/.config/nvim/init.vim<bang>
 
 " NewsBoat urls
 command! -bang Feeds :e ~/.newsboat/urls<bang>

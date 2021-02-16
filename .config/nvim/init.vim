@@ -1,3 +1,8 @@
+" Disable unused providers
+let g:loaded_python_provider = 0
+let g:loaded_python3_provider = 0
+let g:loaded_ruby_provider = 0
+
 function! s:SourceConfigFile(fileName)
   execute 'source' '~/.config/nvim/config/' . a:fileName . '.vim'
 endfunction
