@@ -57,9 +57,6 @@ else
   set signcolumn=yes
 endif
 
-set nospell
-command! -bang Spell :setlocal spell! spelllang=en_us
-
 if has("nvim")
   set inccommand=nosplit          " preview replace
 endif
@@ -70,13 +67,13 @@ set shortmess+=c
 " ignore folders for :find
 set wildignore+=*/min/*,*/vendor/*,*/node_modules/*,*/bower_components/*
 
-" ckeck for external changes with buffer gains focus
+" check for external changes with buffer gains focus
 set autoread
 
 " " comments
 filetype plugin on
 
-" check if with lazyredraw cursorline works more fluid on scroll
+" check if with lazy-redraw cursor-line works more fluid on scroll
 set lazyredraw
 set cursorline
 
@@ -92,3 +89,15 @@ set splitbelow " Split windows, ie Help, make more sense to me below
 set foldmethod=syntax
 set foldlevelstart=99         " start unfold
 set foldtext=CustomFoldText()
+
+" Spell
+" set spell spelllang=en_us
+augroup doSpell
+    autocmd!
+    autocmd FileType markdown,javascript,typescript,typescriptreact setlocal spell
+augroup END
+
+set spelloptions=camel
+command! -bang Spell :setlocal spell! spelllang=en_us
+" command! -bang SpellAll :set spell! spelllang=en_us
+
