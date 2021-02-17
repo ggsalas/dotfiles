@@ -1,10 +1,11 @@
 Plug 'janko-m/vim-test'
 
-let test#strategy = {
-  \ 'nearest': 'neovim',
-  \ 'file':    'dispatch',
-  \ 'suite':   'basic',
-\}
+let test#strategy = "neovim"
+" let test#strategy = {
+"   \ 'nearest': 'neovim',
+"   \ 'file':    'dispatch',
+"   \ 'suite':   'basic',
+" \}
 
 " Tests JS mappings
 nmap <leader>tc :!npm run test -- --coverage<CR>

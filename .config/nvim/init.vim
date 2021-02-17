@@ -8,6 +8,8 @@ function! s:SourceConfigFile(fileName)
   execute 'source' '~/.config/nvim/config/' . a:fileName . '.vim'
 endfunction
 
+" Config before "plug"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call s:SourceConfigFile('main_settings')
 call s:SourceConfigFile('main_mappings')
 
@@ -26,7 +28,7 @@ call plug#begin()
   call s:SourceConfigFile('plug_comment')
 
   " Plugins witout config
-  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   Plug 'pbrisbin/vim-mkdir'                                     " create new dirs on save file
   Plug 'tpope/vim-fugitive'                                     " Git 
   Plug 'itchyny/vim-gitbranch'                                  " Git branch name

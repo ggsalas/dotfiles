@@ -3,7 +3,13 @@ Plug 'chriskempson/base16-vim'
 set termguicolors
 syntax enable
 
-" COC statusline
+" Cursor
+" In normal and visual mode use block cursor with with colors from "Cursor" highlight group
+" In insert-like modes use a block with cursor with default colors
+" In Replace-likes modes, use a underline cursor with default colors.
+set guicursor=n-v:block-Cursor,i-ci-ve-c-ci:block,r-cr:hor20,o:hor50
+
+" Get linter diagnostic from COC.nvim
 function! StatusDiagnostic() abort
   let info = get(b:, 'coc_diagnostic_info', {})
   if empty(info) | return '' | endif
@@ -42,6 +48,7 @@ endfunction
 " base 16 colors
 " Color list: http://chriskempson.com/projects/base16/
 function! s:base16_customize() abort
+  call Base16hi("Cursor", g:base16_gui00, g:base16_gui0F, g:base16_cterm00, g:base16_cterm05, "", "")
   call Base16hi("StatusLine", g:base16_gui00, g:base16_gui05, g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("StatusLineNC", g:base16_gui05, g:base16_gui02, g:base16_cterm01, g:base16_cterm05, "bold", "")
 

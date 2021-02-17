@@ -57,6 +57,7 @@ nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
 nnoremap <C-h> <C-w><C-h>
 nnoremap <C-l> <C-w><C-l>
+nnoremap <C-w><C-w> <C-w><C-p>
 " noremap <Leader>s :<C-u>split<CR>
 " noremap <Leader>v :<C-u>vsplit<CR>
 
@@ -67,10 +68,10 @@ nnoremap <Left>  :vertical resize -2<CR>
 nnoremap <Right> :vertical resize +2<CR>
 
 " Moovments
-" nnoremap <C-u> <S-M><C-U>zz
-" nnoremap <C-d> <S-M><C-D>zz
-" nmap <C-f> <C-f>zz
-" nmap <C-b> <C-b>zz
+nnoremap <C-u> <S-M><C-U>zz
+nnoremap <C-d> <S-M><C-D>zz
+nmap <C-f> <C-f>zz
+nmap <C-b> <C-b>zz
 
 " Center moovments
 nmap n nzz

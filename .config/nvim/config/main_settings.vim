@@ -47,6 +47,7 @@ set wildmenu
 set incsearch
 set hlsearch
 set relativenumber
+set scrolloff=8
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
