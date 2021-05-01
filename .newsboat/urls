@@ -1,16 +1,16 @@
 # News
-https://www.infobae.com/feeds/rss/ "news"
-https://www.freefullrss.com/feed.php?url=https%3A%2F%2Frss.nytimes.com%2Fservices%2Fxml%2Frss%2Fnyt%2FHomePage.xml&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS "news" "~NYT Top Stories"
-https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fwww.batimes.com.ar%2Ffeed&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS "news" "~batimes"
-https://jorgeasisdigital.com/feed "news" "~Jorge Asis Digital"
+# https://www.infobae.com/feeds/rss/ "news"
+# https://www.freefullrss.com/feed.php?url=https%3A%2F%2Frss.nytimes.com%2Fservices%2Fxml%2Frss%2Fnyt%2FHomePage.xml&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS "news" "~NYT Top Stories"
+# https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fwww.batimes.com.ar%2Ffeed&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS "news" "~batimes"
+# https://jorgeasisdigital.com/feed "news" "~Jorge Asis Digital"
 https://politepol.com/fd/fiKhtvOOu4Gz "news" "videos" "~YouTube: Jorge Asis"
 https://www.freefullrss.com/feed.php?url=https%3A%2F%2Fpolitepol.com%2Ffd%2FO8KhwXgg2Cq8&max=10&links=preserve&exc=&submit=Create+Full+Text+RSS "news" "~Periodismo Puro"
 
 # Developer
 https://www.reddit.com/r/javascript/top.rss "developer" "js" "~reddit: javascript"
 https://hnrss.org/newest?q=javascript&points=50 "developer" "js" "~hackerNews: javascript"
-https://overreacted.io/rss.xml "developer" "js" "~Dan Abramov Blog"
-https://jasonformat.com/rss/ "developer" "js" "~Jason Miller"
+# https://overreacted.io/rss.xml "developer" "js" "~Dan Abramov Blog"
+# https://jasonformat.com/rss/ "developer" "js" "~Jason Miller"
 https://feeds.feedburner.com/2ality "developer" "js" "~2ality.com"
 https://stallman.org/rss/rss.xml "developer" "~Richard Stallman"
 

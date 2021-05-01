@@ -113,7 +113,7 @@ command! -bang Feeds :e ~/.newsboat/urls<bang>
 inoremap ∫ <C-R>=Branch()<CR>
 
 " Execute current file with node
-" nmap <leader>en :!node %<CR>
+nmap <leader>n :!node %<CR>
 
 " replace word under cursor, globally, with confirmation
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>

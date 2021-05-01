@@ -1,6 +1,7 @@
-Plug 'simnalamburt/vim-mundo'
+" Plug 'simnalamburt/vim-mundo'
+Plug 'mbbill/undotree'
 
-nnoremap <Leader>u :MundoToggle<CR>
+nnoremap <Leader>u :UndotreeToggle<CR>
 
 " Undo persistent after close file
 set undofile

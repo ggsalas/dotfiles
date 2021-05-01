@@ -1,7 +1,8 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less -R"
-export BROWSER="Google Chrome"
+# export BROWSER="Google Chrome"
+export BROWSER="Brave"
 export LANG="en_US.UTF-8"
 export BAT_THEME=OneHalfLight
 
@@ -20,8 +21,12 @@ source ~/.config/zsh/git.zsh
 # nnn
 source ~/.config/nnn/nnn.zsh
 
+# kindle
+source ~/developer/calibreNews/kindle.zsh
+
 # Moodys config
 source ~/.moodys.zsh
+
 
 #################################################################################
 # Basic auto/tab complete:

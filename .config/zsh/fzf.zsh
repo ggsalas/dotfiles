@@ -1,5 +1,6 @@
 local GLOBAL_BINDS="ctrl-d:preview-down,ctrl-u:preview-up,?:toggle-preview"
-export FZF_DEFAULT_COMMAND="rg --files --hidden"
+# export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --exclude .git"
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_COMPLETION_TRIGGER='*'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_R_OPTS='--sort --exact --layout=reverse'

@@ -20,12 +20,13 @@ call plug#begin()
   call s:SourceConfigFile('plug_coc')
   call s:SourceConfigFile('plug_dirvish')
   call s:SourceConfigFile('plug_grep')
-  call s:SourceConfigFile('plug_slime')
   call s:SourceConfigFile('plug_sneak')
   call s:SourceConfigFile('plug_test')
   call s:SourceConfigFile('plug_syntax')
   call s:SourceConfigFile('plug_markdown')
   call s:SourceConfigFile('plug_comment')
+  " call s:SourceConfigFile('plug_slime')
+  " call s:SourceConfigFile('plug_repl')
 
   " Plugins witout config
   """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
