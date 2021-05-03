@@ -81,7 +81,8 @@ brew install --cask calibre
 
 # Neovim 0.5
 brew install neovim --HEAD
-npm install -g typescript-language-server
+npm install -g neovim
+"npm install -g typescript-language-server
 
 
 # install Plug for vim

@@ -47,7 +47,22 @@ call plug#begin()
   " extras
   " Plug 'godlygeek/tabular'                                      " tables format, and more.
   " Plug 'christoomey/vim-tmux-navigator'                         " same navigation for vim and tmux
+
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
 call plug#end()
 
 
 lua require("lsp")
+lua <<EOF
+local colorscheme = require('colorscheme')
+colorscheme.setup('solarized-light')
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = { "javascript" }, -- List of parsers to ignore installing
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+  },
+}
+EOF
