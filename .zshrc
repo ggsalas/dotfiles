@@ -18,14 +18,14 @@ source ~/.config/zsh/prompt.zsh
 # git
 source ~/.config/zsh/git.zsh
 
-# nnn
-source ~/.config/nnn/nnn.zsh
-
-# kindle
-source ~/developer/calibreNews/kindle.zsh
-
-# Moodys config
-source ~/.moodys.zsh
+# # nnn
+# source ~/.config/nnn/nnn.zsh
+# 
+# # kindle
+# source ~/developer/calibreNews/kindle.zsh
+# 
+# # Moodys config
+# source ~/.moodys.zsh
 
 
 #################################################################################

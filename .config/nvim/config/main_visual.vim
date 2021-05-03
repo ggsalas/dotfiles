@@ -90,7 +90,7 @@ augroup END
 " Status Line 
 set statusline =\[%{gitbranch#name()}]\ %f\ %m
 set statusline +=\ %*%=\ %*
-set statusline +=\ %*%=\ %*%{StatusDiagnostic()}\ %*
+"TODO set statusline +=\ %*%=\ %*%{StatusDiagnostic()}\ %*
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
