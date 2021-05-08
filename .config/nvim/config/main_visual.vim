@@ -1,5 +1,6 @@
 Plug 'RRethy/nvim-base16'
 Plug 'chriskempson/base16-vim'
+Plug 'nvim-lua/lsp-status.nvim'
 
 set termguicolors
 syntax enable
@@ -10,18 +11,13 @@ syntax enable
 " In Replace-likes modes, use a underline cursor with default colors.
 set guicursor=n-v:block-Cursor,i-ci-ve-c-ci:block,r-cr:hor20,o:hor50
 
-" Get linter diagnostic from COC.nvim
-function! StatusDiagnostic() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, 'E' . info['error'])
+" Get linter diagnostic from nvim native lsp
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
   endif
-  if get(info, 'warning', 0)
-    call add(msgs, 'W' . info['warning'])
-  endif
-  return join(msgs, ' ') . ' ' 
+
+  return ''
 endfunction
 
 function! s:changeColorsBasedOnMacos() abort
@@ -46,6 +42,9 @@ function! ColorDark()
   color base16-dracula
 endfunction
 
+" GitGutter
+let g:gitgutter_override_sign_column_highlight = 0
+
 " base 16 colors
 " Color list: http://chriskempson.com/projects/base16/
 function! s:base16_customize() abort
@@ -58,6 +57,11 @@ function! s:base16_customize() abort
   call Base16hi("SignColumn", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("Visual", g:base16_gui00, g:base16_gui03, g:base16_cterm00, g:base16_cterm05, "", "")
 
+   call Base16hi("GitGutterAdd ", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+   call Base16hi("GitGutterChange", g:base16_gui0E, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+   call Base16hi("GitGutterDelete", g:base16_gui08, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+   call Base16hi("GitGutterChangeDelete", g:base16_gui08, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+
   call Base16hi("CocErrorHighlight", "", "transparent", g:base16_cterm00, g:base16_cterm05, "", "")
   call Base16hi("CocErrorSign", g:base16_gui08, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("CocWarningSign", g:base16_gui09, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
@@ -66,6 +70,7 @@ function! s:base16_customize() abort
 
   call Base16hi("TabLineSel", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
 endfunction
+
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -91,7 +96,7 @@ augroup END
 " Status Line 
 set statusline =\[%{gitbranch#name()}]\ %f\ %m
 set statusline +=\ %*%=\ %*
-"TODO set statusline +=\ %*%=\ %*%{StatusDiagnostic()}\ %*
+set statusline +=\ %*%=\ %*%{LspStatus()}\ %*
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =

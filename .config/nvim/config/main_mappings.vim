@@ -53,11 +53,10 @@ nnoremap <silent> <leader>rs :cfdo update<CR>
 " nnoremap <leader>f :find
 
 " Tabs & splits
-nnoremap <C-j> <C-w><C-j>
-nnoremap <C-k> <C-w><C-k>
-nnoremap <C-h> <C-w><C-h>
-nnoremap <C-l> <C-w><C-l>
-nnoremap <C-w><C-w> <C-w><C-p>
+nmap <silent> <C-j> :wincmd j<CR>
+nmap <silent> <C-k> :wincmd k<CR>
+nmap <silent> <C-h> :wincmd h<CR>
+nmap <silent> <C-l> :wincmd l<CR>
 " noremap <Leader>s :<C-u>split<CR>
 " noremap <Leader>v :<C-u>vsplit<CR>
 
@@ -91,9 +90,6 @@ nnoremap ∆ :m .+1<CR>==
 nnoremap ˚ :m .-2<CR>==
 vnoremap ∆ :m '>+1<CR>gv=gv
 vnoremap ˚ :m '<-2<CR>gv=gv
-
-" Tabularize
-vmap <leader>ta :Tabularize /
 
 " search current selection
 xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>

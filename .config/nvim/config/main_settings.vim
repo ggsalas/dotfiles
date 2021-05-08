@@ -47,7 +47,7 @@ set wildmenu
 set incsearch
 set hlsearch
 set relativenumber
-set scrolloff=8
+set scrolloff=1
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
@@ -98,7 +98,7 @@ augroup doSpell
     autocmd FileType markdown,javascript,typescript,typescriptreact setlocal spell
 augroup END
 
+if has("patch:8.2.0953")
 set spelloptions=camel
+endif
 command! -bang Spell :setlocal spell! spelllang=en_us
-" command! -bang SpellAll :set spell! spelllang=en_us
-

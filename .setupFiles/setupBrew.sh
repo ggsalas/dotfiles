@@ -46,6 +46,11 @@ brew install broot
 brew install nnn
 brew install highlight
 
+# Fonts
+brew tap homebrew/cask-fonts
+brew install --cask font-jetbrains-mono-nerd-font
+
+
 
 #Communication Apps
 # brew install --cask keybase
@@ -53,6 +58,7 @@ brew install --cask slack
 brew install --cask skype
 brew install --cask discord
 brew install --cask whatsapp
+brew install --cask element
 brew install newsboat
 
 # 
@@ -81,7 +87,8 @@ brew install --cask calibre
 
 # Neovim 0.5
 brew install neovim --HEAD
-npm install -g neovim
+brew install ripgrep
+npm install -g neovim prettier eslint
 "npm install -g typescript-language-server
 
 
