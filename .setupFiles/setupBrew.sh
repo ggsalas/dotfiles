@@ -50,8 +50,6 @@ brew install highlight
 brew tap homebrew/cask-fonts
 brew install --cask font-jetbrains-mono-nerd-font
 
-
-
 #Communication Apps
 # brew install --cask keybase
 brew install --cask slack
@@ -61,14 +59,14 @@ brew install --cask whatsapp
 brew install --cask element
 brew install newsboat
 
-# 
 # #Web Tools
 brew install --cask google-chrome
 brew install --cask brave-browser
 brew install --cask firefox
 # brew install --cask google-chrome-canary
-# 
+ 
 # #Other tools
+brew install google-drive
 brew install --cask simplenote
 brew install --cask karabiner-elements
 brew install --cask rectangle
@@ -91,24 +89,10 @@ brew install ripgrep
 npm install -g neovim prettier eslint
 "npm install -g typescript-language-server
 
-
 # install Plug for vim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
  
-# echo "Installing other sofware without brew"
-# # gem update neovim
-# # npm install -g neovim
-# # pip install pynvim
-# # pip install neovim
-# # pip3 install pynvim
-# # pip3 install neovim
-# # sudo gem install neovim
-# 
-# # install Plug for vim
-# curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-#     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
 # zsh plugins
 # git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 # git clone https://github.com/wfxr/forgit.git ~/.zsh/forgit

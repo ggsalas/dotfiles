@@ -21,7 +21,7 @@ call plug#begin()
   call s:SourceConfigFile('plug_grep')
   call s:SourceConfigFile('plug_test')
   call s:SourceConfigFile('plug_markdown')
-  " call s:SourceConfigFile('plug_comment')
+  call s:SourceConfigFile('plug_comment')
   call s:SourceConfigFile('plug_syntax')
 
   " plug_lsp.vim && lspconfig.lua
