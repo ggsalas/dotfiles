@@ -28,9 +28,10 @@ call plug#begin()
   Plug 'neovim/nvim-lspconfig'
   Plug 'kabouzeid/nvim-lspinstall'
   Plug 'hrsh7th/nvim-compe'
+  Plug 'nvim-lua/lsp-status.nvim'
 
   " plug_formatter
-  Plug 'sbdchd/neoformat'
+  " Plug 'sbdchd/neoformat'
 
   " plug_telescope & telescopeConfig.lua
   Plug 'nvim-lua/popup.nvim'
@@ -61,4 +62,4 @@ call plug#end()
 lua require("config")
 call s:SourceConfigFile('plug_telescope')
 call s:SourceConfigFile('plug_lsp')
-call s:SourceConfigFile('plug_formatter')
+" call s:SourceConfigFile('plug_formatter')

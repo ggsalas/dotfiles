@@ -1,0 +1,27 @@
+" files & grep
+nnoremap <leader>f <cmd>lua require'telescope.builtin'.find_files({ prompt_title = '< Search Files >'})<CR>
+nnoremap <leader>j <cmd>lua require'config.telescopeconfig'.buffer_list({ prompt_title = '< Search Buffers >'})<CR>
+nnoremap <leader>s <cmd>lua require('telescope.builtin.files').live_grep({ prompt_title = '< Live Grep in working dir... >'})<CR>
+nnoremap <leader>* <cmd>lua require'telescope.builtin'.grep_string({ prompt_title = '< Live Grep "under cursor" in working dir... >' })<CR>
+command! -nargs=* -bang Grep :lua require'config.telescopeconfig'.grep_in_folder(<f-args>)<cr>
+
+" lsp mapings
+nnoremap <silent>gr <cmd>lua require'telescope.builtin'.lsp_references()<CR>
+nnoremap <silent>gd <cmd>lua require'telescope.builtin'.lsp_definitions()<CR>
+nnoremap <silent>ga <cmd>lua require'telescope.builtin'.lsp_code_actions()<CR>
+
+" git mappings
+nnoremap <leader>gs <cmd>lua require'telescope.builtin'.git_status()<CR>
+nnoremap <leader>gt <cmd>lua require'telescope.builtin'.git_stash()<CR>
+nnoremap <leader>gb <cmd>lua require'telescope.builtin'.git_branches()<CR>
+command! -bang Branches :lua require'telescope.builtin'.git_branches()<CR>
+
+" vim
+nnoremap <leader>gh <cmd>lua require'telescope.builtin'.help_tags({ prompt_title = '< Search Vim Help >' })<cr>
+nnoremap <leader>gn <cmd>lua require'telescope.builtin'.man_pages({ prompt_title = '< Search Man Pages >' })<cr>
+nnoremap <leader>gm <cmd>lua require'telescope.builtin'.marks({ prompt_title = '< Search Marks >' })<cr>
+nnoremap <leader>gq <cmd>lua require'telescope.builtin'.quickfix({ prompt_title = '< Search QuickFix list >' })<cr>
+nnoremap <leader>z <cmd>lua require'telescope.builtin'.spell_suggest({ prompt_title = '< Spell Suggestions >' })<cr>
+nnoremap <leader>gc <cmd>lua require'config.telescopeconfig'.search_config({ prompt_title = '< Search Config Files >' })<cr>
+command! -bang Config :lua require'config.telescopeconfig'.search_config({ prompt_title = '< Search Config Files >' })<cr>
+command! -bang Notes :lua require'config.telescopeconfig'.search_notes({ prompt_title = '< Search Notes >' })<cr>

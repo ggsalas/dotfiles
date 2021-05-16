@@ -45,6 +45,7 @@ brew install git-delta
 brew install broot
 brew install nnn
 brew install highlight
+brew install fzf
 
 # Fonts
 brew tap homebrew/cask-fonts
@@ -86,7 +87,8 @@ brew install --cask calibre
 # Neovim 0.5
 brew install neovim --HEAD
 brew install ripgrep
-npm install -g neovim prettier eslint
+brew install go
+npm install -g neovim prettier eslint prettier-eslint-cli eslint_d
 "npm install -g typescript-language-server
 
 # install Plug for vim

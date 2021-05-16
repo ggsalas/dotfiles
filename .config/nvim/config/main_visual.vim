@@ -1,6 +1,5 @@
 Plug 'RRethy/nvim-base16'
 Plug 'chriskempson/base16-vim'
-Plug 'nvim-lua/lsp-status.nvim'
 
 set termguicolors
 syntax enable
@@ -44,6 +43,7 @@ endfunction
 
 " GitGutter
 let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_sign_allow_clobber = 0
 
 " base 16 colors
 " Color list: http://chriskempson.com/projects/base16/
@@ -68,9 +68,15 @@ function! s:base16_customize() abort
   call Base16hi("CocInfoSign", g:base16_gui0E, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
   call Base16hi("CocHintSign", g:base16_gui03, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
 
-  call Base16hi("TabLineSel", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
-endfunction
+  call Base16hi("TelescopeMatching", g:base16_gui08, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
 
+  call Base16hi("TabLineSel", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+
+  call Base16hi("SpellBad", "", "", "", "", "undercurl", g:base16_gui03)
+  call Base16hi("SpellCap", "", "", "", "", "none", "")
+  call Base16hi("SpellRare", "", "", "", "", "none", "")
+  call Base16hi("SpellLocal", "", "", "", "", "none", "")
+endfunction
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],

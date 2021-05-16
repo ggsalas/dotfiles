@@ -87,18 +87,35 @@ au filetype help set nonumber
 set splitbelow " Split windows, ie Help, make more sense to me below
 
 " Folds
-set foldmethod=syntax
-set foldlevelstart=99         " start unfold
-set foldtext=CustomFoldText()
+"""""""
+function SetFold()
+  setlocal foldmethod=expr
+  setlocal foldexpr=nvim_treesitter#foldexpr() " nvim_treesitter
+  setlocal foldlevel=99         " start unfold
+  setlocal foldtext=CustomFoldText()
+endfunction
 
-" Spell
-" set spell spelllang=en_us
-augroup doSpell
-    autocmd!
-    autocmd FileType markdown,javascript,typescript,typescriptreact setlocal spell
+function SetFoldMarkdown()
+  setlocal foldmethod=syntax
+  setlocal foldlevel=1
+  setlocal foldtext=CustomFoldText()
+endfunction
+
+augroup doSetFold
+  autocmd FileType javascript,typescript,typescriptreact,json call SetFold()
+  autocmd FileType markdown call SetFoldMarkdown()
 augroup END
 
-if has("patch:8.2.0953")
-set spelloptions=camel
-endif
-command! -bang Spell :setlocal spell! spelllang=en_us
+" Spell
+"""""""
+set nospell
+
+function SetSpellOptions()
+  setlocal spell spelllang=en_us
+  setlocal spelloptions=camel 
+endfunction
+
+augroup doSpell
+    autocmd FileType markdown,javascript,typescript,typescriptreact call SetSpellOptions()
+augroup END
+
