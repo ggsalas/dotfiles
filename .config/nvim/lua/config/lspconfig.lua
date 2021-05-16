@@ -1,11 +1,28 @@
 require'lspinstall'.setup()
 
+vim.lsp.set_log_level("debug")
+
 DATA_PATH = vim.fn.stdpath('data')
 CACHE_PATH = vim.fn.stdpath('cache')
 
 local lsp = require'lspconfig'
 
-lsp.typescript.setup{}
+local on_attach = function(client)
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd [[augroup lsp_formatting]]
+    vim.cmd [[autocmd!]]
+    vim.cmd [[autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync(nil, 1000)]]
+    vim.cmd [[augroup END]]
+  end
+end
+
+lsp.tsserver.setup({
+  on_attach = function(client)
+    client.resolved_capabilities.document_formatting = false
+
+    on_attach(client)
+  end,
+})
 lsp.css.setup{}
 lsp.graphql.setup{}
 lsp.html.setup{}
@@ -26,56 +43,44 @@ lsp.lua.setup{
 -- efm setup
 ------------
 
--- tsserver/web javascript react, vue, json, html, css, yaml
-local prettier = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
 -- You can look for project scope Prettier and Eslint with e.g. vim.fn.glob("node_modules/.bin/prettier") etc. If it is not found revert to global Prettier where needed.
 -- local prettier = {formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}
-
+local prettier = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
 local eslint = {
-    lintCommand = "./node_modules/.bin/eslint -f unix --stdin --stdin-filename ${INPUT}",
+    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
     lintIgnoreExitCode = true,
     lintStdin = true,
     lintFormats = {"%f:%l:%c: %m"},
-    formatCommand = "./node_modules/.bin/eslint --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+    formatCommand = "eslint_d -f unix --fix-to-stdout --stdin --stdin-filename ${INPUT}",
     formatStdin = true
 }
 
 local tsserver_args = {}
-local auto_formatters = {}
-local javascript_autoformat = {'BufWritePre', '*.js', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'}
-local javascriptreact_autoformat = {'BufWritePre', '*.jsx', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'}
-local typescript_autoformat = {'BufWritePre', '*.ts', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'}
-local typescriptreact_autoformat = {'BufWritePre', '*.tsx', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'}
-
 table.insert(tsserver_args, prettier)
 table.insert(tsserver_args, eslint)
 
--- autoformat
-table.insert(auto_formatters, javascript_autoformat)
-table.insert(auto_formatters, javascriptreact_autoformat)
-table.insert(auto_formatters, typescript_autoformat)
-table.insert(auto_formatters, typescriptreact_autoformat)
-
 lsp.efm.setup {
    cmd = {DATA_PATH .. "/lspinstall/efm/efm-langserver"},
-   init_options = {documentFormatting = true, codeAction = true},
-   filetypes = {"lua", "javascriptreact", "javascript", "typescript","typescriptreact","sh", "html", "css", "json", "yaml", "markdown", "vue"},
+   init_options = {documentFormatting = true, codeAction = false},
+   filetypes = {"lua", "javascriptreact", "javascript", "typescript","typescriptreact","sh", "html", "css", "scss", "json", "yaml", "markdown", "vue"},
    settings = {
        rootMarkers = {".git/"},
        languages = {
-           -- lua = lua_arguments,
-           -- sh = sh_arguments,
            javascript = tsserver_args,
            javascriptreact = tsserver_args,
            typescript = tsserver_args,
            typescriptreact = tsserver_args,
            html = {prettier},
            css = {prettier},
+           scss = {prettier},
            json = {prettier},
            yaml = {prettier},
+           -- lua = lua_arguments,
+           -- sh = sh_arguments,
            -- markdown = {markdownPandocFormat}
        }
    },
+   on_attach = on_attach
 }
 
 -- Plug lsp-status
