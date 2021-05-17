@@ -13,9 +13,9 @@ nnoremap <silent>ga <cmd>lua require'telescope.builtin'.lsp_code_actions()<CR>
 " git mappings
 nnoremap <leader>gt <cmd>lua require'telescope.builtin'.git_stash()<CR>
 nnoremap <leader>gb <cmd>lua require'telescope.builtin'.git_branches()<CR>
-nnoremap <leader>gc <cmd>lua require'config.telescopeconfig'.delta_git_bcommits()<CR>
-nnoremap <leader>gC <cmd>lua require'config.telescopeconfig'.delta_git_commits()<CR>
-nnoremap <leader>gf <cmd>lua require'config.telescopeconfig'.delta_git_status()<CR>
+nnoremap <leader>gc <cmd>lua require'telescope.builtin'.git_bcommits()<CR>
+nnoremap <leader>gC <cmd>lua require'telescope.builtin'.git_commits()<CR>
+nnoremap <leader>gf <cmd>lua require'telescope.builtin'.git_status()<CR>
 command! -bang Branches :lua require'telescope.builtin'.git_branches()<CR>
 
 " vim
@@ -24,6 +24,5 @@ nnoremap <leader>gn <cmd>lua require'telescope.builtin'.man_pages({ prompt_title
 nnoremap <leader>gm <cmd>lua require'telescope.builtin'.marks({ prompt_title = '< Search Marks >' })<cr>
 nnoremap <leader>gq <cmd>lua require'telescope.builtin'.quickfix({ prompt_title = '< Search QuickFix list >' })<cr>
 nnoremap <leader>z <cmd>lua require'telescope.builtin'.spell_suggest({ prompt_title = '< Spell Suggestions >' })<cr>
-" nnoremap <leader>gc <cmd>lua require'config.telescopeconfig'.search_config({ prompt_title = '< Search Config Files >' })<cr>
 command! -bang Config :lua require'config.telescopeconfig'.search_config({ prompt_title = '< Search Config Files >' })<cr>
 command! -bang Notes :lua require'config.telescopeconfig'.search_notes({ prompt_title = '< Search Notes >' })<cr>

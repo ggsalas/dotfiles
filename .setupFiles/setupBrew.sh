@@ -8,7 +8,8 @@
 
 
 #Programming Languages
-brew install node
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+# brew install node
 # brew install ruby
 # brew install python
 # brew install python@2

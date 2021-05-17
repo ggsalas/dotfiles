@@ -83,6 +83,7 @@ M.buffer_list = function()
 end
 
 -- use delta for diff
+-- TODO: get <c-d> and <c-u> work with this to scroll the preview
 ---------------------
 local delta = previewers.new_termopen_previewer {
   get_command = function(entry)
