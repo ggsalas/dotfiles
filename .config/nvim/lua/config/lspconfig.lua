@@ -111,6 +111,6 @@ lsp_status.config({
   indicator_warnings = '',
   indicator_info = 'ℹ',
   indicator_hint = '',
-  indicator_ok = ' ',
+  indicator_ok = ' ',
   status_symbol= ' ',
 })

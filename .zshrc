@@ -22,10 +22,10 @@ source ~/.config/zsh/git.zsh
 source ~/.config/nnn/nnn.zsh
 
 # # kindle
-# source ~/developer/calibreNews/kindle.zsh
-# 
+source ~/developer/calibreNews/kindle.zsh
+ 
 # Moodys config
-source ~/Google\ Drive/My\ Drive/.config-private/moodys.zsh
+source /Volumes/GoogleDrive/My\ Drive/.config-private/moodys.zsh
 
 
 #################################################################################

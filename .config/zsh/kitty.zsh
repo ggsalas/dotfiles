@@ -17,7 +17,7 @@ function ks() {
   session=$@
 
   kitty \
-    --session ~/Google\ Drive/My\ Drive/.config-private/kitty-sessions/${session}.conf \
+    --session /Volumes/GoogleDrive/My\ Drive/.config-private/kitty-sessions/${session}.conf \
     --title ${session} \
     --single-instance \
     </dev/null &>/dev/null &
