@@ -7,14 +7,15 @@ CACHE_PATH = vim.fn.stdpath('cache')
 
 local lsp = require'lspconfig'
 
-local on_attach = function(client)
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd [[augroup lsp_formatting]]
-    vim.cmd [[autocmd!]]
-    vim.cmd [[autocmd BufWritePre <buffer> :lua vim.lsp.buf.formatting_sync(nil, 1000)]]
-    vim.cmd [[augroup END]]
-  end
-end
+-- For some reason fails randomly. Added an augroup into plug_lsp.vim
+-- local on_attach = function(client)
+--   if client.resolved_capabilities.document_formatting then
+--     vim.cmd [[augroup lsp_formatting]]
+--     vim.cmd [[autocmd!]]
+--     vim.cmd [[au BufWritePre * <cmd>lua vim.lsp.buf.formatting_sync(nil, 1000)]]
+--     vim.cmd [[augroup END]]
+--   end
+-- end
 
 lsp.tsserver.setup({
   on_attach = function(client)

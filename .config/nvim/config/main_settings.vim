@@ -36,7 +36,7 @@ set smartcase         " Use case insensitive search, except when using capital l
 set wildignorecase    " Use case insensitive search for filenames
 set mouse=a
 set path+=**          " Search files into subfolders
-set hidden            " Required for operations modifying multiple buffers like rename.
+set hidden            " Switch buffers without need to save
 set iskeyword+=-      " Allow word with dashes
 set nobackup
 set nowritebackup
