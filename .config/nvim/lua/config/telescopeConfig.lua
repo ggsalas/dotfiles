@@ -22,6 +22,11 @@ require('telescope').setup{
     fzy_native = {
       override_generic_sorter = false,
       override_file_sorter = true,
+    },
+    fzf_writer = {
+      minimum_grep_characters = 3,
+      minimum_files_characters = 3,
+      use_highlighter = true,
     }
   }
 }
@@ -32,28 +37,31 @@ local M = {}
 
 M.search_config = function()
     require("telescope.builtin").find_files({
-        prompt_title = "< Config >",
-        cwd = "$HOME/.config/",
+      shorten_path = true,
+      prompt_title = "< Config >",
+      cwd = "$HOME/.config/",
     })
 end
 
 M.search_notes = function()
     require("telescope.builtin").find_files({
-        prompt_title = "< Notes >",
-        cwd = "$HOME/Google Drive/My Drive/Notas",
+      shorten_path = true,
+      prompt_title = "< Notes >",
+      cwd = "$HOME/Google Drive/My Drive/Notas",
     })
 end
 
-
 M.grep_in_folder = function(dir)
-    require("telescope.builtin").live_grep({
-        prompt_title = string.format('< Live Grep on %s >', dir),
-        search_dirs={dir}
+    require('telescope').extensions.fzf_writer.staged_grep({
+      shorten_path = true,
+      prompt_title = string.format('< Live Grep on %s >', dir),
+      search_dirs={dir}
     })
 end
 
 M.buffer_list = function()
   require'telescope.builtin'.buffers{
+    shorten_path = true,
     sort_lastused = true,
     show_all_buffers = true,
     -- previewer = false,

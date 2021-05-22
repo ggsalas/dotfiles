@@ -1,4 +1,4 @@
-Plug 'RRethy/nvim-base16'
+" Plug 'RRethy/nvim-base16'
 Plug 'chriskempson/base16-vim'
 
 set termguicolors

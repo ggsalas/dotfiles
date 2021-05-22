@@ -49,14 +49,12 @@ autocmd FileType qf nnoremap <buffer> o <CR>
 nnoremap <leader>r :cfdo %s%%%gc
 nnoremap <silent> <leader>rs :cfdo update<CR>
 
-" find
-" nnoremap <leader>f :find
-
 " Tabs & splits
 nmap <silent> <C-j> :wincmd j<CR>
 nmap <silent> <C-k> :wincmd k<CR>
 nmap <silent> <C-h> :wincmd h<CR>
 nmap <silent> <C-l> :wincmd l<CR>
+nmap <silent> <leader>t :tabnew<CR>
 " noremap <Leader>s :<C-u>split<CR>
 " noremap <Leader>v :<C-u>vsplit<CR>
 

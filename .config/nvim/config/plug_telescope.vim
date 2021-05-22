@@ -1,9 +1,10 @@
 " files & grep
-nnoremap <leader>f <cmd>lua require'telescope.builtin'.find_files({ prompt_title = '< Search Files >'})<CR>
+nnoremap <leader>f <cmd>lua require'telescope.builtin'.find_files({ prompt_title = '< Search Files >', shorten_path = true})<CR>
 nnoremap <leader>j <cmd>lua require'config.telescopeconfig'.buffer_list({ prompt_title = '< Search Buffers >'})<CR>
-nnoremap <leader>s <cmd>lua require('telescope.builtin.files').live_grep({ prompt_title = '< Live Grep in working dir... >'})<CR>
-nnoremap <leader>* <cmd>lua require'telescope.builtin'.grep_string({ prompt_title = '< Live Grep "under cursor" in working dir... >' })<CR>
-command! -nargs=* -bang Grep :lua require'config.telescopeconfig'.grep_in_folder(<f-args>)<cr>
+nnoremap <leader>* <cmd>lua require'telescope.builtin'.grep_string({ prompt_title = '< Live Grep "under cursor" in working dir... >' , shorten_path = true})<CR>
+nnoremap <leader>s <cmd>lua require'config.telescopeconfig'.grep_in_folder('/')<CR>
+nnoremap <leader>S <cmd>lua require'config.telescopeconfig'.grep_in_folder('src')<CR>
+command! -nargs=* -bang Search :lua require'config.telescopeconfig'.grep_in_folder(<f-args>)<cr>
 
 " lsp mapings
 nnoremap <silent>gr <cmd>lua require'telescope.builtin'.lsp_references()<CR>

@@ -5,7 +5,7 @@ function! CustomFoldText()
 
     let nucolwidth = &foldcolumn + &number * &numberwidth
     let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart . ' lines '
+    let foldedlinecount = v:foldend - v:foldstart . ' lines  '
 
     " expand tabs into spaces
     let chunks = split(line, "\t", 1)

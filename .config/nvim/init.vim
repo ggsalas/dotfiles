@@ -31,10 +31,12 @@ call plug#begin()
   Plug 'nvim-lua/lsp-status.nvim'
 
   " plug_telescope & telescopeConfig.lua
+  " require fzf and rg
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
+  Plug 'nvim-telescope/telescope-fzf-writer.nvim'
 
   " treeSitter.lua
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
