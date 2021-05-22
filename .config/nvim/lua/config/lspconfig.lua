@@ -1,29 +1,11 @@
 require'lspinstall'.setup()
 
-vim.lsp.set_log_level("debug")
-
+-- vim.lsp.set_log_level("debug")
 DATA_PATH = vim.fn.stdpath('data')
 CACHE_PATH = vim.fn.stdpath('cache')
 
 local lsp = require'lspconfig'
 
--- For some reason fails randomly. Added an augroup into plug_lsp.vim
--- local on_attach = function(client)
---   if client.resolved_capabilities.document_formatting then
---     vim.cmd [[augroup lsp_formatting]]
---     vim.cmd [[autocmd!]]
---     vim.cmd [[au BufWritePre * <cmd>lua vim.lsp.buf.formatting_sync(nil, 1000)]]
---     vim.cmd [[augroup END]]
---   end
--- end
-
-lsp.tsserver.setup({
-  on_attach = function(client)
-    client.resolved_capabilities.document_formatting = false
-
-    on_attach(client)
-  end,
-})
 lsp.css.setup{}
 lsp.graphql.setup{}
 lsp.html.setup{}
@@ -31,6 +13,17 @@ lsp.json.setup{}
 lsp.yaml.setup{}
 lsp.bash.setup{}
 lsp.vim.setup{}
+
+-- Typescript setup
+-------------------
+lsp.tsserver.setup({
+  on_attach = function(client)
+    client.resolved_capabilities.document_formatting = false
+  end,
+})
+
+-- Lua setup
+------------
 lsp.lua.setup{
   settings = {
     Lua = {
@@ -41,11 +34,8 @@ lsp.lua.setup{
   }
 }
 
--- efm setup
-------------
-
--- You can look for project scope Prettier and Eslint with e.g. vim.fn.glob("node_modules/.bin/prettier") etc. If it is not found revert to global Prettier where needed.
--- local prettier = {formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}
+-- Efm setup (linter)
+---------------------
 local prettier = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
 local eslint = {
     lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
@@ -81,11 +71,19 @@ lsp.efm.setup {
            -- markdown = {markdownPandocFormat}
        }
    },
-   on_attach = on_attach
+   -- Using augroup on plug_lsp.vim because this stop work if open many buffers
+   -- on_attach = function(client)
+   --   if client.resolved_capabilities.document_formatting then
+   --     vim.cmd [[augroup Format]]
+   --     vim.cmd [[autocmd!]]
+   --     vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nill, 1000)]]
+   --     vim.cmd [[augroup END]]
+   --   end
+   -- end
 }
 
--- Plug lsp-status
-------------------
+-- Lsp-status setup (status line)
+---------------------------------
 local lsp_status = require('lsp-status')
 
 lsp_status.config {
