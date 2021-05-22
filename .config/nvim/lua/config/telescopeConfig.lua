@@ -65,7 +65,6 @@ M.buffer_list = function()
     sort_lastused = true,
     show_all_buffers = true,
     -- previewer = false,
-    -- shorten_path = false,
     attach_mappings = function(prompt_bufnr, map)
       local delete_buf = function()
         local current_picker = action_state.get_current_picker(prompt_bufnr)

@@ -1,14 +1,36 @@
-" Plug 'RRethy/nvim-base16'
+" Plug 'RRethy/nvim-base16' " Seems is not needed
 Plug 'chriskempson/base16-vim'
 
-set termguicolors
-syntax enable
-
-" Cursor
-" In normal and visual mode use block cursor with with colors from "Cursor" highlight group
-" In insert-like modes use a block with cursor with default colors
-" In Replace-likes modes, use a underline cursor with default colors.
-set guicursor=n-v:block-Cursor,i-ci-ve-c-ci:block,r-cr:hor20,o:hor50
+" Functions
+"""""""""""
+" Simple Tabs
+function NewTabLine()
+  let s = ''
+  let t = tabpagenr()
+  let i = 1
+  while i <= tabpagenr('$')
+    let buflist = tabpagebuflist(i)
+    let winnr = tabpagewinnr(i)
+    let s .= '%' . i . 'T'
+    let s .= (i != 1 ? '%#TabLine#' : '')
+    let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
+    let s .= ' '
+    let  file = fnamemodify(
+          \ bufname(tabpagebuflist(l:i)[tabpagewinnr(l:i) - 1]),
+          \ ':t'
+          \ )
+    if file == ''
+      let file = '[No Name]'
+    endif
+    let s .= file
+    let s .= ' '
+    let s .= (getbufvar(buflist[winnr - 1], "&mod") ? '+ ' : '')
+    let i = i + 1
+  endwhile
+  let s .= '%T%#TabLineFill#%='
+  let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
+  return s
+endfunction
 
 " Get linter diagnostic from nvim native lsp
 function! LspStatus() abort
@@ -40,6 +62,17 @@ function! ColorDark()
   set background=dark
   color base16-dracula
 endfunction
+
+" Main
+""""""
+set termguicolors
+syntax enable
+
+" Cursor
+" In normal and visual mode use block cursor with with colors from "Cursor" highlight group
+" In insert-like modes use a block with cursor with default colors
+" In Replace-likes modes, use a underline cursor with default colors.
+set guicursor=n-v:block-Cursor,i-ci-ve-c-ci:block,r-cr:hor20,o:hor50
 
 " GitGutter
 let g:gitgutter_override_sign_column_highlight = 0
@@ -103,6 +136,9 @@ augroup END
 set statusline =\[%{gitbranch#name()}]\ %f\ %m
 set statusline +=\ %*%=\ %*
 set statusline +=\ %*%=\ %*%{LspStatus()}\ %*
+
+" Tabs
+set tabline=%!NewTabLine()
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
