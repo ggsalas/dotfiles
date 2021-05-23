@@ -3,8 +3,10 @@
 Those dotfiles are managed with a bare Git repository. The idea is well explained [on this vieo](https://www.youtube.com/watch?v=tBoLDpTWVOM) and on [this post of atlassian](https://www.atlassian.com/git/tutorials/dotfiles)
 
 ## How to use
+
 1.  On your *home directory* you need to clone this repo
-```
+
+```bash
 // Create a folder
 mkdir .dotfiles
 
@@ -31,23 +33,34 @@ dotfiles pull
 2. To _use_ this repo you only need to replace `git` command by `dotfiles` command on any folder inside your home directory.
 
 Example:
-```
+
+```bash
 dotfiles add .zshrc
 dotfiles commit
 dotfiles push
 ```
 
+## Nvim configs of inspiration
+
+Where I have copy/pasted many configs :)
+
+- [LunarVim](https://github.com/ChristianChiarulli/LunarVim)
+- [tjdevries](https://github.com/tjdevries/config_manager/tree/1b8ab10ddc06217cd532376e52d74678c3a0e805/xdg_config/nvim)
+- [ThePrimeagen](https://github.com/awesome-streamers/awesome-streamerrc/tree/master/ThePrimeagen)
+- [wincent](https://github.com/wincent/wincent/tree/632aa515e22ac7203418c0b597c0ff7de4e15878/aspects/vim/files/.Vim)
+
 ## How this repo was created
 
 To create a new git bare repo to handle your dotfiles you only need to do this:
 
-```
+```bash
 git init --bare $HOME/.dotfiles
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 dotfiles config --local status.showUntrackedFiles no
 ```
 
 also add a alias on `.zshrc` or `.bashrc`:
-```
+
+```bash
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 ```
