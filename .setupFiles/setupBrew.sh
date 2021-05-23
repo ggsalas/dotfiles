@@ -87,9 +87,13 @@
 # 
 # # Neovim 0.5
 # brew install neovim --HEAD
-brew install ripgrep
-brew install go
-npm install -g neovim prettier eslint prettier-eslint-cli eslint_d typescript-language-server
+# brew install ripgrep
+# brew install go
+brew install luarocks
+brew install shfmt
+# npm install -g neovim prettier eslint prettier-eslint-cli eslint_d typescript-language-server
+luarocks install --server=https://luarocks.org/dev luaformatter
+
 # 
 # # install Plug for vim
 # curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \

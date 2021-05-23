@@ -37,6 +37,7 @@ call plug#begin()
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug 'nvim-telescope/telescope-fzf-writer.nvim'
+  Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
   " treeSitter.lua
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
