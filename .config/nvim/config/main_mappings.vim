@@ -46,8 +46,12 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 autocmd FileType qf nnoremap <buffer> o <CR>
 
 " replace and save quick fix list
-nnoremap <leader>r :cfdo %s%%%gc
-nnoremap <silent> <leader>rs :cfdo update<CR>
+command! -bang QuickFixOpen :copen<bang>
+command -nargs=1 QuickFixDoMacro :cdo execute "norm @<args>" | update
+command -nargs=1 QuickFixDoReplace :cdo %s/<args> | update
+command! -bang QuickFixUpdate :cdo update<bang>
+command! -bang QuickFixClean :call setqflist([])<bang>
+
 
 " Tabs & splits
 nmap <silent> <C-j> :wincmd j<CR>

@@ -44,7 +44,8 @@ M.grep_in_folder = function(dir)
     require('telescope').extensions.fzf_writer.staged_grep({
         shorten_path = true,
         prompt_title = string.format('< Live Grep on %s >', dir),
-        search_dirs = {dir}
+        search_dirs = {dir},
+        only_sort_text = true
     })
 end
 

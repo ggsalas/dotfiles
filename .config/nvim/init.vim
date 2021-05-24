@@ -42,6 +42,10 @@ call plug#begin()
   " treeSitter.lua
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
+  " file explorer
+  Plug 'kyazdani42/nvim-web-devicons' " for file icons
+  Plug 'kyazdani42/nvim-tree.lua'
+
   " git
   Plug 'tpope/vim-fugitive'                                     " Git 
   Plug 'itchyny/vim-gitbranch'                                  " Git branch name
