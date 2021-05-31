@@ -8,7 +8,9 @@ local builtin = require('telescope.builtin')
 require('telescope').setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
-        prompt_prefix = ' >',
+        prompt_prefix = "❯ ",
+        selection_caret = "❯ ",
+        disable_devicons = true, -- seems is not detected as default, added on each function
         mappings = {
             i = {
                 ["<C-j>"] = actions.move_selection_next,
@@ -29,14 +31,18 @@ require('telescope').load_extension('fzy_native')
 local M = {}
 
 M.search_config = function()
-    require("telescope.builtin").find_files({shorten_path = true, prompt_title = "< Config >", cwd = "$HOME/.config/"})
+    require("telescope.builtin").find_files({
+        prompt_title = "< Config >",
+        cwd = "$HOME/.config/",
+        disable_devicons = true
+    })
 end
 
 M.search_notes = function()
     require("telescope.builtin").find_files({
-        shorten_path = true,
         prompt_title = "< Notes >",
-        cwd = "$HOME/Google Drive/My Drive/Notas"
+        cwd = "$HOME/Google Drive/My Drive/Notas",
+        disable_devicons = true
     })
 end
 
@@ -45,15 +51,16 @@ M.grep_in_folder = function(dir)
         shorten_path = true,
         prompt_title = string.format('< Live Grep on %s >', dir),
         search_dirs = {dir},
-        only_sort_text = true
+        only_sort_text = true,
+        disable_devicons = true
     })
 end
 
 M.buffer_list = function()
     require'telescope.builtin'.buffers {
-        shorten_path = true,
         sort_lastused = true,
         show_all_buffers = true,
+        disable_devicons = true,
         -- previewer = false,
         attach_mappings = function(prompt_bufnr, map)
             local delete_buf = function()
@@ -117,6 +124,67 @@ M.delta_git_status = function(opts)
     opts.previewer = delta
 
     builtin.git_status(opts)
+end
+
+-- // waiting for https://github.com/nvim-telescope/telescope.nvim/pull/613
+function M.file_browser()
+    local opts
+
+    opts = {
+        sorting_strategy = "ascending",
+        scroll_strategy = "cycle",
+        prompt_position = "top",
+        disable_devicons = true,
+        cwd = vim.fn.expand('%:p:h'),
+
+        attach_mappings = function(prompt_bufnr, map)
+            local current_picker = action_state.get_current_picker(prompt_bufnr)
+
+            local modify_cwd = function(new_cwd)
+                current_picker.cwd = new_cwd
+                current_picker:refresh(opts.new_finder(new_cwd), {reset_prompt = true})
+            end
+
+            local go_parent = function()
+                modify_cwd(current_picker.cwd .. "/..")
+            end
+
+            map("n", "-", go_parent)
+
+            map("n", "h", go_parent)
+
+            map("i", "<c-h>", go_parent)
+
+            map('n', 'l', actions.select_default)
+
+            map('i', '<c-l>', actions.select_default)
+
+            map("i", "-", function()
+                modify_cwd(vim.fn.expand "~")
+            end)
+
+            -- local modify_depth = function(mod)
+            --     return function()
+            --         opts.depth = opts.depth + mod
+
+            --         current_picker = action_state.get_current_picker(prompt_bufnr)
+            --         current_picker:refresh(opts.new_finder(current_picker.cwd), {reset_prompt = true})
+            --     end
+            -- end
+
+            -- map("i", "<M-=>", modify_depth(1))
+            -- map("i", "<M-+>", modify_depth(-1))
+
+            -- map("n", "yy", function()
+            --     local entry = action_state.get_selected_entry()
+            --     vim.fn.setreg("+", entry.value)
+            -- end)
+
+            return true
+        end
+    }
+
+    require("telescope.builtin").file_browser(opts)
 end
 
 return M

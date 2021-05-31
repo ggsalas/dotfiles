@@ -20,26 +20,13 @@ lsp.tsserver.setup({
     on_attach = function(client)
         client.resolved_capabilities.document_formatting = false
 
-        local ts_utils = require("nvim-lsp-ts-utils")
-
-        ts_utils.setup {
-            debug = false,
+        require("nvim-lsp-ts-utils").setup {
+            debug = true,
             disable_commands = true,
-            enable_import_on_completion = false,
-            eslint_enable_code_actions = false,
-            eslint_enable_disable_comments = false,
-            eslint_enable_diagnostics = false,
-            enable_formatting = false,
-            format_on_save = false,
-            complete_parens = false,
-            signature_help_in_parens = false,
-
-            -- This is the only feature i need, for linting and fix I'm using efm
             update_imports_on_move = true,
-            require_confirmation_on_move = false
+            require_confirmation_on_move = true
         }
 
-        ts_utils.setup_client(client)
     end
 })
 

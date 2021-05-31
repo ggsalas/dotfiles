@@ -16,7 +16,7 @@ call s:SourceConfigFile('main_mappings')
 call plug#begin()
   call s:SourceConfigFile('main_visual')
   call s:SourceConfigFile('main_undo')
-  call s:SourceConfigFile('plug_dirvish')
+  call s:SourceConfigFile('plug_explorers')
   call s:SourceConfigFile('plug_sneak')
   call s:SourceConfigFile('plug_grep')
   call s:SourceConfigFile('plug_test')
@@ -38,13 +38,10 @@ call plug#begin()
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug 'nvim-telescope/telescope-fzf-writer.nvim'
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+  Plug 'kyazdani42/nvim-web-devicons'                           " for file icons
 
   " treeSitter.lua
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-  " file explorer
-  Plug 'kyazdani42/nvim-web-devicons' " for file icons
-  Plug 'kyazdani42/nvim-tree.lua'
 
   " git
   Plug 'tpope/vim-fugitive'                                     " Git 
@@ -58,6 +55,8 @@ call plug#begin()
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'                                   " userful mappings
   Plug 'machakann/vim-highlightedyank'
+  Plug 'tpope/vim-eunuch'
+  Plug 'tjdevries/train.nvim'
 call plug#end()
 
 
