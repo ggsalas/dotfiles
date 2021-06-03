@@ -1,5 +1,6 @@
 " files & grep
 nnoremap <leader>f <cmd>lua require'telescope.builtin'.find_files({ prompt_title = '< Search Files >', disable_devicons = true })<CR>
+nnoremap <leader>d <cmd>lua require'config.telescopeconfig'.search_curent_dir()<CR>
 nnoremap <leader>j <cmd>lua require'config.telescopeconfig'.buffer_list({ prompt_title = '< Search Buffers >'})<CR>
 nnoremap <leader>* <cmd>lua require'telescope.builtin'.grep_string({ prompt_title = '< Live Grep "under cursor" in working dir... >' , shorten_path = true, disable_devicons = true})<CR>
 nnoremap <leader>s <cmd>lua require'config.telescopeconfig'.grep_in_folder('/')<CR>

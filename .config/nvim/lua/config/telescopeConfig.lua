@@ -1,4 +1,3 @@
-local action_state = require('telescope.actions.state')
 local actions = require('telescope.actions')
 local previewers = require('telescope.previewers')
 local builtin = require('telescope.builtin')
@@ -12,12 +11,17 @@ require('telescope').setup {
         selection_caret = "❯ ",
         disable_devicons = true, -- seems is not detected as default, added on each function
         mappings = {
-            i = {
-                ["<C-j>"] = actions.move_selection_next,
-                ["<C-k>"] = actions.move_selection_previous,
-                ["<C-q>"] = actions.send_to_qflist
-                -- ["<esc>"] = actions.close
-            }
+          i = {
+            ["<C-j>"] = actions.move_selection_next,
+            ["<C-k>"] = actions.move_selection_previous,
+            ["<C-w>"] = actions.send_selected_to_qflist,
+            ["<C-q>"] = actions.send_to_qflist,
+            ["<esc>"] = actions.close
+          },
+          n = {
+            ["<C-w>"] = actions.send_selected_to_qflist,
+            ["<C-q>"] = actions.send_to_qflist,
+          },
         }
     },
     extensions = {
@@ -29,6 +33,14 @@ require('telescope').setup {
 require('telescope').load_extension('fzy_native')
 
 local M = {}
+
+M.search_curent_dir = function()
+    require("telescope.builtin").find_files({
+        prompt_title = string.format('< Search files in %s >', vim.fn.expand('%:h')),
+        cwd = vim.fn.expand('%:p:h'),
+        disable_devicons = true
+    })
+end
 
 M.search_config = function()
     require("telescope.builtin").find_files({
