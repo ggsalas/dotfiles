@@ -1,6 +1,7 @@
 local actions = require('telescope.actions')
 local previewers = require('telescope.previewers')
 local builtin = require('telescope.builtin')
+local custom = require('config.telescopeCustomPickers')
 
 -- Global remapping
 -------------------
@@ -23,35 +24,29 @@ require('telescope').setup {
             ["<C-q>"] = actions.send_to_qflist,
           },
         }
-    },
-    extensions = {
-        fzy_native = {override_generic_sorter = false, override_file_sorter = true},
-        fzf_writer = {minimum_grep_characters = 3, minimum_files_characters = 3, use_highlighter = true}
     }
 }
 
 require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('fzf_writer')
+
 
 local M = {}
 
 M.search_curent_dir = function()
-    require("telescope.builtin").find_files({
-        prompt_title = string.format('< Search files in %s >', vim.fn.expand('%:h')),
-        cwd = vim.fn.expand('%:p:h'),
+    builtin.find_files({
+        prompt_title = string.format('< Search files in %s >', vim.fn.pathshorten(vim.fn.expand('%:h'))),
+        cwd = vim.fn.expand('%:p'),
         disable_devicons = true
     })
 end
 
 M.search_config = function()
-    require("telescope.builtin").find_files({
-        prompt_title = "< Config >",
-        cwd = "$HOME/.config/",
-        disable_devicons = true
-    })
+  custom.dot_files({})
 end
 
 M.search_notes = function()
-    require("telescope.builtin").find_files({
+    builtin.find_files({
         prompt_title = "< Notes >",
         cwd = "$HOME/Google Drive/My Drive/Notas",
         disable_devicons = true
@@ -59,17 +54,30 @@ M.search_notes = function()
 end
 
 M.grep_in_folder = function(dir)
-    require('telescope').extensions.fzf_writer.staged_grep({
+    require('telescope').extensions.fzf_writer.grep({
         shorten_path = true,
-        prompt_title = string.format('< Live Grep on %s >', dir),
-        search_dirs = {dir},
+        -- prompt_title = string.format('< Live Grep on %s >', dir),
+        prompt_title = string.format('< Live Grep on %s >', vim.fn.pathshorten(dir)),
+        cwd = dir,
+        only_sort_text = true,
+        disable_devicons = true
+    })
+end
+
+M.grep_curent_dir = function()
+    local dir = vim.fn.expand('%:p:h');
+
+    require('telescope').extensions.fzf_writer.grep({
+        shorten_path = true,
+        prompt_title = string.format('< Live Grep on %s >', vim.fn.pathshorten(vim.fn.expand('%:h'))),
+        cwd = dir,
         only_sort_text = true,
         disable_devicons = true
     })
 end
 
 M.buffer_list = function()
-    require'telescope.builtin'.buffers {
+    builtin.buffers {
         sort_lastused = true,
         show_all_buffers = true,
         disable_devicons = true,
@@ -174,23 +182,6 @@ function M.file_browser()
             map("i", "-", function()
                 modify_cwd(vim.fn.expand "~")
             end)
-
-            -- local modify_depth = function(mod)
-            --     return function()
-            --         opts.depth = opts.depth + mod
-
-            --         current_picker = action_state.get_current_picker(prompt_bufnr)
-            --         current_picker:refresh(opts.new_finder(current_picker.cwd), {reset_prompt = true})
-            --     end
-            -- end
-
-            -- map("i", "<M-=>", modify_depth(1))
-            -- map("i", "<M-+>", modify_depth(-1))
-
-            -- map("n", "yy", function()
-            --     local entry = action_state.get_selected_entry()
-            --     vim.fn.setreg("+", entry.value)
-            -- end)
 
             return true
         end
