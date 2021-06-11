@@ -41,10 +41,6 @@ M.search_curent_dir = function()
     })
 end
 
-M.search_config = function()
-  custom.dot_files({})
-end
-
 M.search_notes = function()
     builtin.find_files({
         prompt_title = "< Notes >",
@@ -59,6 +55,15 @@ M.grep_in_folder = function(dir)
         -- prompt_title = string.format('< Live Grep on %s >', dir),
         prompt_title = string.format('< Live Grep on %s >', vim.fn.pathshorten(dir)),
         cwd = dir,
+        only_sort_text = true,
+        disable_devicons = true
+    })
+end
+
+M.grep = function()
+    require('telescope').extensions.fzf_writer.grep({
+        shorten_path = true,
+        prompt_title = '< Live Grep >',
         only_sort_text = true,
         disable_devicons = true
     })
@@ -188,6 +193,10 @@ function M.file_browser()
     }
 
     require("telescope.builtin").file_browser(opts)
+end
+
+M.search_dot_files = function()
+  custom.dot_files({})
 end
 
 return M

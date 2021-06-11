@@ -3,7 +3,7 @@ nnoremap <leader>j <cmd>lua require'config.telescopeconfig'.buffer_list({ prompt
 nnoremap <leader>f <cmd>lua require'telescope.builtin'.find_files({ prompt_title = '< Search Files >', disable_devicons = true })<CR>
 nnoremap <leader>F <cmd>lua require'config.telescopeconfig'.search_curent_dir()<CR>
 nnoremap <leader>* <cmd>lua require'telescope.builtin'.grep_string({ prompt_title = '< Live Grep "under cursor" in working dir... >' , shorten_path = true, disable_devicons = true})<CR>
-nnoremap <leader>s <cmd>lua require'config.telescopeconfig'.grep_in_folder('/')<CR>
+nnoremap <leader>s <cmd>lua require'config.telescopeconfig'.grep()<CR>
 nnoremap <leader>S <cmd>lua require'config.telescopeconfig'.grep_curent_dir()<CR>
 nnoremap <leader>- <cmd>lua require'config.telescopeconfig'.file_browser()<CR>
 " command! -nargs=* -bang Search :lua require'config.telescopeconfig'.grep_in_folder(<f-args>)<cr>
@@ -27,5 +27,5 @@ nnoremap <leader>gn <cmd>lua require'telescope.builtin'.man_pages({ prompt_title
 nnoremap <leader>gm <cmd>lua require'telescope.builtin'.marks({ prompt_title = '< Search Marks >' })<cr>
 nnoremap <leader>gq <cmd>lua require'telescope.builtin'.quickfix({ prompt_title = '< Search QuickFix list >' })<cr>
 nnoremap <leader>z <cmd>lua require'telescope.builtin'.spell_suggest({ prompt_title = '< Spell Suggestions >' })<cr>
-command! -bang Config :lua require'config.telescopeconfig'.search_config({ prompt_title = '< Search Config Files >' })<cr>
+command! -bang Dotfiles :lua require'config.telescopeconfig'.search_dot_files({ prompt_title = '< Search Dot Files >' })<cr>
 command! -bang Notes :lua require'config.telescopeconfig'.search_notes({ prompt_title = '< Search Notes >' })<cr>
