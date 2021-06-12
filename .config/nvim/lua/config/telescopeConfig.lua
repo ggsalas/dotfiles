@@ -12,24 +12,20 @@ require('telescope').setup {
         selection_caret = "❯ ",
         disable_devicons = true, -- seems is not detected as default, added on each function
         mappings = {
-          i = {
-            ["<C-j>"] = actions.move_selection_next,
-            ["<C-k>"] = actions.move_selection_previous,
-            ["<C-w>"] = actions.send_selected_to_qflist,
-            ["<C-q>"] = actions.send_to_qflist,
-            ["<esc>"] = actions.close
-          },
-          n = {
-            ["<C-w>"] = actions.send_selected_to_qflist,
-            ["<C-q>"] = actions.send_to_qflist,
-          },
+            i = {
+                ["<C-j>"] = actions.move_selection_next,
+                ["<C-k>"] = actions.move_selection_previous,
+                ["<C-w>"] = actions.send_selected_to_qflist,
+                ["<C-q>"] = actions.send_to_qflist,
+                ["<esc>"] = actions.close
+            },
+            n = {["<C-w>"] = actions.send_selected_to_qflist, ["<C-q>"] = actions.send_to_qflist}
         }
     }
 }
 
 require('telescope').load_extension('fzy_native')
-require('telescope').load_extension('fzf_writer')
-
+-- require('telescope').load_extension('fzf_writer')
 
 local M = {}
 
@@ -44,42 +40,72 @@ end
 M.search_notes = function()
     builtin.find_files({
         prompt_title = "< Notes >",
-        cwd = "$HOME/Google Drive/My Drive/Notas",
+        cwd = "/Volumes/GoogleDrive/My Drive/Notas",
         disable_devicons = true
     })
 end
 
-M.grep_in_folder = function(dir)
-    require('telescope').extensions.fzf_writer.grep({
-        shorten_path = true,
-        -- prompt_title = string.format('< Live Grep on %s >', dir),
-        prompt_title = string.format('< Live Grep on %s >', vim.fn.pathshorten(dir)),
-        cwd = dir,
+-- Same as builtin.grep_string but finds on a default dir
+M.grep_string = function(search, dir)
+    local filetype = vim.api.nvim_exec('echo &filetype', true)
+    local local_dir = vim.fn.expand('%:h');
+    local pwd = vim.api.nvim_exec('echo getcwd()', true)
+    local search_dir = {}
+    -- print(vim.inspect(pwd))
+
+    if dir == nil then
+        if filetype == 'dirvish' then
+            table.insert(search_dir, local_dir)
+        else
+            table.insert(search_dir, pwd)
+        end
+    else
+        table.insert(search_dir, dir)
+    end
+
+    builtin.grep_string({
+        prompt_title = string.format('< Grep of "%s" in %s >', search, vim.fn.pathshorten(search_dir[1])),
+        search = search,
+        search_dirs = search_dir,
+        disable_devicons = true,
         only_sort_text = true,
-        disable_devicons = true
-    })
-end
-
-M.grep = function()
-    require('telescope').extensions.fzf_writer.grep({
         shorten_path = true,
-        prompt_title = '< Live Grep >',
-        only_sort_text = true,
-        disable_devicons = true
+        use_regex = true
+        -- default_text = search -- currently broken https://github.com/nvim-telescope/telescope.nvim/issues/808
     })
 end
 
-M.grep_curent_dir = function()
-    local dir = vim.fn.expand('%:p:h');
+-- M.grep_in_folder = function(dir)
+--     require('telescope').extensions.fzf_writer.grep({
+--         shorten_path = true,
+--         -- prompt_title = string.format('< Live Grep on %s >', dir),
+--         prompt_title = string.format('< Live Grep on %s >', vim.fn.pathshorten(dir)),
+--         cwd = dir,
+--         only_sort_text = true,
+--         disable_devicons = true
+--     })
+-- end
 
-    require('telescope').extensions.fzf_writer.grep({
-        shorten_path = true,
-        prompt_title = string.format('< Live Grep on %s >', vim.fn.pathshorten(vim.fn.expand('%:h'))),
-        cwd = dir,
-        only_sort_text = true,
-        disable_devicons = true
-    })
-end
+-- M.grep = function()
+--     require('telescope').extensions.fzf_writer.grep({
+--         shorten_path = true,
+--         prompt_title = '< Live Grep >',
+--         only_sort_text = true,
+--         disable_devicons = true
+--     })
+-- end
+
+-- M.grep_curent_dir = function()
+--     local dir = vim.fn.expand('%:p:h');
+
+--     require('telescope').extensions.fzf_writer.grep({
+--         shorten_path = true,
+--         prompt_title = string.format('< Live Grep on %s >', vim.fn.pathshorten(vim.fn.expand('%:h'))),
+--         cwd = dir,
+--         only_sort_text = true,
+--         disable_devicons = true
+--     })
+-- end
 
 M.buffer_list = function()
     builtin.buffers {
@@ -196,7 +222,7 @@ function M.file_browser()
 end
 
 M.search_dot_files = function()
-  custom.dot_files({})
+    custom.dot_files({})
 end
 
 return M
