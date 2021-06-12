@@ -2,6 +2,8 @@ local actions = require('telescope.actions')
 local previewers = require('telescope.previewers')
 local builtin = require('telescope.builtin')
 local custom = require('config.telescopeCustomPickers')
+local action_state = require('telescope.actions.state')
+-- local themes = require('telescope.themes')
 
 -- Global remapping
 -------------------
@@ -15,8 +17,7 @@ require('telescope').setup {
             i = {
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
-                ["<C-w>"] = actions.send_selected_to_qflist,
-                ["<C-q>"] = actions.send_to_qflist,
+                ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
                 ["<esc>"] = actions.close
             },
             n = {["<C-w>"] = actions.send_selected_to_qflist, ["<C-q>"] = actions.send_to_qflist}
@@ -196,15 +197,15 @@ function M.file_browser()
                 current_picker:refresh(opts.new_finder(new_cwd), {reset_prompt = true})
             end
 
-            local go_parent = function()
-                modify_cwd(current_picker.cwd .. "/..")
-            end
+            -- local go_parent = function()
+            --     modify_cwd(current_picker.cwd .. "/..")
+            -- end
 
-            map("n", "-", go_parent)
+            -- map("n", "-", go_parent)
 
-            map("n", "h", go_parent)
+            -- map("n", "h", go_parent)
 
-            map("i", "<c-h>", go_parent)
+            -- map("i", "<c-h>", go_parent)
 
             map('n', 'l', actions.select_default)
 

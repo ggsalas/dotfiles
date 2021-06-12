@@ -100,9 +100,8 @@ xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
 command! -bang ColorDark call ColorDark()<bang>
 command! -bang ColorLight call ColorLight()<bang>
 
-" Config
-command! -bang ConfigNvim :e ~/.config/nvim/init.vim<bang>
-command! -bang ConfigReload :so ~/.config/nvim/init.vim<bang>
+" Config Reload
+nnoremap <silent> <leader>. :lua package.loaded.config = nil <cr>:source ~/.config/nvim/init.vim <cr>:echo 'Neovim Config Reloaded' <cr>
 
 " NewsBoat urls
 command! -bang Feeds :e ~/.newsboat/urls<bang>

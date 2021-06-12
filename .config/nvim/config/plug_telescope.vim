@@ -27,5 +27,6 @@ nnoremap <leader>gn <cmd>lua require'telescope.builtin'.man_pages({ prompt_title
 nnoremap <leader>gm <cmd>lua require'telescope.builtin'.marks({ prompt_title = '< Search Marks >' })<cr>
 nnoremap <leader>gq <cmd>lua require'telescope.builtin'.quickfix({ prompt_title = '< Search QuickFix list >' })<cr>
 nnoremap <leader>z <cmd>lua require'telescope.builtin'.spell_suggest({ prompt_title = '< Spell Suggestions >' })<cr>
+nnoremap <leader>df <cmd>lua require'config.telescopeconfig'.search_dot_files({ prompt_title = '< Search Dot Files >' })<cr>
 command! -bang Dotfiles :lua require'config.telescopeconfig'.search_dot_files({ prompt_title = '< Search Dot Files >' })<cr>
 command! -bang Notes :lua require'config.telescopeconfig'.search_notes({ prompt_title = '< Search Notes >' })<cr>
