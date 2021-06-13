@@ -120,7 +120,7 @@ M.buffer_list = function()
         elseif cols < 150 then
             return 0.1
         else
-            return 0.3
+            return 0.25
         end
     end
 
