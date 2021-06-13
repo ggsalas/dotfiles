@@ -3,7 +3,28 @@ local previewers = require('telescope.previewers')
 local builtin = require('telescope.builtin')
 local custom = require('config.telescopeCustomPickers')
 local action_state = require('telescope.actions.state')
--- local themes = require('telescope.themes')
+
+-- helpers
+----------
+function get_buffer_dir(dir)
+    local filetype = vim.api.nvim_exec('echo &filetype', true)
+    local local_dir = vim.fn.expand('%:h');
+    local pwd = vim.api.nvim_exec('echo getcwd()', true)
+    local search_dir = {}
+    -- print(vim.inspect(pwd))
+
+    if dir == nil then
+        if filetype == 'dirvish' then
+            table.insert(search_dir, local_dir)
+        else
+            table.insert(search_dir, pwd)
+        end
+    else
+        table.insert(search_dir, dir)
+    end
+
+    return search_dir
+end
 
 -- Global remapping
 -------------------
@@ -30,39 +51,20 @@ require('telescope').load_extension('fzy_native')
 
 local M = {}
 
-M.search_curent_dir = function()
-    builtin.find_files({
-        prompt_title = string.format('< Search files in %s >', vim.fn.pathshorten(vim.fn.expand('%:h'))),
-        cwd = vim.fn.expand('%:p'),
-        disable_devicons = true
-    })
-end
+-- Same as builtin.find_files but finds on a default dir
+M.find_files = function(dir)
+    local cwd = get_buffer_dir(dir)[1]
 
-M.search_notes = function()
     builtin.find_files({
-        prompt_title = "< Notes >",
-        cwd = "/Volumes/GoogleDrive/My Drive/Notas",
+        prompt_title = string.format('< Search files in %s >', vim.fn.pathshorten(cwd)),
+        cwd = cwd,
         disable_devicons = true
     })
 end
 
 -- Same as builtin.grep_string but finds on a default dir
 M.grep_string = function(search, dir)
-    local filetype = vim.api.nvim_exec('echo &filetype', true)
-    local local_dir = vim.fn.expand('%:h');
-    local pwd = vim.api.nvim_exec('echo getcwd()', true)
-    local search_dir = {}
-    -- print(vim.inspect(pwd))
-
-    if dir == nil then
-        if filetype == 'dirvish' then
-            table.insert(search_dir, local_dir)
-        else
-            table.insert(search_dir, pwd)
-        end
-    else
-        table.insert(search_dir, dir)
-    end
+    local search_dir = get_buffer_dir(dir)
 
     builtin.grep_string({
         prompt_title = string.format('< Grep of "%s" in %s >', search, vim.fn.pathshorten(search_dir[1])),
@@ -109,11 +111,27 @@ end
 -- end
 
 M.buffer_list = function()
+    local width_padding = function()
+        local cols = vim.o.columns
+        -- print(vim.inspect(cols))
+
+        if cols < 80 then
+            return 1
+        elseif cols < 150 then
+            return 0.1
+        else
+            return 0.3
+        end
+    end
+
     builtin.buffers {
         sort_lastused = true,
         show_all_buffers = true,
         disable_devicons = true,
-        -- previewer = false,
+        previewer = false,
+        width_padding = width_padding(),
+        layout_strategy = 'horizontal',
+        layout_config = {width_padding = width_padding(), height_padding = 0.25},
         attach_mappings = function(prompt_bufnr, map)
             local delete_buf = function()
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
@@ -224,6 +242,14 @@ end
 
 M.search_dot_files = function()
     custom.dot_files({})
+end
+
+M.search_notes = function()
+    builtin.find_files({
+        prompt_title = "< Notes >",
+        cwd = "/Volumes/GoogleDrive/My Drive/Notas",
+        disable_devicons = true
+    })
 end
 
 return M
