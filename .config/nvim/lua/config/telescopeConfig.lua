@@ -34,6 +34,7 @@ require('telescope').setup {
         prompt_prefix = "❯ ",
         selection_caret = "❯ ",
         disable_devicons = true, -- seems is not detected as default, added on each function
+        layout_defaults = {horizontal = {preview_width = 0.4}, vertical = {preview_height = 0.6}},
         mappings = {
             i = {
                 ["<C-j>"] = actions.move_selection_next,
@@ -56,7 +57,7 @@ M.find_files = function(dir)
     local cwd = get_buffer_dir(dir)[1]
 
     builtin.find_files({
-        prompt_title = string.format('< Search files in %s >', vim.fn.pathshorten(cwd)),
+        prompt_title = string.format('Search files in %s', vim.fn.pathshorten(cwd)),
         cwd = cwd,
         disable_devicons = true
     })
@@ -67,22 +68,41 @@ M.grep_string = function(search, dir)
     local search_dir = get_buffer_dir(dir)
 
     builtin.grep_string({
-        prompt_title = string.format('< Grep of "%s" in %s >', search, vim.fn.pathshorten(search_dir[1])),
+        prompt_title = string.format('Grep of "%s" in %s', search, vim.fn.pathshorten(search_dir[1])),
         search = search,
         search_dirs = search_dir,
         disable_devicons = true,
         only_sort_text = true,
         shorten_path = true,
-        use_regex = true
+        use_regex = true,
+        layout_strategy = "vertical",
+        results_height = 10
         -- default_text = search -- currently broken https://github.com/nvim-telescope/telescope.nvim/issues/808
     })
+end
+
+-- Seems not working.. review later:
+-- https://github.com/tjdevries/config_manager/blob/26dc8d25c2c16680c69872712e7e190dc7432c75/xdg_config/nvim/lua/tj/telescope/init.lua
+M.grep_last_search = function(opts)
+    opts = opts or {}
+
+    -- \<getreg\>\C
+    -- -> Subs out the search things
+    local register = vim.fn.getreg("/"):gsub("\\<", ""):gsub("\\>", ""):gsub("\\C", "")
+
+    opts.shorten_path = true
+    opts.word_match = "-w"
+    opts.search = register
+    opts.layout_strategy = "vertical"
+
+    require("telescope.builtin").grep_string(opts)
 end
 
 -- M.grep_in_folder = function(dir)
 --     require('telescope').extensions.fzf_writer.grep({
 --         shorten_path = true,
---         -- prompt_title = string.format('< Live Grep on %s >', dir),
---         prompt_title = string.format('< Live Grep on %s >', vim.fn.pathshorten(dir)),
+--         -- prompt_title = string.format('Live Grep on %s', dir),
+--         prompt_title = string.format('Live Grep on %s', vim.fn.pathshorten(dir)),
 --         cwd = dir,
 --         only_sort_text = true,
 --         disable_devicons = true
@@ -92,7 +112,7 @@ end
 -- M.grep = function()
 --     require('telescope').extensions.fzf_writer.grep({
 --         shorten_path = true,
---         prompt_title = '< Live Grep >',
+--         prompt_title = 'Live Grep',
 --         only_sort_text = true,
 --         disable_devicons = true
 --     })
@@ -103,7 +123,7 @@ end
 
 --     require('telescope').extensions.fzf_writer.grep({
 --         shorten_path = true,
---         prompt_title = string.format('< Live Grep on %s >', vim.fn.pathshorten(vim.fn.expand('%:h'))),
+--         prompt_title = string.format('Live Grep on %s', vim.fn.pathshorten(vim.fn.expand('%:h'))),
 --         cwd = dir,
 --         only_sort_text = true,
 --         disable_devicons = true
@@ -245,11 +265,7 @@ M.search_dot_files = function()
 end
 
 M.search_notes = function()
-    builtin.find_files({
-        prompt_title = "< Notes >",
-        cwd = "/Volumes/GoogleDrive/My Drive/Notas",
-        disable_devicons = true
-    })
+    builtin.find_files({prompt_title = "Notes", cwd = "/Volumes/GoogleDrive/My Drive/Notas", disable_devicons = true})
 end
 
 return M
