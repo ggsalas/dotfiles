@@ -46,6 +46,9 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^x^x' edit-command-line
 
+# emacs mode
+bindkey -e
+
 # Make CTRL-Z background things and unbackground them.
 function fg-bg() {
   if [[ $#BUFFER -eq 0 ]]; then

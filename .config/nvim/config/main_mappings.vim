@@ -116,9 +116,17 @@ nmap <leader>n :!node %<CR>
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 vnoremap <Leader>r y :%s/<C-r>"//gc<Left><Left><Left>
 
-if has("nvim")
-  au TermOpen * tnoremap <Esc> <c-\><c-n>
-  au TermOpen set nonumber
-  nnoremap gq :bd!<CR>
-endif
-
+" terminal
+nnoremap <leader>L :botright sp term://zsh<cr>
+nnoremap <leader>l :botright vsp term://zsh<cr>
+augroup neovim_terminal
+    autocmd!
+    " Enter Terminal-mode (insert) automatically
+    autocmd TermOpen * startinsert
+    " Disables number lines on terminal buffers
+    autocmd TermOpen * :set nonumber norelativenumber
+    " allows you to use Ctrl-c on terminal window
+    " autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
+    au TermOpen * tnoremap <Esc> <c-\><c-n>
+    nnoremap gq :bd!<CR>
+augroup END
