@@ -23,6 +23,7 @@ call plug#begin()
   call s:SourceConfigFile('plug_markdown')
   call s:SourceConfigFile('plug_comment')
   call s:SourceConfigFile('plug_syntax')
+  call s:SourceConfigFile('plug_draw')
 
   " plug_lsp.vim && lspconfig.lua
   Plug 'neovim/nvim-lspconfig'
@@ -57,6 +58,7 @@ call plug#begin()
   Plug 'machakann/vim-highlightedyank'
   Plug 'tpope/vim-eunuch'
   Plug 'tjdevries/train.nvim'
+
 call plug#end()
 
 

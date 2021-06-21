@@ -118,4 +118,3 @@ endfunction
 augroup doSpell
     autocmd FileType markdown,javascript,typescript,typescriptreact call SetSpellOptions()
 augroup END
-
