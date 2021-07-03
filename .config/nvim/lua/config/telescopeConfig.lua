@@ -6,7 +6,7 @@ local action_state = require('telescope.actions.state')
 
 -- helpers
 ----------
-function get_buffer_dir(dir)
+function Get_buffer_dir(dir)
     local filetype = vim.api.nvim_exec('echo &filetype', true)
     local local_dir = vim.fn.expand('%:h');
     local pwd = vim.api.nvim_exec('echo getcwd()', true)
@@ -34,7 +34,8 @@ require('telescope').setup {
         prompt_prefix = "❯ ",
         selection_caret = "❯ ",
         disable_devicons = true, -- seems is not detected as default, added on each function
-        layout_defaults = {horizontal = {preview_width = 0.4}, vertical = {preview_height = 0.6}},
+        layout_strategy = "flex",
+        layout_config = {horizontal = {preview_width = 0.3}, vertical = {preview_height = 0.3}},
         mappings = {
             i = {
                 ["<C-j>"] = actions.move_selection_next,
@@ -54,7 +55,7 @@ local M = {}
 
 -- Same as builtin.find_files but finds on a default dir
 M.find_files = function(dir)
-    local cwd = get_buffer_dir(dir)[1]
+    local cwd = Get_buffer_dir(dir)[1]
 
     builtin.find_files({
         prompt_title = string.format('Search files in %s', vim.fn.pathshorten(cwd)),
@@ -65,7 +66,7 @@ end
 
 -- Same as builtin.grep_string but finds on a default dir
 M.grep_string = function(search, dir)
-    local search_dir = get_buffer_dir(dir)
+    local search_dir = Get_buffer_dir(dir)
 
     builtin.grep_string({
         prompt_title = string.format('Grep of "%s" in %s', search, vim.fn.pathshorten(search_dir[1])),
@@ -76,7 +77,7 @@ M.grep_string = function(search, dir)
         shorten_path = true,
         use_regex = true,
         layout_strategy = "vertical",
-        results_height = 10
+        layout_config = {preview_height = 0.65},
         -- default_text = search -- currently broken https://github.com/nvim-telescope/telescope.nvim/issues/808
     })
 end
@@ -93,7 +94,7 @@ M.grep_last_search = function(opts)
     opts.shorten_path = true
     opts.word_match = "-w"
     opts.search = register
-    opts.layout_strategy = "vertical"
+    -- opts.layout_strategy = "vertical"
 
     require("telescope.builtin").grep_string(opts)
 end
@@ -136,22 +137,24 @@ M.buffer_list = function()
         -- print(vim.inspect(cols))
 
         if cols < 80 then
-            return 1
+            return .9
         elseif cols < 150 then
-            return 0.1
+            return 0.8
         else
-            return 0.25
+            return 0.55
         end
     end
+
+    local wp = width_padding()
 
     builtin.buffers {
         sort_lastused = true,
         show_all_buffers = true,
         disable_devicons = true,
         previewer = false,
-        width_padding = width_padding(),
+        width_padding = wp,
         layout_strategy = 'horizontal',
-        layout_config = {width_padding = width_padding(), height_padding = 0.25},
+        layout_config = {width = wp,  height = .55},
         attach_mappings = function(prompt_bufnr, map)
             local delete_buf = function()
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
@@ -223,7 +226,9 @@ function M.file_browser()
     opts = {
         sorting_strategy = "ascending",
         scroll_strategy = "cycle",
-        prompt_position = "top",
+        layout_config = {
+          prompt_position = "top",
+        },
         disable_devicons = true,
         cwd = vim.fn.expand('%:p:h'),
 

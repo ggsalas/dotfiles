@@ -13,8 +13,9 @@ export FZF_ALT_C_COMMAND="find -L . \\( -path '*/\\.*' -o -path '*/node_modules*
 # export FORGIT_FZF_DEFAULT_OPTS="--bind $GLOBAL_BINDS"
 export FORGIT_FZF_DEFAULT_OPTS="--layout=reverse --preview-window :hidden --bind $GLOBAL_BINDS"
 
-bindkey '^j' 'fzf-cd-widget'
-bindkey '^k' 'fzf-file-widget'
+zle -N fzf-cd-widget
+bindkey '^o' fzf-cd-widget
+bindkey '^f' 'fzf-file-widget'
 
 # # jump_directory - cd to selected directory
 # jump-directory() {
@@ -34,19 +35,19 @@ bindkey '^k' 'fzf-file-widget'
 # #################################################################################
 # Git
 # #################################################################################
-forgit_log=g-log
-forgit_diff=g-diff
-forgit_add=g-add
-forgit_reset_head=g-reseth
-forgit_ignore=g-ignore
-forgit_checkout_file=g-chfile
-forgit_checkout_branch=g-chbranch
-forgit_checkout_commit=g-chcommit
-forgit_clean=g-clean
-forgit_stash_show=g-stash
-forgit_cherry_pick=g-chpick
-forgit_rebase=g-rebase
-forgit_fixup=g-fixup
+# forgit_log=Glog
+# forgit_diff=Gdiff
+# forgit_add=Gadd
+# forgit_reset_head=Greseth
+# forgit_ignore=Gignore
+# forgit_checkout_file=GchFile
+# forgit_checkout_branch=GchBranch
+# forgit_checkout_commit=GchCommit
+# forgit_clean=Gclean
+# forgit_stash_show=Gstash
+# forgit_cherry_pick=GchPick
+# forgit_rebase=Grebase
+# forgit_fixup=Gfixup
 
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1

@@ -65,26 +65,8 @@ augroup END
 ""
 " Netrw
 ""
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 0
-let g:netrw_winsize = 20
-let g:netrw_altv= 1
-  
-" vim-dirvish
-" nnoremap <leader>- :Explore<CR>
-" nnoremap <leader>e :Vex %<CR>
-" nnoremap <leader>E :Vex<CR>
-
-" function! NetrwMappings()
-"     " Hack fix to make ctrl-l work properly
-"     " noremap <buffer> <A-l> <C-w>l
-"     " noremap <buffer> <C-l> <C-w>l
-"     noremap <silent> _ :call ToggleNetrw()<CR>
-"     noremap <buffer> T :call OpenTab()<cr>
-" endfunction
-"
-" augroup netrw_mappings
-"     autocmd!
-"     autocmd filetype netrw call NetrwMappings()
-" augroup END
+" let g:netrw_banner = 0
+" let g:netrw_liststyle = 3
+" let g:netrw_browse_split = 0
+" let g:netrw_winsize = 20
+" let g:netrw_altv= 1

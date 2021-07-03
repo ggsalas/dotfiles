@@ -48,7 +48,7 @@ autocmd FileType qf nnoremap <buffer> o <CR>
 " replace and save quick fix list
 command! -bang QuickFix :copen<bang>
 command -nargs=1 QuickFixDoMacro :cdo execute "norm @<args>" | update
-command -nargs=1 QuickFixDoReplace :cdo %s/<args> | update
+command -nargs=1 QuickFixDoReplace :cdo %s/<args> 
 command! -bang QuickFixUpdate :cdo update<bang>
 " command! -bang QuickFixClean :call setqflist([])<bang>
 
@@ -58,7 +58,11 @@ nmap <silent> <C-j> :wincmd j<CR>
 nmap <silent> <C-k> :wincmd k<CR>
 nmap <silent> <C-h> :wincmd h<CR>
 nmap <silent> <C-l> :wincmd l<CR>
-nmap <silent> <leader>t :tabnew<CR>
+nmap <silent> <leader>tt :tabnew<CR>
+tnoremap <C-h> <c-\><c-n><c-w>h
+tnoremap <C-j> <c-\><c-n><c-w>j
+tnoremap <C-k> <c-\><c-n><c-w>k
+tnoremap <C-l> <c-\><c-n><c-w>
 " noremap <Leader>s :<C-u>split<CR>
 " noremap <Leader>v :<C-u>vsplit<CR>
 
@@ -113,20 +117,19 @@ inoremap ∫ <C-R>=Branch()<CR>
 nmap <leader>n :!node %<CR>
 
 " replace word under cursor, globally, with confirmation
-nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
-vnoremap <Leader>r y :%s/<C-r>"//gc<Left><Left><Left>
+nnoremap <Leader>r :%s/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>
+vnoremap <Leader>r y :%s/<C-r>"/<C-r><C-w>/gc<Left><Left><Left>
 
 " terminal
-nnoremap <leader>L :botright sp term://zsh<cr>
-nnoremap <leader>l :botright vsp term://zsh<cr>
+nnoremap <leader>ts :botright p term://zsh<cr>
+nnoremap <leader>tv :botright vsp term://zsh<cr>
 augroup neovim_terminal
     autocmd!
     " Enter Terminal-mode (insert) automatically
     autocmd TermOpen * startinsert
     " Disables number lines on terminal buffers
     autocmd TermOpen * :set nonumber norelativenumber
-    " allows you to use Ctrl-c on terminal window
-    " autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
+    " Esc key to go normal mode
     au TermOpen * tnoremap <Esc> <c-\><c-n>
     nnoremap gq :bd!<CR>
 augroup END

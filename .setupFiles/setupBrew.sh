@@ -39,7 +39,7 @@
 # brew install --cask kitty
 # brew install tree
 # brew install mediainfo
-# brew install autojump
+# brew install zoxide
 # brew install dark-mode
 # brew install octavore/tools/delta
 # brew install git-delta
