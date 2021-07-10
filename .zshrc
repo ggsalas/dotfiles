@@ -21,11 +21,11 @@ source ~/.config/zsh/git.zsh
 # nnn
 source ~/.config/nnn/nnn.zsh
 
-# # kindle
+# kindle
 source ~/developer/calibreNews/kindle.zsh
  
-# Moodys config
-source /Volumes/GoogleDrive/My\ Drive/.config-private/moodys.zsh
+# Personal config
+source /Volumes/GoogleDrive/My\ Drive/.config-private/personal.zsh
 
 
 #################################################################################
