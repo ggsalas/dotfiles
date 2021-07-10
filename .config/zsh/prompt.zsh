@@ -45,25 +45,25 @@ RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}%~%f "
 setopt PROMPT_SUBST
 
 function () {
-  if [[ -n "$TMUX" ]]; then
-    local LVL=$(($SHLVL - 1))
-  else
+  # if [[ -n "$TMUX" ]]; then
+  #   local LVL=$(($SHLVL - 1))
+  # else
     local LVL=$SHLVL
-  fi
+  # fi
 
   local SUFFIX=$(printf '❯%.0s' {1..$LVL})
 
-  if [[ -n "$TMUX" ]]; then
-    # Note use a non-breaking space at the end of the prompt because we can use it as
-    # a find pattern to jump back in tmux.
-    local NBSP=' '
-    export PS1=" %F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{magenta}%B%(1j.* .)%b%f%F{yellow}%B${SUFFIX}%b%f "
-    export ZLE_RPROMPT_INDENT=0
-  else
+  # if [[ -n "$TMUX" ]]; then
+  #   # Note use a non-breaking space at the end of the prompt because we can use it as
+  #   # a find pattern to jump back in tmux.
+  #   local NBSP=' '
+  #   export PS1=" %F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{magenta}%B%(1j.* .)%b%f%F{yellow}%B${SUFFIX}%b%f "
+  #   export ZLE_RPROMPT_INDENT=0
+  # else
     # Don't bother with ZLE_RPROMPT_INDENT here, because it ends up eating the
     # space after PS1.
     export PS1=" %F{green}${SSH_TTY:+%n@%m}%f%B${SSH_TTY:+:}%b%F{magenta}%B%(1j.* .)%b%f%F{yellow}%B${SUFFIX}%b%f "
-  fi
+  # fi
 }
 export RPROMPT=$RPROMPT_BASE
 export SPROMPT="zsh: correct %F{red}'%R'%f to %F{red}'%r'%f [%B%Uy%u%bes, %B%Un%u%bo, %B%Ue%u%bdit, %B%Ua%u%bbort]? "

@@ -1,23 +1,54 @@
-local GLOBAL_BINDS="ctrl-d:preview-down,ctrl-u:preview-up,?:toggle-preview"
-# export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --exclude .git"
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-export FZF_COMPLETION_TRIGGER='*'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_R_OPTS='--sort --exact --layout=reverse'
-export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200' --preview-window right:50% --height 100% --bind $GLOBAL_BINDS"
-export FORGIT_FZF_DEFAULT_OPTS="--layout=reverse --height 100% --bind $GLOBAL_BINDS"
+# Uncomment this to configure for first time
+# $(brew --prefix)/opt/fzf/install
 
-# fd - cd to selected directory
-fd() {
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
-}
+local GLOBAL_BINDS="ctrl-d:preview-down,ctrl-u:preview-up,?:toggle-preview"
+export FZF_COMPLETION_TRIGGER=';'
+export FZF_CTRL_T_COMMAND="rg --files --hidden --follow -g '!{node_modules,.git,Google\ Drive,Library}'"
+# export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200' --preview-window right:50% --height 100% --bind $GLOBAL_BINDS"
+export FZF_CTRL_R_OPTS='--sort --layout=reverse'
+# export FZF_ALT_C_COMMAND='blsd'
+export FZF_ALT_C_COMMAND="find -L . \\( -path '*/\\.*' -o -path '*/node_modules*' -o -path '*/.git*' \\) -prune -o -type d -print 2> /dev/null"
+# export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+# export FORGIT_FZF_DEFAULT_OPTS="--bind $GLOBAL_BINDS"
+export FORGIT_FZF_DEFAULT_OPTS="--layout=reverse --preview-window :hidden --bind $GLOBAL_BINDS"
+
+zle -N fzf-cd-widget
+bindkey '^o' fzf-cd-widget
+bindkey '^f' 'fzf-file-widget'
+
+# # jump_directory - cd to selected directory
+# jump-directory() {
+#   # cd $(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m --layout=reverse --height=50%)
+#   cd $(find ${1:-.} \\( -path '*/\\.*' -o -path '*/node_modules*' -o -path '*/.git*' \\) -prune -o -type d -print 2> /dev/null | fzf +m --layout=reverse --height=50%)
+# }
+# zle -N jump-directory jump-directory
+# bindkey -s '^k' 'jump-directory^M'
+
+# gitfiles() {
+#   git ls-files -m -o --exclude-standard | fzf --print0 -m | xargs -0 -t -o
+# }
+# zle -N gitfiles gitfiles
+# bindkey '^f' gitfiles
+
 
 # #################################################################################
 # Git
 # #################################################################################
+# forgit_log=Glog
+# forgit_diff=Gdiff
+# forgit_add=Gadd
+# forgit_reset_head=Greseth
+# forgit_ignore=Gignore
+# forgit_checkout_file=GchFile
+# forgit_checkout_branch=GchBranch
+# forgit_checkout_commit=GchCommit
+# forgit_clean=Gclean
+# forgit_stash_show=Gstash
+# forgit_cherry_pick=GchPick
+# forgit_rebase=Grebase
+# forgit_fixup=Gfixup
+
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
 }
@@ -60,6 +91,5 @@ alias glog='glo'
 alias gdiff='gd'
 alias gadd='gadd'
 alias gstash='gss'
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

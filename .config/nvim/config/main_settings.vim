@@ -5,7 +5,7 @@ function! CustomFoldText()
 
     let nucolwidth = &foldcolumn + &number * &numberwidth
     let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart . ' lines '
+    let foldedlinecount = v:foldend - v:foldstart . ' lines  '
 
     " expand tabs into spaces
     let chunks = split(line, "\t", 1)
@@ -36,7 +36,7 @@ set smartcase         " Use case insensitive search, except when using capital l
 set wildignorecase    " Use case insensitive search for filenames
 set mouse=a
 set path+=**          " Search files into subfolders
-set hidden            " Required for operations modifying multiple buffers like rename.
+set hidden            " Switch buffers without need to save
 set iskeyword+=-      " Allow word with dashes
 set nobackup
 set nowritebackup
@@ -47,7 +47,7 @@ set wildmenu
 set incsearch
 set hlsearch
 set relativenumber
-set scrolloff=8
+set scrolloff=1
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
@@ -87,18 +87,34 @@ au filetype help set nonumber
 set splitbelow " Split windows, ie Help, make more sense to me below
 
 " Folds
-set foldmethod=syntax
-set foldlevelstart=99         " start unfold
-set foldtext=CustomFoldText()
+"""""""
+function SetFold()
+  setlocal foldmethod=expr
+  setlocal foldexpr=nvim_treesitter#foldexpr() " nvim_treesitter
+  setlocal foldlevel=99         " start unfold
+  setlocal foldtext=CustomFoldText()
+endfunction
 
-" Spell
-" set spell spelllang=en_us
-augroup doSpell
-    autocmd!
-    autocmd FileType markdown,javascript,typescript,typescriptreact setlocal spell
+function SetFoldMarkdown()
+  setlocal foldmethod=syntax
+  setlocal foldlevel=1
+  setlocal foldtext=CustomFoldText()
+endfunction
+
+augroup doSetFold
+  autocmd FileType javascript,typescript,typescriptreact,json call SetFold()
+  autocmd FileType markdown call SetFoldMarkdown()
 augroup END
 
-set spelloptions=camel
-command! -bang Spell :setlocal spell! spelllang=en_us
-" command! -bang SpellAll :set spell! spelllang=en_us
+" Spell
+"""""""
+set nospell
 
+function SetSpellOptions()
+  setlocal spell spelllang=en_us
+  setlocal spelloptions=camel 
+endfunction
+
+augroup doSpell
+    autocmd FileType markdown,javascript,typescript,typescriptreact call SetSpellOptions()
+augroup END

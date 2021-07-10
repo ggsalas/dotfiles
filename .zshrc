@@ -21,11 +21,11 @@ source ~/.config/zsh/git.zsh
 # nnn
 source ~/.config/nnn/nnn.zsh
 
-# kindle
+# # kindle
 source ~/developer/calibreNews/kindle.zsh
-
+ 
 # Moodys config
-source ~/.moodys.zsh
+source /Volumes/GoogleDrive/My\ Drive/.config-private/moodys.zsh
 
 
 #################################################################################
@@ -45,6 +45,9 @@ _comp_options+=(globdots)		# Include hidden files.
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^x^x' edit-command-line
+
+# emacs mode
+bindkey -e
 
 # Make CTRL-Z background things and unbackground them.
 function fg-bg() {
@@ -131,7 +134,10 @@ export AWS_SDK_LOAD_CONFIG=true
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh 
 # git clone https://github.com/wfxr/forgit.git ~/.zsh/forgit
 source ~/.zsh/forgit/forgit.plugin.zsh
-# require install with brew: brew install autojump
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+# # require install with brew: brew install autojump
+# [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+# require install with brew: brew install zoxide
+eval "$(zoxide init zsh)"
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

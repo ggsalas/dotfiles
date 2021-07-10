@@ -46,18 +46,23 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 autocmd FileType qf nnoremap <buffer> o <CR>
 
 " replace and save quick fix list
-nnoremap <leader>r :cfdo %s%%%gc
-nnoremap <silent> <leader>rs :cfdo update<CR>
+command! -bang QuickFix :copen<bang>
+command -nargs=1 QuickFixDoMacro :cdo execute "norm @<args>" | update
+command -nargs=1 QuickFixDoReplace :cdo %s/<args> 
+command! -bang QuickFixUpdate :cdo update<bang>
+" command! -bang QuickFixClean :call setqflist([])<bang>
 
-" find
-" nnoremap <leader>f :find
 
 " Tabs & splits
-nnoremap <C-j> <C-w><C-j>
-nnoremap <C-k> <C-w><C-k>
-nnoremap <C-h> <C-w><C-h>
-nnoremap <C-l> <C-w><C-l>
-nnoremap <C-w><C-w> <C-w><C-p>
+nmap <silent> <C-j> :wincmd j<CR>
+nmap <silent> <C-k> :wincmd k<CR>
+nmap <silent> <C-h> :wincmd h<CR>
+nmap <silent> <C-l> :wincmd l<CR>
+nmap <silent> <leader>tt :tabnew<CR>
+tnoremap <C-h> <c-\><c-n><c-w>h
+tnoremap <C-j> <c-\><c-n><c-w>j
+tnoremap <C-k> <c-\><c-n><c-w>k
+tnoremap <C-l> <c-\><c-n><c-w>
 " noremap <Leader>s :<C-u>split<CR>
 " noremap <Leader>v :<C-u>vsplit<CR>
 
@@ -92,9 +97,6 @@ nnoremap ˚ :m .-2<CR>==
 vnoremap ∆ :m '>+1<CR>gv=gv
 vnoremap ˚ :m '<-2<CR>gv=gv
 
-" Tabularize
-vmap <leader>ta :Tabularize /
-
 " search current selection
 xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
@@ -102,9 +104,8 @@ xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
 command! -bang ColorDark call ColorDark()<bang>
 command! -bang ColorLight call ColorLight()<bang>
 
-" Config
-command! -bang ConfigNvim :e ~/.config/nvim/init.vim<bang>
-command! -bang ConfigReload :so ~/.config/nvim/init.vim<bang>
+" Config Reload
+nnoremap <silent> <leader>. :lua package.loaded.config = nil <cr>:source ~/.config/nvim/init.vim <cr>:echo 'Neovim Config Reloaded' <cr>
 
 " NewsBoat urls
 command! -bang Feeds :e ~/.newsboat/urls<bang>
@@ -116,12 +117,19 @@ inoremap ∫ <C-R>=Branch()<CR>
 nmap <leader>n :!node %<CR>
 
 " replace word under cursor, globally, with confirmation
-nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
-vnoremap <Leader>r y :%s/<C-r>"//gc<Left><Left><Left>
+nnoremap <Leader>r :%s/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>
+vnoremap <Leader>r y :%s/<C-r>"/<C-r><C-w>/gc<Left><Left><Left>
 
-if has("nvim")
-  au TermOpen * tnoremap <Esc> <c-\><c-n>
-  au TermOpen set nonumber
-  nnoremap gq :bd!<CR>
-endif
-
+" terminal
+nnoremap <leader>ts :botright p term://zsh<cr>
+nnoremap <leader>tv :botright vsp term://zsh<cr>
+augroup neovim_terminal
+    autocmd!
+    " Enter Terminal-mode (insert) automatically
+    autocmd TermOpen * startinsert
+    " Disables number lines on terminal buffers
+    autocmd TermOpen * :set nonumber norelativenumber
+    " Esc key to go normal mode
+    au TermOpen * tnoremap <Esc> <c-\><c-n>
+    nnoremap gq :bd!<CR>
+augroup END
