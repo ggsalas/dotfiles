@@ -2,7 +2,7 @@
 nnoremap <leader>j <cmd>lua require'config.telescopeconfig'.buffer_list({ prompt_title = 'Search Buffers'})<CR>
 nnoremap <leader>f <cmd>lua require'config.telescopeconfig'.find_files()<CR>
 nnoremap <leader>s <cmd>SearchTelescope .<CR>
-nnoremap <leader>S <cmd>lua require'config.telescopeconfig'.grep_last_search()<CR>
+" nnoremap <leader>S <cmd>lua require'config.telescopeconfig'.grep_last_search()<CR>
 nnoremap <leader>* <cmd>lua require'telescope.builtin'.grep_string({ prompt_title = 'Live Grep "under cursor" in working dir' , shorten_path = true, disable_devicons = true})<CR>
 nnoremap <leader>- <cmd>lua require'config.telescopeconfig'.file_browser()<CR>
 command! -complete=dir -nargs=* -bang SearchTelescope lua require'config.telescopeconfig'.grep_string(<f-args>)<cr>

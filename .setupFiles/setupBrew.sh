@@ -89,6 +89,7 @@
 # brew install neovim --HEAD
 # brew install ripgrep
 # brew install go
+# brew install gnu-sed
 brew install luarocks
 brew install shfmt
 # npm install -g neovim prettier eslint prettier-eslint-cli eslint_d typescript-language-server

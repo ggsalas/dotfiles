@@ -49,6 +49,9 @@ call plug#begin()
   Plug 'itchyny/vim-gitbranch'                                  " Git branch name
   Plug 'airblade/vim-gitgutter'
 
+  " plug_search_replace
+  Plug 'windwp/nvim-spectre'
+
   " helpers
   Plug 'pbrisbin/vim-mkdir'                                     " create new dirs on save file
   Plug 'tmhedberg/matchit'                                      " extendeds % matching
@@ -67,3 +70,4 @@ call plug#end()
 lua require("config")
 call s:SourceConfigFile('plug_telescope')
 call s:SourceConfigFile('plug_lsp')
+call s:SourceConfigFile('plug_search_replace')
