@@ -72,6 +72,7 @@
 # brew install --cask simplenote
 # brew install --cask karabiner-elements
 # brew install --cask rectangle
+# brew install alt-tab
 # # brew install --cask easy-move-plus-resize
 # brew install --cask gimp
 # brew install --cask inkscape
@@ -86,13 +87,13 @@
 # brew install --cask calibre
 # 
 # # Neovim 0.5
-# brew install neovim --HEAD
+brew install neovim #.. or  --HEAD
 # brew install ripgrep
 # brew install go
 # brew install gnu-sed
 brew install luarocks
 brew install shfmt
-# npm install -g neovim prettier eslint prettier-eslint-cli eslint_d typescript-language-server
+npm install -g neovim prettier eslint prettier-eslint-cli eslint_d typescript-language-server
 luarocks install --server=https://luarocks.org/dev luaformatter
 
 # 

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.ivan.startup</string>
+    <string>com.ggsalas.startup</string>
 
     <key>OnDemand</key>
     <false/>
