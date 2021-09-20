@@ -1,7 +1,7 @@
-augroup lua_fmt
-  autocmd!
-  au BufWritePre *.js,*.jsx,*.ts,*.tsx,*.json,*.yaml,*.css,*.scss,*.html,*.lua,*.vim :lua vim.lsp.buf.formatting_sync(nil, 1000)
-augroup END
+" augroup lua_fmt
+"   autocmd!
+"   au BufWritePre *.js,*.jsx,*.ts,*.tsx,*.json,*.yaml,*.css,*.scss,*.html,*.lua,*.vim :lua vim.lsp.buf.formatting_sync(nil, 1000)
+" augroup END
 
 " LSP mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -13,7 +13,7 @@ nnoremap <silent> ]l <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 nnoremap <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>k <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-command! -bang Format :lua vim.lsp.buf.formatting_sync(nil, 1000)<CR>
+command! -bang Format :lua vim.lsp.buf.formatting_sync({}, 1000)<CR>
 
 sign define LspDiagnosticsSignError text=✖
 sign define LspDiagnosticsSignWarning text=

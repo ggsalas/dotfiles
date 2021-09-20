@@ -40,6 +40,7 @@ call plug#begin()
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug 'nvim-telescope/telescope-fzf-writer.nvim'
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+  Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'kyazdani42/nvim-web-devicons'                           " for file icons
 
   " treeSitter.lua

@@ -1,4 +1,5 @@
 require'lspinstall'.setup()
+local ts_utils = require("nvim-lsp-ts-utils")
 
 -- vim.lsp.set_log_level("debug")
 DATA_PATH = vim.fn.stdpath('data')
@@ -14,92 +15,130 @@ lsp.yaml.setup {}
 lsp.bash.setup {}
 lsp.vim.setup {}
 
+-- Linter null-ls
+-----------------
+require("null-ls").config {
+  -- debug = true,
+}
+
+lsp["null-ls"].setup {}
+
+local M = {}
+
+M.on_save = function()
+  require("nvim-lsp-ts-utils").organize_imports_sync()
+  vim.lsp.buf.formatting_sync()
+end
+
 -- Typescript setup
 -------------------
 lsp.tsserver.setup({
-    on_attach = function(client)
-        client.resolved_capabilities.document_formatting = false
+  -- debug = true,
+  on_attach = function(client)
+      -- disable tsserver formatting if you plan on formatting via null-ls
+      client.resolved_capabilities.document_formatting = false
+      client.resolved_capabilities.document_range_formatting = false
 
-        require("nvim-lsp-ts-utils").setup {
-            debug = true,
-            disable_commands = true,
-            update_imports_on_move = true,
-            require_confirmation_on_move = true
-        }
+      -- format on save
+      -- vim.cmd("autocmd BufWritePre <buffer> lua require'config.lspconfig'.on_save()")
+      vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
 
-    end
+      ts_utils.setup {
+          -- debug = true,
+          disable_commands = false,
+          update_imports_on_move = true,
+          require_confirmation_on_move = true,
+
+          enable_import_on_completion = true,
+          import_all_timeout = 5000, -- ms
+
+          -- eslint
+          eslint_enable_code_actions = true,
+          eslint_enable_disable_comments = true,
+          eslint_config_fallback = nil,
+          eslint_enable_diagnostics = true,
+
+          -- formatting
+          enable_formatting = true,
+          formatter_config_fallback = nil,
+      }
+
+      ts_utils.setup_client(client)
+
+  end
 })
 
 -- Lua setup
 ------------
 lsp.lua.setup {settings = {Lua = {diagnostics = {globals = {'vim'}}}}}
 
+
 -- Efm setup (linter)
 ---------------------
--- ts
-local prettier = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
-local eslint = {
-    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-    lintIgnoreExitCode = true,
-    lintStdin = true,
-    lintFormats = {"%f:%l:%c: %m"},
-    formatCommand = "eslint_d -f unix --fix-to-stdout --stdin --stdin-filename ${INPUT}",
-    formatStdin = true
-}
+-- -- ts
+-- local prettier = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
+-- local eslint = {
+--     lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+--     lintIgnoreExitCode = true,
+--     lintStdin = true,
+--     lintFormats = {"%f:%l:%c: %m"},
+--     formatCommand = "eslint_d -f unix --fix-to-stdout --stdin --stdin-filename ${INPUT}",
+--     formatStdin = true
+-- }
 
-local tsserver_args = {}
-table.insert(tsserver_args, prettier)
-table.insert(tsserver_args, eslint)
+-- local tsserver_args = {}
+-- table.insert(tsserver_args, prettier)
+-- table.insert(tsserver_args, eslint)
 
--- lua
-local luaFormat = {
-    formatCommand = "lua-format -i --no-keep-simple-function-one-line --column-limit=120",
-    formatStdin = true
-}
+-- -- lua
+-- local luaFormat = {
+--     formatCommand = "lua-format -i --no-keep-simple-function-one-line --column-limit=120",
+--     formatStdin = true
+-- }
 
-local lua_arguments = {}
-table.insert(lua_arguments, luaFormat)
+-- local lua_arguments = {}
+-- table.insert(lua_arguments, luaFormat)
 
--- sh
-local shfmt = {formatCommand = 'shfmt -ci -s -bn', formatStdin = true}
+-- -- sh
+-- local shfmt = {formatCommand = 'shfmt -ci -s -bn', formatStdin = true}
 
-local sh_arguments = {}
-table.insert(sh_arguments, shfmt)
+-- local sh_arguments = {}
+-- table.insert(sh_arguments, shfmt)
 
-lsp.efm.setup {
-    cmd = {DATA_PATH .. "/lspinstall/efm/efm-langserver"},
-    init_options = {documentFormatting = true, codeAction = false},
-    filetypes = {
-        "lua", "javascriptreact", "javascript", "typescript", "typescriptreact", "sh", "html", "css", "scss", "json",
-        "yaml", "markdown", "vue"
-    },
-    settings = {
-        rootMarkers = {".git/"},
-        languages = {
-            javascript = tsserver_args,
-            javascriptreact = tsserver_args,
-            typescript = tsserver_args,
-            typescriptreact = tsserver_args,
-            html = {prettier},
-            css = {prettier},
-            scss = {prettier},
-            json = {prettier},
-            yaml = {prettier},
-            lua = lua_arguments,
-            sh = sh_arguments
-            -- markdown = {markdownPandocFormat}
-        }
-    }
-    -- Using augroup on plug_lsp.vim because this stop work if open many buffers
-    -- on_attach = function(client)
-    --   if client.resolved_capabilities.document_formatting then
-    --     vim.cmd [[augroup Format]]
-    --     vim.cmd [[autocmd!]]
-    --     vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nill, 1000)]]
-    --     vim.cmd [[augroup END]]
-    --   end
-    -- end
-}
+-- lsp.efm.setup {
+--     cmd = {DATA_PATH .. "/lspinstall/efm/efm-langserver"},
+--     init_options = {documentFormatting = true, codeAction = false},
+--     filetypes = {
+--         "lua", "javascriptreact", "javascript", "typescript", "typescriptreact", "sh", "html", "css", "scss", "json",
+--         "yaml", "markdown", "vue"
+--     },
+--     settings = {
+--         rootMarkers = {".git/"},
+--         languages = {
+--             javascript = tsserver_args,
+--             javascriptreact = tsserver_args,
+--             typescript = tsserver_args,
+--             typescriptreact = tsserver_args,
+--             html = {prettier},
+--             css = {prettier},
+--             scss = {prettier},
+--             json = {prettier},
+--             yaml = {prettier},
+--             lua = lua_arguments,
+--             sh = sh_arguments
+--             -- markdown = {markdownPandocFormat}
+--         }
+--     }
+--     -- Using augroup on plug_lsp.vim because this stop work if open many buffers
+--     -- on_attach = function(client)
+--     --   if client.resolved_capabilities.document_formatting then
+--     --     vim.cmd [[augroup Format]]
+--     --     vim.cmd [[autocmd!]]
+--     --     vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nill, 1000)]]
+--     --     vim.cmd [[augroup END]]
+--     --   end
+--     -- end
+-- }
 
 -- Lsp-status setup (status line)
 ---------------------------------
@@ -126,3 +165,5 @@ lsp_status.config({
     indicator_ok = ' ',
     status_symbol = ' '
 })
+
+return M
