@@ -103,6 +103,28 @@
           ]
         }
       ]
+    },
+    {
+      "description": "[option+shift] Change tab to option+shift if pressed with other keys",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "tab"
+          },
+          "to": [
+            {
+              "key_code": "left_shift",
+              "modifiers": ["left_option"]
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "tab"
+            }
+          ],
+          "type": "basic"
+        }
+      ]
     }
   ]
 }
