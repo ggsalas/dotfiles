@@ -24,6 +24,7 @@ call plug#begin()
   call s:SourceConfigFile('plug_comment')
   call s:SourceConfigFile('plug_syntax')
   call s:SourceConfigFile('plug_draw')
+  call s:SourceConfigFile('plug_presenting')
 
   " plug_lsp.vim && lspconfig.lua
   Plug 'neovim/nvim-lspconfig'

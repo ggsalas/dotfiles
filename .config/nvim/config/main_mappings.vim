@@ -121,8 +121,8 @@ nnoremap <Leader>r :%s/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>
 vnoremap <Leader>r y :%s/<C-r>"/<C-r><C-w>/gc<Left><Left><Left>
 
 " terminal
-nnoremap <leader>ts :botright p term://zsh<cr>
-nnoremap <leader>tv :botright vsp term://zsh<cr>
+nnoremap <leader>es :botright sp term://zsh<cr>
+nnoremap <leader>ee :botright vsp term://zsh<cr>
 augroup neovim_terminal
     autocmd!
     " Enter Terminal-mode (insert) automatically
@@ -131,5 +131,7 @@ augroup neovim_terminal
     autocmd TermOpen * :set nonumber norelativenumber
     " Esc key to go normal mode
     au TermOpen * tnoremap <Esc> <c-\><c-n>
+    autocmd TermOpen * tnoremap . i<Up><CR>
+
     nnoremap gq :bd!<CR>
 augroup END

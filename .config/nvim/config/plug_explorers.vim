@@ -1,11 +1,11 @@
 Plug 'justinmk/vim-dirvish'                                   " file explorer 
-Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'kyazdani42/nvim-tree.lua'
 
 nnoremap _ :Dirvish<CR>
 nnoremap <leader>_ :NvimTreeFindFile<CR>
 
 let g:nvim_tree_auto_close = 1
-let g:nvim_tree_quit_on_open = 1
+let g:nvim_tree_quit_on_open = 0
 let g:nvim_tree_show_icons = {
     \ 'git': 1,
     \ 'folders': 1,

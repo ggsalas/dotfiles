@@ -74,7 +74,7 @@ M.grep_string = function(search, dir)
         search_dirs = search_dir,
         disable_devicons = true,
         only_sort_text = true,
-        shorten_path = true,
+        path_display = "shorten",
         use_regex = true,
         layout_strategy = "vertical",
         layout_config = {preview_height = 0.65},
@@ -91,7 +91,7 @@ M.grep_last_search = function(opts)
     -- -> Subs out the search things
     local register = vim.fn.getreg("/"):gsub("\\<", ""):gsub("\\>", ""):gsub("\\C", "")
 
-    opts.shorten_path = true
+    opts.path_display = "shorten"
     opts.word_match = "-w"
     opts.search = register
     -- opts.layout_strategy = "vertical"
@@ -101,7 +101,7 @@ end
 
 -- M.grep_in_folder = function(dir)
 --     require('telescope').extensions.fzf_writer.grep({
---         shorten_path = true,
+--         path_display = "shorten",
 --         -- prompt_title = string.format('Live Grep on %s', dir),
 --         prompt_title = string.format('Live Grep on %s', vim.fn.pathshorten(dir)),
 --         cwd = dir,
@@ -112,7 +112,7 @@ end
 
 -- M.grep = function()
 --     require('telescope').extensions.fzf_writer.grep({
---         shorten_path = true,
+--         path_display = "shorten",
 --         prompt_title = 'Live Grep',
 --         only_sort_text = true,
 --         disable_devicons = true
