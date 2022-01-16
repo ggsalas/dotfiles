@@ -22,6 +22,21 @@ CACHE_PATH = vim.fn.stdpath('cache')
 -- lspconfig.bashls.setup{}
 -- lspconfig.vimls.setup{}
 
+-- Linter null-ls
+-----------------
+require("null-ls").config {
+  -- debug = true,
+}
+
+lsp["null-ls"].setup {}
+
+local M = {}
+
+M.on_save = function()
+  require("nvim-lsp-ts-utils").organize_imports_sync()
+  vim.lsp.buf.formatting_sync()
+end
+
 -- Typescript setup
 -------------------
 lspconfig.tsserver.setup({
@@ -34,6 +49,7 @@ lspconfig.tsserver.setup({
       update_imports_on_move = true,
       require_confirmation_on_move = true
     }
+
   end
 })
 
@@ -51,6 +67,7 @@ lspconfig.tsserver.setup({
 --       settings = {Lua = {diagnostics = {globals = {'vim'}}}}
 --     },
 -- })
+
 
 -- Efm setup (linter)
 ---------------------
@@ -139,3 +156,5 @@ lsp_status.config({
   indicator_ok = ' ',
   status_symbol = ' '
 })
+
+return M

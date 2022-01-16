@@ -1,7 +1,7 @@
-augroup lua_fmt
-  autocmd!
-  au BufWritePre *.js,*.jsx,*.ts,*.tsx,*.json,*.yaml,*.css,*.scss,*.html,*.lua,*.vim :lua vim.lsp.buf.formatting_sync(nil, 1000)
-augroup END
+" augroup lua_fmt
+"   autocmd!
+"   au BufWritePre *.js,*.jsx,*.ts,*.tsx,*.json,*.yaml,*.css,*.scss,*.html,*.lua,*.vim :lua vim.lsp.buf.formatting_sync(nil, 1000)
+" augroup END
 
 " LSP mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
