@@ -14,7 +14,6 @@ call s:SourceConfigFile('main_mappings')
 " Plugins
 """""""""
 call plug#begin()
-  call s:SourceConfigFile('main_visual')
   call s:SourceConfigFile('main_undo')
   call s:SourceConfigFile('plug_explorers')
   call s:SourceConfigFile('plug_sneak')
@@ -28,7 +27,8 @@ call plug#begin()
 
   " plug_lsp.vim && lspconfig.lua
   Plug 'neovim/nvim-lspconfig'
-  Plug 'kabouzeid/nvim-lspinstall'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'williamboman/nvim-lsp-installer'
   Plug 'hrsh7th/nvim-compe'
   Plug 'nvim-lua/lsp-status.nvim'
 
@@ -53,6 +53,9 @@ call plug#begin()
   " plug_search_replace
   Plug 'windwp/nvim-spectre'
 
+  " colors
+  Plug 'RRethy/nvim-base16'
+
   " helpers
   Plug 'pbrisbin/vim-mkdir'                                     " create new dirs on save file
   Plug 'tmhedberg/matchit'                                      " extendeds % matching
@@ -72,3 +75,4 @@ lua require("config")
 call s:SourceConfigFile('plug_telescope')
 call s:SourceConfigFile('plug_lsp')
 call s:SourceConfigFile('plug_search_replace')
+call s:SourceConfigFile('main_visual')

@@ -48,6 +48,7 @@ set incsearch
 set hlsearch
 set relativenumber
 set scrolloff=1
+set diffopt=vertical " diff split vertical
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.

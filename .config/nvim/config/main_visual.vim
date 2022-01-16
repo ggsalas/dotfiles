@@ -1,5 +1,5 @@
 " Plug 'RRethy/nvim-base16' " Seems is not needed
-Plug 'chriskempson/base16-vim'
+" Plug 'chriskempson/base16-vim'
 
 " Functions
 """""""""""
@@ -46,21 +46,57 @@ function! s:changeColorsBasedOnMacos() abort
 
   if (hasDarkmode=~'on')
     call ColorDark()
-    call s:base16_customize()
   else 
     call ColorLight()
-    call s:base16_customize()
   endif
 endfunction
 
 function! ColorLight()
-  set background=light
-  color base16-solarized-light
+set background=light
+
+" solarized light
+let g:base16_00 = '#fdf6e3'
+let g:base16_01 = '#eee8d5' 
+let g:base16_02 = '#93a1a1' 
+let g:base16_03 = '#839496'
+let g:base16_04 = '#657b83' 
+let g:base16_05 = '#586e75' 
+let g:base16_06 = '#073642' 
+let g:base16_07 = '#002b36'
+let g:base16_08 = '#dc322f' 
+let g:base16_09 = '#cb4b16' 
+let g:base16_0A = '#b58900' 
+let g:base16_0B = '#859900'
+let g:base16_0C = '#2aa198' 
+let g:base16_0D = '#268bd2' 
+let g:base16_0E = '#6c71c4' 
+let g:base16_0F = '#d33682'
+
+  call Base16_customize()
 endfunction
 
 function! ColorDark()
-  set background=dark
-  color base16-dracula
+set background=dark
+
+" color dracula
+let g:base16_00 = '#282936'
+let g:base16_01 = '#3a3c4e'
+let g:base16_02 = '#4d4f68'
+let g:base16_03 = '#626483'
+let g:base16_04 = '#62d6e8'
+let g:base16_05 = '#e9e9f4'
+let g:base16_06 = '#f1f2f8'
+let g:base16_07 = '#f7f7fb'
+let g:base16_08 = '#ea51b2'
+let g:base16_09 = '#b45bcf'
+let g:base16_0A = '#00f769'
+let g:base16_0B = '#ebff87'
+let g:base16_0C = '#a1efe4'
+let g:base16_0D = '#62d6e8'
+let g:base16_0E = '#b45bcf'
+let g:base16_0F = '#00f769'
+
+  call Base16_customize()
 endfunction
 
 " Main
@@ -80,35 +116,29 @@ let g:gitgutter_sign_allow_clobber = 0
 
 " base 16 colors
 " Color list: http://chriskempson.com/projects/base16/
-function! s:base16_customize() abort
-  call Base16hi("Cursor", g:base16_gui00, g:base16_gui0F, g:base16_cterm00, g:base16_cterm05, "", "")
-  call Base16hi("StatusLine", g:base16_gui00, g:base16_gui05, g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("StatusLineNC", g:base16_gui05, g:base16_gui02, g:base16_cterm01, g:base16_cterm05, "bold", "")
+function! Base16_customize() abort
+lua <<EOF
+require('base16-colorscheme').setup({
+    base00 = vim.g["base16_00"], base01 = vim.g["base16_01"],  base02 = vim.g["base16_02"],  base03 = vim.g["base16_03"], 
+    base04 = vim.g["base16_04"], base05 = vim.g["base16_05"],  base06 = vim.g["base16_06"],  base07 = vim.g["base16_07"], 
+    base08 = vim.g["base16_08"], base09 = vim.g["base16_09"],  base0A = vim.g["base16_0A"],  base0B = vim.g["base16_0B"], 
+    base0C = vim.g["base16_0C"], base0D = vim.g["base16_0D"],  base0E = vim.g["base16_0E"],  base0F = vim.g["base16_0F"], 
+})
+EOF
 
-  call Base16hi("LineNr", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "", "")
-  call Base16hi("FoldColumn", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "", "")
-  call Base16hi("SignColumn", g:base16_gui03, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("Visual", g:base16_gui00, g:base16_gui03, g:base16_cterm00, g:base16_cterm05, "", "")
+hi Cursor guifg=white guibg=#d73c9a
 
-   call Base16hi("GitGutterAdd ", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
-   call Base16hi("GitGutterChange", g:base16_gui0E, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
-   call Base16hi("GitGutterDelete", g:base16_gui08, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
-   call Base16hi("GitGutterChangeDelete", g:base16_gui08, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
+" for set highlight using variables
+exe 'hi StatusLine guifg=' . g:base16_00
+exe 'hi Visual guibg=' . g:base16_01
+exe 'hi DiagnosticVirtualTextError guifg=' . g:base16_03
+exe 'hi DiagnosticVirtualTextWarn guifg=' . g:base16_03
+exe 'hi DiagnosticVirtualTextInfo guifg=' . g:base16_03
+exe 'hi DiagnosticVirtualTextHint guifg=' . g:base16_03
 
-  call Base16hi("CocErrorHighlight", "", "transparent", g:base16_cterm00, g:base16_cterm05, "", "")
-  call Base16hi("CocErrorSign", g:base16_gui08, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("CocWarningSign", g:base16_gui09, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("CocInfoSign", g:base16_gui0E, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
-  call Base16hi("CocHintSign", g:base16_gui03, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
-
-  call Base16hi("TelescopeMatching", g:base16_gui08, "transparent", g:base16_cterm00, g:base16_cterm05, "bold", "")
-
-  call Base16hi("TabLineSel", g:base16_gui0B, g:base16_gui00, g:base16_cterm00, g:base16_cterm05, "bold", "")
-
-  call Base16hi("SpellBad", "", "", "", "", "undercurl", g:base16_gui03)
-  call Base16hi("SpellCap", "", "", "", "", "none", "")
-  call Base16hi("SpellRare", "", "", "", "", "none", "")
-  call Base16hi("SpellLocal", "", "", "", "", "none", "")
+hi SpellCap gui=NONE
+hi SpellRare gui=NONE
+hi SpellLocal gui=NONE
 endfunction
 
 let g:fzf_colors =
@@ -128,7 +158,7 @@ let g:fzf_colors =
 
 augroup on_change_colorschema
   autocmd!
-  autocmd ColorScheme * call s:base16_customize()
+  autocmd ColorScheme * call Base16_customize()
   autocmd VimEnter,FocusGained  * call s:changeColorsBasedOnMacos()  
 augroup END
 
