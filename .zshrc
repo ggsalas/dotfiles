@@ -25,7 +25,7 @@ source ~/.config/nnn/nnn.zsh
 source ~/developer/calibreNews/kindle.zsh
  
 # Personal config
-source /Volumes/GoogleDrive/My\ Drive/.config-private/personal.zsh
+source ~/Google\ Drive/My\ Drive/.config-private/personal.zsh
 
 
 #################################################################################
@@ -78,7 +78,8 @@ alias vip="nvim -c 'term' -c 'file Console' -c 'term' -c 'file Server'"
 
 # file snd folders
 alias ..='cd ..'
-alias ls="ls -Gla"
+# alias ls="ls -Gla"
+alias ls='/usr/local/opt/coreutils/libexec/gnubin/ls -l --hyperlink=auto --color=auto'
 alias ll='n'
 # alias ll='br -dp -gh'
 

@@ -1,5 +1,8 @@
 require("config.lspconfig")
+require("config.lspconfig").setup()
 require("config.treeSitter")
 require("config.telescopeConfig")
 require("config.nvim-tree")
 require("config.spectre")
+require("config.gitsigns")
+require("config.comment")

@@ -37,14 +37,14 @@ endfunction
 " Notes
 function! NoteList()
   let path = getcwd()
-  execute "cd ~/Google Drive/Notas/"
+  execute "cd ~/Google Drive/My Drive/Notas/"
   execute FzfOmniFiles()
   execute "cd ".path
 endfunction
 
 function! NoteSearch()
   let path = getcwd()
-  execute "cd ~/Google Drive/Notas/"
+  execute "cd ~/Google Drive/My Drive/Notas/"
   execute "Ag"
   execute "cd ".path
 endfunction

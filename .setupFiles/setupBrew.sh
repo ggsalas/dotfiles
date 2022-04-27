@@ -93,8 +93,10 @@ brew install neovim #.. or  --HEAD
 # brew install gnu-sed
 brew install luarocks
 brew install shfmt
-npm install -g neovim prettier eslint prettier-eslint-cli eslint_d typescript-language-server
+npm install -g neovim prettier eslint prettier-eslint-cli eslint_d typescript-language-server @tailwindcss/language-server vscode-langservers-extracted cssmodules-language-server vim-language-server
 luarocks install --server=https://luarocks.org/dev luaformatter
+brew install stylua # like prettier for lua code
+brew install fd
 
 # 
 # # install Plug for vim

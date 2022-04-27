@@ -48,14 +48,23 @@ call plug#begin()
 
   " git
   Plug 'tpope/vim-fugitive'                                     " Git 
+  Plug 'tpope/vim-rhubarb'
   Plug 'itchyny/vim-gitbranch'                                  " Git branch name
-  Plug 'airblade/vim-gitgutter'
+  " Plug 'airblade/vim-gitgutter'
+  Plug 'lewis6991/gitsigns.nvim'                                " Same as gitgutter
 
   " plug_search_replace
   Plug 'windwp/nvim-spectre'
 
   " colors
   Plug 'RRethy/nvim-base16'
+
+  " File explorer
+  Plug 'kyazdani42/nvim-tree.lua'
+
+  " Comment
+  Plug 'numToStr/Comment.nvim'
+  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
   " helpers
   Plug 'pbrisbin/vim-mkdir'                                     " create new dirs on save file
@@ -66,6 +75,7 @@ call plug#begin()
   Plug 'machakann/vim-highlightedyank'
   Plug 'tpope/vim-eunuch'
   Plug 'tjdevries/train.nvim'
+  Plug 'chrisbra/Colorizer' "hi color
 
 call plug#end()
 

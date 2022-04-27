@@ -31,11 +31,13 @@ end
 require('telescope').setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
-        prompt_prefix = "❯ ",
+        prompt_prefix = "  ",
         selection_caret = "❯ ",
         disable_devicons = true, -- seems is not detected as default, added on each function
         layout_strategy = "flex",
         layout_config = {horizontal = {preview_width = 0.3}, vertical = {preview_height = 0.3}},
+        border = true,
+        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         mappings = {
             i = {
                 ["<C-j>"] = actions.move_selection_next,
@@ -270,7 +272,7 @@ M.search_dot_files = function()
 end
 
 M.search_notes = function()
-    builtin.find_files({prompt_title = "Notes", cwd = "/Volumes/GoogleDrive/My Drive/Notas", disable_devicons = true})
+    builtin.find_files({prompt_title = "Notes", cwd = "~/Google Drive/My Drive/Notas/", disable_devicons = true})
 end
 
 return M
