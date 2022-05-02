@@ -31,7 +31,7 @@ end
 require('telescope').setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
-        prompt_prefix = "  ",
+        prompt_prefix = "  ",
         selection_caret = "❯ ",
         disable_devicons = true, -- seems is not detected as default, added on each function
         layout_strategy = "flex",
@@ -47,11 +47,17 @@ require('telescope').setup {
             },
             n = {["<C-w>"] = actions.send_selected_to_qflist, ["<C-q>"] = actions.send_to_qflist}
         }
+    },
+    extensions = {
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown {}
+      }
     }
 }
 
 require('telescope').load_extension('fzy_native')
 -- require('telescope').load_extension('fzf_writer')
+require('telescope').load_extension('ui-select')
 
 local M = {}
 

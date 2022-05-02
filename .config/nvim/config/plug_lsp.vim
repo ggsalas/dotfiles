@@ -5,11 +5,12 @@
 
 " LSP mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> [l <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> ]l <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent>gD <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent>gi <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent>K <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent>[l <cmd>lua vim.diagnostic.goto_prev()<CR>
+nnoremap <silent>]l <cmd>lua vim.diagnostic.goto_next()<CR>
+nnoremap <silent>ga <cmd>lua vim.lsp.buf.code_action()<CR>
 
 nnoremap <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>k <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>

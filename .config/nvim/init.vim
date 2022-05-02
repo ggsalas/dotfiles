@@ -42,6 +42,7 @@ call plug#begin()
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
   Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'kyazdani42/nvim-web-devicons'                           " for file icons
+  Plug 'nvim-telescope/telescope-ui-select.nvim'
 
   " treeSitter.lua
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -75,13 +76,14 @@ call plug#begin()
   Plug 'machakann/vim-highlightedyank'
   Plug 'tpope/vim-eunuch'
   Plug 'tjdevries/train.nvim'
-  Plug 'chrisbra/Colorizer' "hi color
+  Plug 'norcalli/nvim-colorizer.lua'
 
 call plug#end()
 
 
 " Configs after plug
 """"""""""""""""""""
+set termguicolors
 lua require("config")
 call s:SourceConfigFile('plug_telescope')
 call s:SourceConfigFile('plug_lsp')

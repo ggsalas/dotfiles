@@ -135,7 +135,13 @@ augroup neovim_terminal
     autocmd TermOpen * tnoremap <Esc> <c-\><c-n>
 
     " repeat last command with . in normal mode
-    autocmd TermOpen * nnoremap . i<Up><CR>
+    " autocmd TermOpen * nnoremap . i<Up><CR>
 
     nnoremap gq :bd!<CR>
 augroup END
+
+" Navigate PUM with arrows instesf <C-N>
+if &wildoptions =~ "pum"
+    cnoremap <expr> <up> pumvisible() ? "<C-p>" : "\\<up>"
+    cnoremap <expr> <down> pumvisible() ? "<C-n>" : "\\<down>"
+endif
