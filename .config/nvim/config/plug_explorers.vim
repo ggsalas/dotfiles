@@ -7,11 +7,11 @@ nnoremap <leader>_ :NvimTreeToggle<CR>
 
 " let g:nvim_tree_auto_close = 1
 " let g:nvim_tree_quit_on_open = 0
-let g:nvim_tree_show_icons = {
-    \ 'git': 1,
-    \ 'folders': 1,
-    \ 'files': 0,
-    \ }
+" let g:nvim_tree_show_icons = {
+"     \ 'git': 1,
+"     \ 'folders': 1,
+"     \ 'files': 0,
+"     \ }
 
 " Sort folders first, then files
 let g:dirvish_mode = ':sort ,^.*[\/],'

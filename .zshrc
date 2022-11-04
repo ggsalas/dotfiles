@@ -22,7 +22,7 @@ source ~/.config/zsh/git.zsh
 source ~/.config/nnn/nnn.zsh
 
 # kindle
-source ~/developer/calibreNews/kindle.zsh
+source ~/Developer/calibre-news/kindle.zsh
  
 # Personal config
 source ~/Google\ Drive/My\ Drive/.config-private/personal.zsh
@@ -79,7 +79,7 @@ alias vip="nvim -c 'term' -c 'file Console' -c 'term' -c 'file Server'"
 # file snd folders
 alias ..='cd ..'
 # alias ls="ls -Gla"
-alias ls='/usr/local/opt/coreutils/libexec/gnubin/ls -l --hyperlink=auto --color=auto'
+alias ls='$(brew --prefix coreutils)/libexec/gnubin/ls -l --hyperlink=auto --color=auto'
 alias ll='n'
 # alias ll='br -dp -gh'
 

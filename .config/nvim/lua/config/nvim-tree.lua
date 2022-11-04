@@ -10,6 +10,7 @@ require'nvim-tree'.setup {
     enable = false,
   },
   view = {
+    width = 50,
     mappings = {
       list = {
           { key = {"<CR>", "o", "<2-LeftMouse>", "l"}, action = "edit" },

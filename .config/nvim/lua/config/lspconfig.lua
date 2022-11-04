@@ -2,6 +2,9 @@ local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
 local lsp_installer = require("nvim-lsp-installer")
 
+--[[ [LSP] Accessing client.resolved_capabilities is deprecated, update your plugins or configuration to access client.server_capabilities instead.The new key/value pairs in server_capabilities directly m ]]
+--[[ atch those defined in the language server protocol ]]
+
 -- vim.lsp.set_log_level("debug")
 DATA_PATH = vim.fn.stdpath("data")
 CACHE_PATH = vim.fn.stdpath("cache")
@@ -43,6 +46,7 @@ if not null_ls_status_ok then
   return
 end
 
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 null_ls.setup({
   debug = true,
   sources = {
@@ -51,23 +55,18 @@ null_ls.setup({
     null_ls.builtins.formatting.prettier,
     null_ls.builtins.formatting.stylua.with({ extra_args = { "--indent-type Spaces" } }),
   },
-  on_attach = function(client)
-    if client.resolved_capabilities.document_formatting then
-      vim.cmd([[
-          augroup LspFormatting
-              autocmd! * <buffer>
-              autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-          augroup END
-          ]])
-      -- Backup of organize_imports_sync, because is reordering in a wrong way
-      -- vim.cmd([[
-      -- augroup LspFormatting
-      --     autocmd! * <buffer>
-      --     autocmd BufWritePre <buffer> lua require("nvim-lsp-ts-utils").organize_imports_sync()
-      --     autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-      -- augroup END
-      -- ]])
-    end
+  on_attach = function(client, bufnr)
+      if client.supports_method("textDocument/formatting") then
+          vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+          vim.api.nvim_create_autocmd("BufWritePre", {
+              group = augroup,
+              buffer = bufnr,
+              callback = function()
+                  -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+                  vim.lsp.buf.formatting_sync()
+              end,
+          })
+      end
   end,
 })
 
@@ -75,8 +74,7 @@ null_ls.setup({
 -------------------
 lspconfig.tsserver.setup({
   on_attach = function(client)
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.documentFormattingProvider = false
 
     require("nvim-lsp-ts-utils").setup({
       debug = true,

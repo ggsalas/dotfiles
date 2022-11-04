@@ -13,7 +13,7 @@ nnoremap <silent>]l <cmd>lua vim.diagnostic.goto_next()<CR>
 nnoremap <silent>ga <cmd>lua vim.lsp.buf.code_action()<CR>
 
 nnoremap <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <leader>k <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+nnoremap <leader>k <cmd>lua vim.diagnostic.open_float()<CR>
 command! -bang Format :lua vim.lsp.buf.formatting_sync(nil, 10000)<CR>
 
 sign define LspDiagnosticsSignError text=✖
