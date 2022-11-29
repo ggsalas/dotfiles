@@ -166,6 +166,10 @@ augroup END
 
 " Custom values
 exe 'hi StatusLine guifg=' . g:base16_00 . ' guibg=' . g:base16_05
+" exe 'hi WinBar guifg=' . g:base16_00 . ' guibg=' . g:base16_03
+" exe 'hi WinBarNC guifg=' . g:base16_05 . ' guibg=' . g:base16_01
+exe 'hi WinBar guifg=' . g:base16_05 . ' guibg=' . g:base16_00
+exe 'hi WinBarNC guifg=' . g:base16_03 . ' guibg=' . g:base16_00
 exe 'hi Visual guibg=' . g:base16_01
 exe 'hi LineNr guifg=' . g:base16_02
 exe 'hi DiagnosticVirtualTextError guifg=' . g:base16_03
@@ -222,11 +226,18 @@ augroup on_change_colorschema
 augroup END
 
 " Status Line 
-set laststatus=3
+set laststatus=2
 
-set statusline =\[%{gitbranch#name()}]\ %f\ %m
+" set statusline =\[%{gitbranch#name()}]
+set statusline =\ %f\ %m
 set statusline +=\ %*%=\ %*
 set statusline +=\ %*%=\ %*%{LspStatus()}\ %*
+
+" WinBar
+" set winbar =\%f\ %m
+" lua <<EOF
+"   vim.o.winbar = "%{%v:lua.require'config.winbar'.eval()%}"
+" EOF
 
 " Tabs
 set tabline=%!NewTabLine()

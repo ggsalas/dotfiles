@@ -11,9 +11,10 @@ command! -complete=dir -nargs=* -bang SearchTelescope lua require'config.telesco
 " lsp mapings
 nnoremap <silent>gr <cmd>lua require'telescope.builtin'.lsp_references()<CR>
 nnoremap <silent>gd <cmd>lua require'telescope.builtin'.lsp_definitions()<CR>
+nnoremap <silent>gi <cmd>lua require'telescope.builtin'.lsp_implementations()<CR>
 
 " git mappingrequire'telescope.themes'.get_dropdown()s
-nnoremap <leader>gt <cmd>lua require'telescope.builtin'.git_stash()<CR>
+nnoremap <leader>gs <cmd>lua require'telescope.builtin'.git_stash()<CR>
 nnoremap <leader>gb <cmd>lua require'telescope.builtin'.git_branches()<CR>
 nnoremap <leader>gc <cmd>lua require'telescope.builtin'.git_bcommits()<CR>
 nnoremap <leader>gC <cmd>lua require'telescope.builtin'.git_commits()<CR>

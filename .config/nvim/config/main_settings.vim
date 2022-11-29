@@ -50,8 +50,9 @@ set hlsearch
 set scrolloff=1
 set diffopt=vertical " diff split vertical
 set signcolumn=yes
+" set clipboard=
 
-if has("nvim")
+if has("set")
   set inccommand=nosplit          " preview replace
 endif
 

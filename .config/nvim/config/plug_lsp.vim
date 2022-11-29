@@ -6,7 +6,7 @@
 " LSP mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent>gD <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent>gi <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent>gi <cmd>lua vim.lsp.buf.implementation({ trim_text = false })<CR>
 nnoremap <silent>K <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent>[l <cmd>lua vim.diagnostic.goto_prev()<CR>
 nnoremap <silent>]l <cmd>lua vim.diagnostic.goto_next()<CR>

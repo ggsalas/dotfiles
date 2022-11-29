@@ -1,7 +1,7 @@
 Plug 'justinmk/vim-dirvish'                                   " file explorer 
 " Plug 'kyazdani42/nvim-tree.lua'
 
-nnoremap _ :Dirvish<CR>
+nnoremap _ :Dirvish .<CR>
 nnoremap <leader>- :NvimTreeFindFile<CR>
 nnoremap <leader>_ :NvimTreeToggle<CR>
 
