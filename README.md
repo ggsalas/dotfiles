@@ -11,11 +11,11 @@ Where I have copy/pasted many configs :)
 - [ThePrimeagen](https://github.com/awesome-streamers/awesome-streamerrc/tree/master/ThePrimeagen)
 - [wincent](https://github.com/wincent/wincent/tree/632aa515e22ac7203418c0b597c0ff7de4e15878/aspects/vim/files/.Vim)
 
-
 ## How to
+
 The idea is well explained [on this vieo](https://www.youtube.com/watch?v=tBoLDpTWVOM) and on [this post of atlassian](https://www.atlassian.com/git/tutorials/dotfiles).
 
-1.  On your *home directory* you need to do:
+1.  On your _home directory_ you need to do:
 
 ```bash
 ## Create a folder on $HOME
@@ -37,7 +37,7 @@ dotfiles remote add origin git@github.com:ggsalas/dotfiles.git
 dotfiles fetch
 dotfiles pull origin master
 dotfiles reset --hard origin/master
-dotfiles branch --set-upstream-to=origin/master master 
+dotfiles branch --set-upstream-to=origin/master master
 dotfiles pull
 ```
 
@@ -63,4 +63,10 @@ also add a alias on `.zshrc` or `.bashrc`:
 
 ```bash
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+```
+
+To see the untracked files on a specific folder:
+
+```bash
+df status -u ~/<folder}
 ```
