@@ -121,17 +121,27 @@ nnoremap <Leader>r :%s/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>
 vnoremap <Leader>r y :%s/<C-r>"/<C-r><C-w>/gc<Left><Left><Left>
 
 " terminal
-nnoremap <leader>es :botright sp term://zsh<cr>
-nnoremap <leader>ee :botright vsp term://zsh<cr>
+nnoremap <leader>e :botright vsp term://zsh<cr>
+
 augroup neovim_terminal
     autocmd!
     " Enter Terminal-mode (insert) automatically
     autocmd TermOpen * startinsert
+
     " Disables number lines on terminal buffers
-    autocmd TermOpen * :set nonumber norelativenumber
+    autocmd TermOpen * setlocal nonumber nocursorline
+
     " Esc key to go normal mode
-    au TermOpen * tnoremap <Esc> <c-\><c-n>
-    autocmd TermOpen * tnoremap . i<Up><CR>
+    autocmd TermOpen * tnoremap <Esc> <c-\><c-n>
+
+    " repeat last command with . in normal mode
+    " autocmd TermOpen * nnoremap . i<Up><CR>
 
     nnoremap gq :bd!<CR>
 augroup END
+
+" Navigate PUM with arrows instesf <C-N>
+if &wildoptions =~ "pum"
+    cnoremap <expr> <up> pumvisible() ? "<C-p>" : "\\<up>"
+    cnoremap <expr> <down> pumvisible() ? "<C-n>" : "\\<down>"
+endif

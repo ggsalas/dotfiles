@@ -1,169 +1,159 @@
-require'lspinstall'.setup()
-local ts_utils = require("nvim-lsp-ts-utils")
+local lspconfig = require("lspconfig")
+local configs = require("lspconfig.configs")
+local lsp_installer = require("nvim-lsp-installer")
+
+--[[ [LSP] Accessing client.resolved_capabilities is deprecated, update your plugins or configuration to access client.server_capabilities instead.The new key/value pairs in server_capabilities directly m ]]
+--[[ atch those defined in the language server protocol ]]
 
 -- vim.lsp.set_log_level("debug")
-DATA_PATH = vim.fn.stdpath('data')
-CACHE_PATH = vim.fn.stdpath('cache')
+DATA_PATH = vim.fn.stdpath("data")
+CACHE_PATH = vim.fn.stdpath("cache")
 
-local lsp = require 'lspconfig'
+-- lspconfig.json.setup{}
+-- lspconfig.yaml.setup{}
+-- lspconfig.vimls.setup{}
+-- lspconfig.graphql.setup{}
+-- lspconfig.bashls.setup{}
+lspconfig.tailwindcss.setup{}
 
-lsp.css.setup {}
-lsp.graphql.setup {}
-lsp.html.setup {}
-lsp.json.setup {}
-lsp.yaml.setup {}
-lsp.bash.setup {}
-lsp.vim.setup {}
+--Enable (broadcasting) snippet capability for completion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+require'lspconfig'.cssls.setup {
+  capabilities = capabilities,
+}
+require'lspconfig'.cssmodules_ls.setup{}
+
+--Enable (broadcasting) snippet capability for completion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+require'lspconfig'.html.setup {
+  capabilities = capabilities,
+}
+
+-- require'lspinstall'.setup()
+-- local servers = require'lspinstall'.installed_servers()
+-- for _, server in pairs(servers) do
+--   require'lspconfig'[server].setup{}
+-- end
 
 -- Linter null-ls
 -----------------
-require("null-ls").config {
-  -- debug = true,
-}
-
-lsp["null-ls"].setup {}
-
-local M = {}
-
-M.on_save = function()
-  require("nvim-lsp-ts-utils").organize_imports_sync()
-  vim.lsp.buf.formatting_sync()
+local null_ls_status_ok, null_ls = pcall(require, "null-ls")
+if not null_ls_status_ok then
+  return
 end
+
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+null_ls.setup({
+  debug = true,
+  sources = {
+    null_ls.builtins.diagnostics.eslint, -- eslint or eslint_d
+    null_ls.builtins.code_actions.eslint, -- eslint or eslint_d
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.stylua.with({ extra_args = { "--indent-type Spaces" } }),
+  },
+  on_attach = function(client, bufnr)
+      if client.supports_method("textDocument/formatting") then
+          vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+          vim.api.nvim_create_autocmd("BufWritePre", {
+              group = augroup,
+              buffer = bufnr,
+              callback = function()
+                  -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+                  vim.lsp.buf.formatting_sync()
+              end,
+          })
+      end
+  end,
+})
 
 -- Typescript setup
 -------------------
-lsp.tsserver.setup({
-  -- debug = true,
+lspconfig.tsserver.setup({
   on_attach = function(client)
-      -- disable tsserver formatting if you plan on formatting via null-ls
-      client.resolved_capabilities.document_formatting = false
-      client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.documentFormattingProvider = false
 
-      -- format on save
-      -- vim.cmd("autocmd BufWritePre <buffer> lua require'config.lspconfig'.on_save()")
-      vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
-
-      ts_utils.setup {
-          -- debug = true,
-          disable_commands = false,
-          update_imports_on_move = true,
-          require_confirmation_on_move = true,
-
-          enable_import_on_completion = true,
-          import_all_timeout = 5000, -- ms
-
-          -- eslint
-          eslint_enable_code_actions = true,
-          eslint_enable_disable_comments = true,
-          eslint_config_fallback = nil,
-          eslint_enable_diagnostics = true,
-
-          -- formatting
-          enable_formatting = true,
-          formatter_config_fallback = nil,
-      }
-
-      ts_utils.setup_client(client)
-
-  end
+    require("nvim-lsp-ts-utils").setup({
+      debug = true,
+      disable_commands = false,
+      update_imports_on_move = true,
+      require_confirmation_on_move = true,
+      always_organize_imports = false,
+    })
+  end,
 })
-
--- Lua setup
-------------
-lsp.lua.setup {settings = {Lua = {diagnostics = {globals = {'vim'}}}}}
-
-
--- Efm setup (linter)
----------------------
--- -- ts
--- local prettier = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
--- local eslint = {
---     lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
---     lintIgnoreExitCode = true,
---     lintStdin = true,
---     lintFormats = {"%f:%l:%c: %m"},
---     formatCommand = "eslint_d -f unix --fix-to-stdout --stdin --stdin-filename ${INPUT}",
---     formatStdin = true
--- }
-
--- local tsserver_args = {}
--- table.insert(tsserver_args, prettier)
--- table.insert(tsserver_args, eslint)
-
--- -- lua
--- local luaFormat = {
---     formatCommand = "lua-format -i --no-keep-simple-function-one-line --column-limit=120",
---     formatStdin = true
--- }
-
--- local lua_arguments = {}
--- table.insert(lua_arguments, luaFormat)
-
--- -- sh
--- local shfmt = {formatCommand = 'shfmt -ci -s -bn', formatStdin = true}
-
--- local sh_arguments = {}
--- table.insert(sh_arguments, shfmt)
-
--- lsp.efm.setup {
---     cmd = {DATA_PATH .. "/lspinstall/efm/efm-langserver"},
---     init_options = {documentFormatting = true, codeAction = false},
---     filetypes = {
---         "lua", "javascriptreact", "javascript", "typescript", "typescriptreact", "sh", "html", "css", "scss", "json",
---         "yaml", "markdown", "vue"
---     },
---     settings = {
---         rootMarkers = {".git/"},
---         languages = {
---             javascript = tsserver_args,
---             javascriptreact = tsserver_args,
---             typescript = tsserver_args,
---             typescriptreact = tsserver_args,
---             html = {prettier},
---             css = {prettier},
---             scss = {prettier},
---             json = {prettier},
---             yaml = {prettier},
---             lua = lua_arguments,
---             sh = sh_arguments
---             -- markdown = {markdownPandocFormat}
---         }
---     }
---     -- Using augroup on plug_lsp.vim because this stop work if open many buffers
---     -- on_attach = function(client)
---     --   if client.resolved_capabilities.document_formatting then
---     --     vim.cmd [[augroup Format]]
---     --     vim.cmd [[autocmd!]]
---     --     vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nill, 1000)]]
---     --     vim.cmd [[augroup END]]
---     --   end
---     -- end
--- }
 
 -- Lsp-status setup (status line)
 ---------------------------------
-local lsp_status = require('lsp-status')
-
-lsp_status.config {
-    select_symbol = function(cursor_pos, symbol)
-        if symbol.valueRange then
-            local value_range = {
-                ["start"] = {character = 0, line = vim.fn.byte2line(symbol.valueRange[1])},
-                ["end"] = {character = 0, line = vim.fn.byte2line(symbol.valueRange[2])}
-            }
-
-            return require("lsp-status.util").in_range(cursor_pos, value_range)
-        end
-    end
-}
+local lsp_status = require("lsp-status")
 
 lsp_status.config({
-    indicator_errors = '✖',
-    indicator_warnings = '',
-    indicator_info = 'ℹ',
-    indicator_hint = '',
-    indicator_ok = ' ',
-    status_symbol = ' '
+  select_symbol = function(cursor_pos, symbol)
+    if symbol.valueRange then
+      local value_range = {
+        ["start"] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[1]) },
+        ["end"] = { character = 0, line = vim.fn.byte2line(symbol.valueRange[2]) },
+      }
+
+      return require("lsp-status.util").in_range(cursor_pos, value_range)
+    end
+  end,
 })
+
+lsp_status.config({
+  indicator_errors = "✖",
+  indicator_warnings = "",
+  indicator_info = "ℹ",
+  indicator_hint = "",
+  indicator_ok = " ",
+  status_symbol = " ",
+})
+
+
+local M = {}
+
+M.setup = function()
+  local signs = {
+    { name = "DiagnosticSignError", text = "✖" },
+    { name = "DiagnosticSignWarn", text = "" },
+    { name = "DiagnosticSignHint", text = "" },
+    { name = "DiagnosticSignInfo", text = "ℹ" },
+  }
+
+  for _, sign in ipairs(signs) do
+    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
+  end
+
+  local config = {
+    virtual_text = true,
+    signs = {
+      active = signs,
+    },
+    update_in_insert = true,
+    underline = true,
+    severity_sort = true,
+    float = {
+      focusable = false,
+      style = "minimal",
+      border = "rounded",
+      source = "always",
+      header = "",
+      prefix = "",
+    },
+  }
+
+  vim.diagnostic.config(config)
+
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = "rounded",
+  })
+
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    border = "rounded",
+  })
+end
 
 return M

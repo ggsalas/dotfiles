@@ -31,25 +31,43 @@ end
 require('telescope').setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
-        prompt_prefix = "❯ ",
+        prompt_prefix = "  ",
         selection_caret = "❯ ",
         disable_devicons = true, -- seems is not detected as default, added on each function
-        layout_strategy = "flex",
-        layout_config = {horizontal = {preview_width = 0.3}, vertical = {preview_height = 0.3}},
+        layout_strategy = "vertical",
+        layout_config = {horizontal = {preview_width = 0.3}, vertical = {preview_height = 0.6}},
+        border = true,
+        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         mappings = {
             i = {
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
                 ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-                ["<esc>"] = actions.close
+                ["<esc>"] = actions.close,
+                ["<C-p>"] = require('telescope.actions.layout').toggle_preview
             },
-            n = {["<C-w>"] = actions.send_selected_to_qflist, ["<C-q>"] = actions.send_to_qflist}
+            n = {
+              ["<C-w>"] = actions.send_selected_to_qflist, 
+              ["<C-q>"] = actions.send_to_qflist,
+              ["<C-p>"] = require('telescope.actions.layout').toggle_preview
+            }
         }
+    },
+    pickers = {
+      lsp_references = {
+        show_line = false
+      },
+    },
+    extensions = {
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown {}
+      }
     }
 }
 
 require('telescope').load_extension('fzy_native')
 -- require('telescope').load_extension('fzf_writer')
+require('telescope').load_extension('ui-select')
 
 local M = {}
 
@@ -74,10 +92,10 @@ M.grep_string = function(search, dir)
         search_dirs = search_dir,
         disable_devicons = true,
         only_sort_text = true,
-        path_display = "shorten",
-        use_regex = true,
+        use_regex = false,
         layout_strategy = "vertical",
         layout_config = {preview_height = 0.65},
+        path_display="truncate",
         -- default_text = search -- currently broken https://github.com/nvim-telescope/telescope.nvim/issues/808
     })
 end
@@ -141,7 +159,7 @@ M.buffer_list = function()
         elseif cols < 150 then
             return 0.8
         else
-            return 0.55
+            return 0.7
         end
     end
 
@@ -153,7 +171,7 @@ M.buffer_list = function()
         disable_devicons = true,
         previewer = false,
         width_padding = wp,
-        layout_strategy = 'horizontal',
+        layout_strategy = 'vertical',
         layout_config = {width = wp,  height = .55},
         attach_mappings = function(prompt_bufnr, map)
             local delete_buf = function()
@@ -200,21 +218,21 @@ local delta = previewers.new_termopen_previewer {
 
 M.delta_git_commits = function(opts)
     opts = opts or {}
-    opts.previewer = delta
+    --[[ opts.previewer = delta ]]
 
     builtin.git_commits(opts)
 end
 
 M.delta_git_bcommits = function(opts)
     opts = opts or {}
-    opts.previewer = delta
+    --[[ opts.previewer = delta ]]
 
     builtin.git_bcommits(opts)
 end
 
 M.delta_git_status = function(opts)
     opts = opts or {}
-    opts.previewer = delta
+    --[[ opts.previewer = delta ]]
 
     builtin.git_status(opts)
 end
@@ -266,11 +284,13 @@ function M.file_browser()
 end
 
 M.search_dot_files = function()
-    custom.dot_files({})
+    custom.dot_files({
+      previewer = false,
+    })
 end
 
 M.search_notes = function()
-    builtin.find_files({prompt_title = "Notes", cwd = "/Volumes/GoogleDrive/My Drive/Notas", disable_devicons = true})
+    builtin.find_files({prompt_title = "Notes", cwd = "~/Google Drive/My Drive/Notas/", disable_devicons = true})
 end
 
 return M

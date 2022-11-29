@@ -4,16 +4,17 @@ nnoremap <leader>f <cmd>lua require'config.telescopeconfig'.find_files()<CR>
 nnoremap <leader>s <cmd>SearchTelescope .<CR>
 " nnoremap <leader>S <cmd>lua require'config.telescopeconfig'.grep_last_search()<CR>
 nnoremap <leader>* <cmd>lua require'telescope.builtin'.grep_string({ prompt_title = 'Live Grep "under cursor" in working dir' , shorten_path = true, disable_devicons = true})<CR>
-nnoremap <leader>- <cmd>lua require'config.telescopeconfig'.file_browser()<CR>
+
+"nnoremap <leader>- <cmd>lua require'config.telescopeconfig'.file_browser()<CR>
 command! -complete=dir -nargs=* -bang SearchTelescope lua require'config.telescopeconfig'.grep_string(<f-args>)<cr>
 
 " lsp mapings
 nnoremap <silent>gr <cmd>lua require'telescope.builtin'.lsp_references()<CR>
 nnoremap <silent>gd <cmd>lua require'telescope.builtin'.lsp_definitions()<CR>
-nnoremap <silent>ga <cmd>lua require'telescope.builtin'.lsp_code_actions(require'telescope.themes'.get_dropdown())<CR>
+nnoremap <silent>gi <cmd>lua require'telescope.builtin'.lsp_implementations()<CR>
 
 " git mappingrequire'telescope.themes'.get_dropdown()s
-nnoremap <leader>gt <cmd>lua require'telescope.builtin'.git_stash()<CR>
+nnoremap <leader>gs <cmd>lua require'telescope.builtin'.git_stash()<CR>
 nnoremap <leader>gb <cmd>lua require'telescope.builtin'.git_branches()<CR>
 nnoremap <leader>gc <cmd>lua require'telescope.builtin'.git_bcommits()<CR>
 nnoremap <leader>gC <cmd>lua require'telescope.builtin'.git_commits()<CR>

@@ -1,3 +1,5 @@
+# exec /bin/ls --hyperlink=auto --color=auto "$@"
+
 kittyDarkMode() {
   if [[ $(echo $TERM) == 'xterm-kitty' ]] then
     local LIGHT=(kitty @ set-colors --all --configured $HOME/.config/kitty/kitty_colorLight.conf)
@@ -17,7 +19,7 @@ function ks() {
   session=$@
 
   kitty \
-    --session /Volumes/GoogleDrive/My\ Drive/.config-private/kitty-sessions/${session}.conf \
+    --session ~/Google\ Drive/My\ Drive/.config-private/kitty-sessions/${session}.conf \
     --title ${session} \
     --single-instance \
     </dev/null &>/dev/null &

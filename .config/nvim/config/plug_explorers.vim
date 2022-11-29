@@ -1,16 +1,17 @@
 Plug 'justinmk/vim-dirvish'                                   " file explorer 
 " Plug 'kyazdani42/nvim-tree.lua'
 
-nnoremap _ :Dirvish<CR>
-nnoremap <leader>_ :NvimTreeFindFile<CR>
+nnoremap _ :Dirvish .<CR>
+nnoremap <leader>- :NvimTreeFindFile<CR>
+nnoremap <leader>_ :NvimTreeToggle<CR>
 
-let g:nvim_tree_auto_close = 1
-let g:nvim_tree_quit_on_open = 0
-let g:nvim_tree_show_icons = {
-    \ 'git': 1,
-    \ 'folders': 1,
-    \ 'files': 0,
-    \ }
+" let g:nvim_tree_auto_close = 1
+" let g:nvim_tree_quit_on_open = 0
+" let g:nvim_tree_show_icons = {
+"     \ 'git': 1,
+"     \ 'folders': 1,
+"     \ 'files': 0,
+"     \ }
 
 " Sort folders first, then files
 let g:dirvish_mode = ':sort ,^.*[\/],'

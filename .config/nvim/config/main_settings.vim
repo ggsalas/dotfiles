@@ -46,19 +46,13 @@ set laststatus=2
 set wildmenu
 set incsearch
 set hlsearch
-set relativenumber
+" set relativenumber
 set scrolloff=1
+set diffopt=vertical " diff split vertical
+set signcolumn=yes
+" set clipboard=
 
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
-
-if has("nvim")
+if has("set")
   set inccommand=nosplit          " preview replace
 endif
 
