@@ -112,3 +112,7 @@ endfunction
 augroup doSpell
     autocmd FileType markdown,javascript,typescript,typescriptreact call SetSpellOptions()
 augroup END
+
+augroup fixPhpIndent
+    autocmd FileType php set autoindent
+augroup END

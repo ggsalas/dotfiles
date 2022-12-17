@@ -1,6 +1,7 @@
+require("mason").setup()
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig.configs")
-local lsp_installer = require("nvim-lsp-installer")
+--[[ local lsp_installer = require("nvim-lsp-installer") ]]
 
 --[[ [LSP] Accessing client.resolved_capabilities is deprecated, update your plugins or configuration to access client.server_capabilities instead.The new key/value pairs in server_capabilities directly m ]]
 --[[ atch those defined in the language server protocol ]]
@@ -15,23 +16,21 @@ CACHE_PATH = vim.fn.stdpath("cache")
 -- lspconfig.graphql.setup{}
 -- lspconfig.bashls.setup{}
 lspconfig.tailwindcss.setup{}
+lspconfig.phpactor.setup{}
 
---Enable (broadcasting) snippet capability for completion
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-require'lspconfig'.cssls.setup {
-  capabilities = capabilities,
-}
-require'lspconfig'.cssmodules_ls.setup{}
-
---Enable (broadcasting) snippet capability for completion
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-require'lspconfig'.html.setup {
-  capabilities = capabilities,
-}
+-- --Enable (broadcasting) snippet capability for completion
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- 
+-- require'lspconfig'.cssls.setup {
+--   capabilities = capabilities,
+-- }
+-- 
+-- require'lspconfig'.cssmodules_ls.setup{}
+-- 
+-- require'lspconfig'.html.setup {
+--   capabilities = capabilities,
+-- }
 
 -- require'lspinstall'.setup()
 -- local servers = require'lspinstall'.installed_servers()
@@ -44,6 +43,16 @@ require'lspconfig'.html.setup {
 local null_ls_status_ok, null_ls = pcall(require, "null-ls")
 if not null_ls_status_ok then
   return
+end
+
+local lsp_formatting = function(bufnr)
+    vim.lsp.buf.format({
+        filter = function(client)
+            -- apply whatever logic you want (in this example, we'll only use null-ls)
+            return client.name == "null-ls"
+        end,
+        bufnr = bufnr,
+    })
 end
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -62,9 +71,8 @@ null_ls.setup({
               group = augroup,
               buffer = bufnr,
               callback = function()
-                  -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-                  vim.lsp.buf.formatting_sync()
-              end,
+                lsp_formatting(bufnr)
+            end,
           })
       end
   end,

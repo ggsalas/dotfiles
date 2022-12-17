@@ -27,10 +27,23 @@ call plug#begin()
 
   " plug_lsp.vim && lspconfig.lua
   Plug 'neovim/nvim-lspconfig'
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'williamboman/nvim-lsp-installer'
-  Plug 'hrsh7th/nvim-compe'
+  Plug 'williamboman/mason.nvim'
   Plug 'nvim-lua/lsp-status.nvim'
+
+  " plug cmp
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/cmp-copilot'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'L3MON4D3/LuaSnip', {'tag': 'v<CurrentMajor>.*'}
+
+
+  " snippet
+  Plug 'saadparwaiz1/cmp_luasnip' " snippet completions
+  Plug 'L3MON4D3/LuaSnip' " snippet engine
+  Plug 'rafamadriz/friendly-snippets' "  a bunch of snippets to use
 
   " plug_telescope & telescopeConfig.lua
   " require fzf and rg
