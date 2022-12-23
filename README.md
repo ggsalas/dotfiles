@@ -6,6 +6,9 @@ Those dotfiles are managed with a [bare Git repository](#how-to).
 
 Where I have copy/pasted many configs :)
 
+- [kickstar](https://github.com/nvim-lua/kickstart.nvim)
+- [init.lua](https://github.com/ThePrimeagen/init.lua)
+- [from scratch](https://github.com/LunarVim/Neovim-from-scratch)
 - [LunarVim](https://github.com/ChristianChiarulli/LunarVim)
 - [tjdevries](https://github.com/tjdevries/config_manager/tree/1b8ab10ddc06217cd532376e52d74678c3a0e805/xdg_config/nvim)
 - [ThePrimeagen](https://github.com/awesome-streamers/awesome-streamerrc/tree/master/ThePrimeagen)

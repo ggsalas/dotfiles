@@ -1,2 +1,0 @@
-Plug 'rhysd/reply.vim'
-
