@@ -1,7 +1,3 @@
--- au filetype help nnoremap <buffer><cr> <c-]>
--- au filetype help nnoremap <buffer><bs> <c-T>
--- au filetype help nnoremap <buffer>q :q<CR>
-
 local help_mode = vim.api.nvim_create_augroup('help_mode', { clear = true })
 local opts = { noremap = true, silent = true }
 
