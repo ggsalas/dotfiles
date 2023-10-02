@@ -21,8 +21,12 @@ local on_attach = function(_, bufnr)
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+  nmap('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
   nmap('ga', vim.lsp.buf.code_action, '[G]oto [A]ction')
+
+  nmap('[e', vim.diagnostic.goto_prev)
+  nmap(']e', vim.diagnostic.goto_next)
 
   nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
@@ -33,18 +37,19 @@ local on_attach = function(_, bufnr)
   nmap('<leader>k', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  nmap('<leader>wf', vim.lsp.buf.format, '[W]orkspace [F]ormat')
   end, '[W]orkspace [L]ist Folders')
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
 end
+
+
+-- Create a command `:Format` local to the LSP buffer
+vim.api.nvim_create_user_command('Format', function(_)
+  vim.lsp.buf.format()
+end, { desc = 'Format current buffer with LSP' })
 
 -- Setup mason so it can manage external tooling
 require('mason').setup()
@@ -55,10 +60,11 @@ local autoinstall_servers = {
   'rust_analyzer',
   'pyright',
   'tsserver',
-  'sumneko_lua',
+  -- 'sumneko_lua',
   'gopls',
   'phpactor',
   'tailwindcss',
+  'cssls',
 }
 
 -- tsserver cannot be autoconfigured
@@ -67,10 +73,11 @@ local autoconfig_servers = {
   'clangd',
   'rust_analyzer',
   'pyright',
-  'sumneko_lua',
+  -- 'sumneko_lua',
   'gopls',
   'phpactor',
   'tailwindcss',
+  'cssls',
 }
 
 -- Ensure the servers above are installed
@@ -92,34 +99,34 @@ end
 -- Custom configuration for lua
 --
 -- Make runtime files discoverable to the server
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
+-- local runtime_path = vim.split(package.path, ';')
+-- table.insert(runtime_path, 'lua/?.lua')
+-- table.insert(runtime_path, 'lua/?/init.lua')
 
 -- check neodev plugin to configure lua
-require('lspconfig').sumneko_lua.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = runtime_path,
-      },
-      diagnostics = {
-        globals = { 'vim' },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file('', true),
-        checkThirdParty = false,
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = { enable = false },
-    },
-  },
-}
+-- require('lspconfig').sumneko_lua.setup {
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+--   settings = {
+--     Lua = {
+--       runtime = {
+--         -- Tell the language server which version of Lua you're using (most likely LuaJIT)
+--         version = 'LuaJIT',
+--         -- Setup your lua path
+--         path = runtime_path,
+--       },
+--       diagnostics = {
+--         globals = { 'vim' },
+--       },
+--       workspace = {
+--         library = vim.api.nvim_get_runtime_file('', true),
+--         checkThirdParty = false,
+--       },
+--       -- Do not send telemetry data containing a randomized but unique identifier
+--       telemetry = { enable = false },
+--     },
+--   },
+-- }
 
 -- Custom configuration for Typescript
 require('typescript').setup {
@@ -158,12 +165,25 @@ null_ls.setup {
         return utils.root_has_file { 'stylua.toml', '.stylua.toml' }
       end,
     },
+    null_ls.builtins.formatting.pg_format.with({
+      extra_args = { "-s", "2" },
+    }),
     null_ls.builtins.code_actions.gitsigns,
     -- Note: not sure if I want this here or usr the built in commands: Typescript...
     -- require 'typescript.extensions.null-ls.code-actions',
+    --   .with({
+    --     extra_args = { "--keywords", "upper" }, -- change to your dialect
+    -- })
+    -- null_ls.builtins.diagnostics.sqlfluff.with({
+    --     extra_args = { "--dialect", "postgres" }, -- change to your dialect
+    -- }),
   },
   on_attach = function(client, bufnr)
     if client.supports_method 'textDocument/formatting' then
+      -- if file type is sql do nothing
+      if vim.api.nvim_buf_get_option(bufnr, 'filetype') == 'sql' then
+        return
+      end
       vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
       vim.api.nvim_create_autocmd('BufWritePre', {
         group = augroup,

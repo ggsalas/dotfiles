@@ -28,7 +28,7 @@ require('packer').startup(function(use)
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
+      -- 'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-git',
     },
   }
@@ -48,10 +48,11 @@ require('packer').startup(function(use)
     end,
   }
 
-  use { -- Additional text objects via treesitter
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    after = 'nvim-treesitter',
-  }
+  use({ -- Additional text objects via treesitter
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    after = "nvim-treesitter",
+    requires = "nvim-treesitter/nvim-treesitter",
+  })
 
   -- Git related plugins
   use 'tpope/vim-fugitive'
@@ -79,7 +80,8 @@ require('packer').startup(function(use)
 
   -- File navigators
   use 'justinmk/vim-dirvish'
-  use { 'nvim-tree/nvim-tree.lua' }
+  use 'nvim-tree/nvim-tree.lua'
+  use 'pbrisbin/vim-mkdir' -- create non existing dirextories
 
   -- Color
   use 'RRethy/nvim-base16'
@@ -97,7 +99,7 @@ require('packer').startup(function(use)
   use 'windwp/nvim-spectre'
 
   -- Show colors as background
-  use 'norcalli/nvim-colorizer.lua'
+  use 'brenoprata10/nvim-highlight-colors'
 
   -- Surrounds
   use {
@@ -108,11 +110,31 @@ require('packer').startup(function(use)
     end,
   }
 
+  -- Coercion (camelCase (crc), snake_case (crs), UPPER_CASE (cru), dash-case (cr-)...) and Substitutions
+  use 'tpope/vim-abolish'
+
   -- simple presentation tool
   use 'sotte/presenting.vim'
 
   -- motions
   use { 'ggandor/leap.nvim' }
+
+  -- Database
+  use {
+    "tpope/vim-dadbod",
+    opt = true,
+    requires = {
+      "kristijanhusak/vim-dadbod-ui",
+      "kristijanhusak/vim-dadbod-completion",
+    },
+    config = function()
+      require("ggsalas.dadbod").setup()
+    end,
+    cmd = { "DBUIToggle", "DBUI", "DBUIAddConnection", "DBUIFindBuffer", "DBUIRenameBuffer", "DBUILastQueryInfo" },
+  }
+
+  -- IA
+  -- use { 'github/copilot.vim' }
 
   if is_bootstrap then
     require('packer').sync()

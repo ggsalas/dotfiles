@@ -15,10 +15,15 @@ function! s:changeColorsBasedOnMacos() abort
   else 
     call ColorLight()
   endif
+
+  " reapply colors highlight
+  lua require("nvim-highlight-colors").turnOn()
 endfunction
 
 function! ColorLight()
   set background=light
+  set termguicolors
+  set t_Co=256
 
   " solarized light
   let g:base16_00 = '#fdf6e3'

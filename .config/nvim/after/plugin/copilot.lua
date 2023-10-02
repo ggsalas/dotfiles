@@ -1,0 +1,4 @@
+-- vim.g.copilot_filetypes = { xml = false };
+--
+-- vim.cmd[[imap <silent><script><expr> <C-]> copilot#Accept("\<CR>")]]
+-- vim.g.copilot_no_tab_map = true

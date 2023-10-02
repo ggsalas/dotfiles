@@ -50,6 +50,9 @@ vim.opt.iskeyword:append '-'
 -- Mainain current window at the top, split to the bottom
 vim.o.splitbelow = true
 
+-- Not break lines
+vim.o.wrap = false
+
 -- vim.opt.filetype.plugin = 'on'
 -- vim.cmd [[filetype plugin on]]
 

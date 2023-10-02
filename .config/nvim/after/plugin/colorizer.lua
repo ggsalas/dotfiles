@@ -2,4 +2,11 @@
 -- the original is on "after/plugins/colors.lua"
 vim.o.termguicolors = true
 
-require('colorizer').setup()
+require('nvim-highlight-colors').setup {}
+
+-- require 'colorizer'.setup {
+--   filetypes = {
+--     css = {always_update = true}
+--   },
+-- }
+
