@@ -48,11 +48,12 @@ require('telescope').load_extension 'ui-select'
 
 -- files & grep
 vim.keymap.set('n', '<leader>l', require('telescope.builtin').diagnostics, { desc = 'Search [L]inter' })
-vim.keymap.set('n', '<leader>gh', require('telescope.builtin').help_tags, { desc = 'Search Help' })
 vim.keymap.set('n', '<leader>j', require('ggsalas.telescope').buffer_list)
 vim.keymap.set('n', '<leader>f', require('telescope.builtin').find_files)
-vim.keymap.set('n', '<leader>s', require('telescope.builtin').live_grep, { desc = 'Search by Grep' })
-vim.keymap.set('n', '<leader>*', require('telescope.builtin').grep_string, { desc = 'Search word under cursor' })
+vim.keymap.set('n', '<leader>s', require('ggsalas.telescope').live_grep, { desc = 'Grep in the Main Dir' })
+vim.keymap.set('n', '<leader>df', require('ggsalas.telescope').find_files_current_dir)
+vim.keymap.set('n', '<leader>ds', require('ggsalas.telescope').grep_current_dir, { desc = 'Grep in the Current Dir' })
+vim.keymap.set('n', '<leader>*', require('ggsalas.telescope').grep_string, { desc = 'Grep word under cursor' })
 
 -- git mappingrequire'telescope.themes'.get_dropdown()s
 vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_stash)
@@ -78,6 +79,6 @@ vim.keymap.set('n', '<leader>z', function()
   require('telescope.builtin').spell_suggest(require('telescope.themes').get_dropdown { prompt_title = 'Spell Suggestions' })
 end)
 vim.keymap.set('n', '<leader>gk', require('telescope.builtin').keymaps)
-vim.keymap.set('n', '<leader>df', require('ggsalas.telescope').search_dot_files)
+vim.keymap.set('n', '<leader>do', require('ggsalas.telescope').search_dot_files)
 
 vim.api.nvim_create_user_command('Notes', require('ggsalas.telescope').search_notes, {})

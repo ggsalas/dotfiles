@@ -17,11 +17,16 @@ end
 local M = {}
 
 M.dot_files = function(opts)
+  local job_command = vim.tbl_flatten { 'sh', get_local_script_path 'getDotFiles.sh' }
+  local finder = finders.new_oneshot_job(job_command)
+  local previewer = conf.file_previewer(opts)
+  local sorter = conf.file_sorter(opts)
+
   pickers.new(opts, {
     prompt_title = 'DotFiles',
-    finder = finders.new_oneshot_job(vim.tbl_flatten { 'sh', get_local_script_path 'getDotFiles.sh' }),
-    previewer = conf.file_previewer(opts),
-    sorter = conf.file_sorter(opts),
+    finder = finder,
+    previewer = previewer,
+    sorter = sorter,
   }):find()
 end
 

@@ -7,6 +7,24 @@ vim.o.cursorline = true
 
 -- set colors and change automatically with the theme
 vim.api.nvim_exec([[
+" Ugly fix... set vars first
+let g:base16_01 = '#eee8d5' 
+let g:base16_00 = '#fdf6e3'
+let g:base16_02 = '#93a1a1' 
+let g:base16_03 = '#839496'
+let g:base16_04 = '#657b83' 
+let g:base16_05 = '#586e75' 
+let g:base16_06 = '#073642' 
+let g:base16_07 = '#002b36'
+let g:base16_08 = '#dc322f' 
+let g:base16_09 = '#cb4b16' 
+let g:base16_0A = '#b58900' 
+let g:base16_0B = '#859900'
+let g:base16_0C = '#2aa198' 
+let g:base16_0D = '#268bd2' 
+let g:base16_0E = '#6c71c4' 
+let g:base16_0F = '#d33682'
+
 function! s:changeColorsBasedOnMacos() abort
   let hasDarkmode = system('dark-mode status')
 
@@ -120,6 +138,7 @@ exe 'hi GitSignsDelete guifg=' . g:base16_08
 exe 'hi NormalFloat guifg=' . g:base16_05 . ' guibg=' . g:base16_01
 exe 'hi TermCursorNC guibg=' . g:base16_00 . ' guifg=' . g:base16_05
 exe 'hi TermCursor guibg=' . g:base16_05 . ' guifg=' . g:base16_00
+
 " exe 'hi CursorLine guifg=' . g:base16_00 . ' guibg=' . g:base16_08
 " exe 'hi CursorLine guifg=red guibg=blue'
 exe 'hi TelescopePromptNormal guifg=red guibg=green'

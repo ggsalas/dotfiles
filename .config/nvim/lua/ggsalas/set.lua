@@ -24,6 +24,7 @@ vim.wo.signcolumn = 'yes'
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
+
 -- diff split vertical
 vim.o.diffopt = 'vertical'
 
@@ -42,7 +43,7 @@ vim.o.smartindent = true
 vim.o.autoindent = true
 vim.o.smarttab = true
 vim.o.list = true
-vim.o.listchars = 'tab:--' -- alert if I use tabs!! : retab to fix
+vim.o.listchars = 'tab:┆ ' -- alert if I use tabs!! : retab to fix
 
 -- Dash should not split a word
 vim.opt.iskeyword:append '-'

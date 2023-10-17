@@ -36,25 +36,31 @@ end, {})
 -- vim.api.nvim_create_user_command('Fold', function(opts) vim.opt.foldmethod = opts.nargs end, { nargs = 1 })
 
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'markdown' },
-  callback = function()
-    vim.opt.foldmethod = 'expr'
-    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-    vim.opt.foldtext = 'GGsalasFoldStyle()'
-    vim.opt.foldlevel = 2
-  end,
-})
+-- SEEMS I'M NOT USING DIFFERENT CONFIGS PER FILE TYPE
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldtext = 'GGsalasFoldStyle()'
+vim.opt.foldlevel = 99
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'json', 'lua' },
-  callback = function()
-    vim.opt.foldmethod = 'expr'
-    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-    vim.opt.foldtext = 'GGsalasFoldStyle()'
-    vim.opt.foldlevel = 99
-  end,
-})
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = { 'markdown' },
+--   callback = function()
+--     vim.opt.foldmethod = 'expr'
+--     vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+--     vim.opt.foldtext = 'GGsalasFoldStyle()'
+--     vim.opt.foldlevel = 99
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'json', 'lua', 'html' },
+--   callback = function()
+--     vim.opt.foldmethod = 'expr'
+--     vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+--     vim.opt.foldtext = 'GGsalasFoldStyle()'
+--     vim.opt.foldlevel = 2
+--   end,
+-- })
 
 -- Workaround to fix telescope bug
 -- https://github.com/nvim-telescope/telescope.nvim/issues/559#issuecomment-1074076011

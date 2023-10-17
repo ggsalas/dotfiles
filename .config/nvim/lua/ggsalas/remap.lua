@@ -71,3 +71,9 @@ vim.keymap.set('v', '<Leader>r', 'y :%s/<C-r>"/<C-r><C-w>/gc<Left><Left><Left>')
 
 -- Esc remove search highlight
 vim.keymap.set('n', '<Esc>', ':nohlsearch<cr>', { silent = true })
+
+-- Wildmenu navigation
+-- vim.keymap.set('c', '<Down>',  '<Right>')
+-- vim.keymap.set('c', '<Up>',  '<Left>')
+-- vim.keymap.set('c', '<Right>',  '<Down>')
+-- vim.keymap.set('c', '<Left>',  '<Up>')

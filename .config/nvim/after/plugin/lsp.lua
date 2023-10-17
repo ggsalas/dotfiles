@@ -39,9 +39,7 @@ local on_attach = function(_, bufnr)
   -- Lesser used LSP functionality
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
   nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  nmap('<leader>wf', vim.lsp.buf.format, '[W]orkspace [F]ormat')
+  nmap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
 end
 
@@ -50,6 +48,8 @@ end
 vim.api.nvim_create_user_command('Format', function(_)
   vim.lsp.buf.format()
 end, { desc = 'Format current buffer with LSP' })
+
+vim.keymap.set('n', '<leader>,', vim.lsp.buf.format)
 
 -- Setup mason so it can manage external tooling
 require('mason').setup()
@@ -185,13 +185,14 @@ null_ls.setup {
         return
       end
       vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          lsp_formatting(bufnr)
-        end,
-      })
+      -- For now disable format on save
+      -- vim.api.nvim_create_autocmd('BufWritePre', {
+      --   group = augroup,
+      --   buffer = bufnr,
+      --   callback = function()
+      --     lsp_formatting(bufnr)
+      --   end,
+      -- })
     end
   end,
 }

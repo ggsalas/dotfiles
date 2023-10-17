@@ -1,75 +1,51 @@
+local utils = require('telescope.utils')
 local actions = require('telescope.actions')
 local builtin = require('telescope.builtin')
 local custom = require('ggsalas.telescope.telescopeCustomPickers')
 local action_state = require('telescope.actions.state')
 
--- helpers
-----------
-function Get_buffer_dir(dir)
-  local filetype = vim.api.nvim_exec('echo &filetype', true)
-  local local_dir = vim.fn.expand('%:h');
-  local pwd = vim.api.nvim_exec('echo getcwd()', true)
-  local search_dir = {}
-  -- print(vim.inspect(pwd))
-
-  if dir == nil then
-    if filetype == 'dirvish' then
-      table.insert(search_dir, local_dir)
-    else
-      table.insert(search_dir, pwd)
-    end
-  else
-    table.insert(search_dir, dir)
-  end
-
-  return search_dir
-end
-
 local M = {}
--- Same as builtin.find_files but finds on a default dir
-M.find_files = function(dir)
-  local cwd = Get_buffer_dir(dir)[1]
+
+M.find_files_current_dir = function()
+  local dir = utils.buffer_dir()
 
   builtin.find_files({
-    prompt_title = string.format('Search files in %s', vim.fn.pathshorten(cwd)),
-    cwd = cwd,
+    prompt_title = string.format('Find files the Current Dir (%s)', dir),
+    cwd = dir,
     disable_devicons = true
   })
 end
 
--- Same as builtin.grep_string but finds on a default dir
-M.grep_string = function(search, dir)
-  local search_dir = Get_buffer_dir(dir)
-
-  builtin.grep_string({
-    prompt_title = string.format('Grep of "%s" in %s', search, vim.fn.pathshorten(search_dir[1])),
-    search = search,
-    search_dirs = search_dir,
+M.grep_current_dir = function()
+  local dir = utils.buffer_dir()
+  
+  builtin.live_grep({
+    prompt_title = string.format('Grep in the Current Dir (%s)', dir),
+    cwd = dir,
     disable_devicons = true,
     only_sort_text = true,
     use_regex = false,
-    layout_strategy = "vertical",
-    layout_config = { preview_height = 0.65 },
-    path_display = "truncate",
-    -- default_text = search -- currently broken https://github.com/nvim-telescope/telescope.nvim/issues/808
+    disable_coordinates = true,
   })
 end
 
--- Seems not working.. review later:
--- https://github.com/tjdevries/config_manager/blob/26dc8d25c2c16680c69872712e7e190dc7432c75/xdg_config/nvim/lua/tj/telescope/init.lua
-M.grep_last_search = function(opts)
-  opts = opts or {}
+M.live_grep = function()
+  builtin.live_grep({
+    prompt_title = string.format('Grep in the Main Dir', utils.buffer_dir()),
+    disable_devicons = true,
+    only_sort_text = true,
+    use_regex = false,
+    disable_coordinates = true,
+  })
+end
 
-  -- \<getreg\>\C
-  -- -> Subs out the search things
-  local register = vim.fn.getreg("/"):gsub("\\<", ""):gsub("\\>", ""):gsub("\\C", "")
-
-  opts.path_display = "shorten"
-  opts.word_match = "-w"
-  opts.search = register
-  -- opts.layout_strategy = "vertical"
-
-  require("telescope.builtin").grep_string(opts)
+M.grep_string = function()
+  builtin.grep_string({
+    disable_devicons = true,
+    only_sort_text = true,
+    use_regex = false,
+    disable_coordinates = true,
+  })
 end
 
 M.buffer_list = function()
@@ -139,42 +115,6 @@ M.delta_git_status = function(opts)
   --[[ opts.previewer = delta ]]
 
   builtin.git_status(opts)
-end
-
--- // waiting for https://github.com/nvim-telescope/telescope.nvim/pull/613
-function M.file_browser()
-  local opts
-
-  opts = {
-    sorting_strategy = "ascending",
-    scroll_strategy = "cycle",
-    layout_config = {
-      prompt_position = "top",
-    },
-    disable_devicons = true,
-    cwd = vim.fn.expand('%:p:h'),
-
-    attach_mappings = function(prompt_bufnr, map)
-      local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-      local modify_cwd = function(new_cwd)
-        current_picker.cwd = new_cwd
-        current_picker:refresh(opts.new_finder(new_cwd), { reset_prompt = true })
-      end
-
-      map('n', 'l', actions.select_default)
-
-      map('i', '<c-l>', actions.select_default)
-
-      map("i", "-", function()
-        modify_cwd(vim.fn.expand "~")
-      end)
-
-      return true
-    end
-  }
-
-  require("telescope.builtin").file_browser(opts)
 end
 
 M.search_dot_files = function()

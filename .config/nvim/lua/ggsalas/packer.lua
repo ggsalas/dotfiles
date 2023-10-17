@@ -20,6 +20,15 @@ require('packer').startup(function(use)
     },
   }
 
+  -- debug
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use { "mxsdev/nvim-dap-vscode-js", requires = {"mfussenegger/nvim-dap"} }
+  use {
+    "microsoft/vscode-js-debug",
+    opt = true,
+    run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" 
+  }
+
   use { -- Autocompletion
     'hrsh7th/nvim-cmp',
     requires = {
@@ -28,7 +37,7 @@ require('packer').startup(function(use)
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
-      -- 'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-git',
     },
   }
@@ -59,7 +68,6 @@ require('packer').startup(function(use)
   use 'tpope/vim-rhubarb'
   use 'lewis6991/gitsigns.nvim'
 
-  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
 
   -- Fuzzy Finder (files, lsp, etc)
@@ -135,6 +143,23 @@ require('packer').startup(function(use)
 
   -- IA
   -- use { 'github/copilot.vim' }
+  use({
+    "jackMort/ChatGPT.nvim",
+    config = function()
+      require("ggsalas.chatgpt").setup()
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
+  })
+
+  -- Sourcegraph IA (Cody)
+  use { 'sourcegraph/sg.nvim', run = 'nvim -l build/init.lua' }
+
+  -- html template system
+  use {'mustache/vim-mustache-handlebars'}
 
   if is_bootstrap then
     require('packer').sync()
