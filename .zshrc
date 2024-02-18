@@ -27,6 +27,10 @@ source ~/Developer/calibre-news/kindle.zsh
 # Personal config
 source ~/Google\ Drive/My\ Drive/.config-private/personal.zsh
 
+# android 
+# export PATH=$PATH:/Users/ggsalas/Library/Android/sdk/platform-tools/
+
+
 
 #################################################################################
 # Basic auto/tab complete:

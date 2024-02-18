@@ -77,3 +77,6 @@ vim.keymap.set('n', '<Esc>', ':nohlsearch<cr>', { silent = true })
 -- vim.keymap.set('c', '<Up>',  '<Left>')
 -- vim.keymap.set('c', '<Right>',  '<Down>')
 -- vim.keymap.set('c', '<Left>',  '<Up>')
+
+-- Node
+vim.keymap.set('n', '<Leader>no', ':!node % <CR>', { silent = true })

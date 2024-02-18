@@ -10,6 +10,14 @@ local opts = { noremap = true, silent = true }
 
 vim.api.nvim_create_autocmd('FileType', {
   callback = function()
+    vim.api.nvim_buf_set_keymap(0, 'n', 'o', ":call dirvish#open('edit', 0)<CR>", opts)
+  end,
+  pattern = { 'dirvish' },
+  group = dirvish_mode,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function()
     vim.api.nvim_buf_set_keymap(0, 'n', 'l', ":call dirvish#open('edit', 0)<CR>", opts)
   end,
   pattern = { 'dirvish' },

@@ -114,9 +114,18 @@ require('packer').startup(function(use)
     'kylechui/nvim-surround',
     tag = '*', -- Use for stability; omit to use `main` branch for the latest features
     config = function()
-      require('nvim-surround').setup {}
+      require('nvim-surround').setup{}
     end,
   }
+
+  -- Split/Join blocks
+  use({
+    'Wansmer/treesj',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('treesj').setup()
+    end,
+  })
 
   -- Coercion (camelCase (crc), snake_case (crs), UPPER_CASE (cru), dash-case (cr-)...) and Substitutions
   use 'tpope/vim-abolish'
@@ -141,22 +150,37 @@ require('packer').startup(function(use)
     cmd = { "DBUIToggle", "DBUI", "DBUIAddConnection", "DBUIFindBuffer", "DBUIRenameBuffer", "DBUILastQueryInfo" },
   }
 
-  -- IA
+  -- IA copilot
   -- use { 'github/copilot.vim' }
-  use({
-    "jackMort/ChatGPT.nvim",
-    config = function()
-      require("ggsalas.chatgpt").setup()
-    end,
-    requires = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim"
-    }
-  })
+  --
+  -- IA ChatGPT
+  -- use({
+  --   "jackMort/ChatGPT.nvim",
+  --   commit = 'd4aa4d9', -- TODO!!! remove this after get this bug fixed: https://github.com/jackMort/ChatGPT.nvim/issues/303
+  --   config = function()
+  --     require("ggsalas.chatgpt").setup()
+  --   end,
+  --   requires = {
+  --     "MunifTanjim/nui.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-telescope/telescope.nvim"
+  --   }
+  -- })
 
-  -- Sourcegraph IA (Cody)
-  use { 'sourcegraph/sg.nvim', run = 'nvim -l build/init.lua' }
+  -- IA Sourcegraph IA (Cody)
+  -- use { 'sourcegraph/sg.nvim', run = 'nvim -l build/init.lua' }
+
+  -- IA Ollama
+  use { "David-Kunz/gen.nvim" }
+
+  -- Rest
+  use {
+    "rest-nvim/rest.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = function() 
+      require("ggsalas.rest").setup() 
+    end
+  }
 
   -- html template system
   use {'mustache/vim-mustache-handlebars'}

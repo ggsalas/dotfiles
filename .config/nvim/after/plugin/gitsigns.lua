@@ -8,4 +8,5 @@ require('gitsigns').setup {
     topdelete = { text = '‾' },
     changedelete = { text = '~' },
   },
+  attach_to_untracked = false
 }

@@ -65,6 +65,7 @@ local autoinstall_servers = {
   'phpactor',
   'tailwindcss',
   'cssls',
+  'cssmodules_ls',
 }
 
 -- tsserver cannot be autoconfigured
@@ -78,6 +79,7 @@ local autoconfig_servers = {
   'phpactor',
   'tailwindcss',
   'cssls',
+  'cssmodules_ls',
 }
 
 -- Ensure the servers above are installed
@@ -157,7 +159,13 @@ local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 null_ls.setup {
   debug = true,
   sources = {
-    null_ls.builtins.diagnostics.eslint_d, -- eslint or eslint_d
+    -- eslint or eslint_d
+    null_ls.builtins.diagnostics.eslint_d,
+    -- .with{ -- js/ts linter
+    --   condition = function(utils)
+    --     return utils.root_has_file{ '.eslintrc.json' } -- change file extension if you use something else
+    --   end
+    -- },
     null_ls.builtins.code_actions.eslint_d, -- eslint or eslint_d
     null_ls.builtins.formatting.prettier,
     null_ls.builtins.formatting.stylua.with {
@@ -168,7 +176,8 @@ null_ls.setup {
     null_ls.builtins.formatting.pg_format.with({
       extra_args = { "-s", "2" },
     }),
-    null_ls.builtins.code_actions.gitsigns,
+    -- null_ls.builtins.code_actions.gitsigns,
+
     -- Note: not sure if I want this here or usr the built in commands: Typescript...
     -- require 'typescript.extensions.null-ls.code-actions',
     --   .with({
@@ -185,7 +194,7 @@ null_ls.setup {
         return
       end
       vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
-      -- For now disable format on save
+      -- format on save
       -- vim.api.nvim_create_autocmd('BufWritePre', {
       --   group = augroup,
       --   buffer = bufnr,
@@ -195,11 +204,4 @@ null_ls.setup {
       -- })
     end
   end,
-}
-
--- Activate plugin for better comments
-require('nvim-treesitter.configs').setup {
-  context_commentstring = {
-    enable = true,
-  },
 }

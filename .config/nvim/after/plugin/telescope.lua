@@ -49,7 +49,7 @@ require('telescope').load_extension 'ui-select'
 -- files & grep
 vim.keymap.set('n', '<leader>l', require('telescope.builtin').diagnostics, { desc = 'Search [L]inter' })
 vim.keymap.set('n', '<leader>j', require('ggsalas.telescope').buffer_list)
-vim.keymap.set('n', '<leader>f', require('telescope.builtin').find_files)
+vim.keymap.set('n', '<leader>f', require('telescope.builtin').git_files)
 vim.keymap.set('n', '<leader>s', require('ggsalas.telescope').live_grep, { desc = 'Grep in the Main Dir' })
 vim.keymap.set('n', '<leader>df', require('ggsalas.telescope').find_files_current_dir)
 vim.keymap.set('n', '<leader>ds', require('ggsalas.telescope').grep_current_dir, { desc = 'Grep in the Current Dir' })

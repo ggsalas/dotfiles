@@ -24,7 +24,6 @@ vim.wo.signcolumn = 'yes'
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
-
 -- diff split vertical
 vim.o.diffopt = 'vertical'
 
@@ -53,9 +52,6 @@ vim.o.splitbelow = true
 
 -- Not break lines
 vim.o.wrap = false
-
--- vim.opt.filetype.plugin = 'on'
--- vim.cmd [[filetype plugin on]]
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`

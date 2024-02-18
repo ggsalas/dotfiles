@@ -9,7 +9,7 @@ local M = {}
 M.find_files_current_dir = function()
   local dir = utils.buffer_dir()
 
-  builtin.find_files({
+  builtin.git_files({
     prompt_title = string.format('Find files the Current Dir (%s)', dir),
     cwd = dir,
     disable_devicons = true

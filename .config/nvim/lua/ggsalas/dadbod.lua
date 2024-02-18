@@ -1,3 +1,5 @@
+-- Manage relational databases 
+---------------------------------------------------------------------------------
 local M = {}
 
 vim.keymap.set('n', '<leader>b', ':DBUIToggle<CR>')
