@@ -1,0 +1,3 @@
+select property_legacy_msaid 
+from consumption.mv_d_property
+limit 2

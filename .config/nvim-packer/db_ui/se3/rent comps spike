@@ -1,0 +1,3 @@
+select * from "consumption"."mv_property_rent_comp" LIMIT 10
+
+select * from rent_comps_summary_data limit 10

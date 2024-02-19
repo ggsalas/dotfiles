@@ -1,0 +1,372 @@
+-- select * from spaces_lease_analytics limit 5
+-- where type in(select DISTINCT type from spaces_lease_analytics)
+
+WITH
+
+-- Data 
+-------
+
+sizes AS (
+  SELECT
+    CASE 
+      WHEN size_sf < 4999 THEN '0 to <5K'
+      WHEN size_sf < 9999 THEN '5K to <10K'
+      WHEN size_sf < 24999 THEN '10K to <25K'
+      WHEN size_sf < 49999 THEN '25K to <50K'
+      WHEN size_sf < 99999 THEN '50K to <100K'
+      ELSE '100K+'
+    END AS size_range,
+    leased,
+    count(*) AS count
+  FROM
+    spaces_lease_analytics
+  WHERE
+    space_key IN ( '0000ef1ea60cd6eb2ac7b040284268af7f4b4d9b', '000127e64f1b47de2c403d4c23b8baac9a5e9817', '000536455ec78dfaa4d2912681743402a6cd8c2a', '0008de9c8a77303a85d66ff08d934d0257fec483')
+    -- space_key IN (${spaces})
+    -- ${filterWhere}
+    AND size_sf IS NOT NULL
+  GROUP BY
+    size_range,
+    leased
+),
+
+size_leased AS (
+  SELECT 
+    size_range,
+    count 
+  FROM
+    sizes
+  WHERE
+    leased
+  GROUP BY
+    size_range,
+    count
+),
+
+size_for_lease AS (
+  SELECT 
+    size_range,
+    count 
+  FROM
+    sizes
+  WHERE
+    leased = FALSE
+  GROUP BY
+    size_range,
+    count
+),
+
+sets AS (
+  SELECT
+    DISTINCT 
+    CASE
+      WHEN leased 
+      THEN 'leased'
+      ELSE 'for_lease'
+    END AS set
+  FROM 
+    sizes
+),
+
+space_size_categories AS (
+  SELECT 
+    *
+  FROM 
+    (VALUES 
+      ('0 to <5K', 1),
+      ('5K to <10K', 2),
+      ('10K to <25K', 3),
+      ('25K to <50K', 4),
+      ('50K to <100K', 5),
+      ('100K+', 6)
+    ) as categories(category, sort_order)
+  ORDER BY sort_order
+),
+
+-- Metadata
+-----------
+
+metadata_x_axis AS (
+  SELECT 
+    'x' AS name,
+    axis_type AS "axisType",
+    datatype AS "dataType",
+    label AS title
+  FROM 
+    metadata_as_rows
+  WHERE 
+    entity = 'distribution_by_space'
+    AND media = 'WEB'
+    AND subentity = 'x_axis'
+),
+
+metadata_y_axis AS (
+  SELECT 
+    'y' AS name,
+    datatype AS "dataType",
+    label AS title
+  FROM 
+    metadata_as_rows
+  WHERE 
+    entity = 'distribution_by_space'
+    AND media = 'WEB'
+    AND subentity = 'y_axis'
+),
+
+metadata_series_leased AS (
+  SELECT 
+    'leased' AS name,
+    color,
+    sort_order AS order,
+    label AS title,
+    'x' AS "xAxis",
+    'y' AS "yAxis",
+    datatype AS "dataType",
+    chart_type AS "chartType",
+    stacking as stack,
+    show_in_legend AS "showInLegend"
+  FROM 
+    metadata_as_rows
+  WHERE 
+    entity = 'distribution_by_space'
+    AND media = 'WEB'
+    AND subentity = 'leased_series'
+),
+
+metadata_series_forlease AS (
+  SELECT 
+    'for_lease' AS name,
+    color,
+    sort_order AS order,
+    label AS title,
+    'x' AS "xAxis",
+    'y' AS "yAxis",
+    datatype AS "dataType",
+    chart_type AS "chartType",
+    stacking as stack,
+    show_in_legend AS "showInLegend"
+  FROM 
+    metadata_as_rows
+  WHERE 
+    entity = 'distribution_by_space'
+    AND media = 'WEB'
+    AND subentity = 'for_lease_series'
+),
+
+metadata_table_columns AS (
+  SELECT 
+    label AS title,
+    subsubentity AS column,
+    datatype AS "dataType",
+    sortable,
+    is_row_group AS "isRowGroup",
+    sort_order AS "sortOrder"
+  FROM 
+    metadata_as_rows
+  WHERE 
+    entity = 'distribution_by_space'
+    AND media = 'WEB'
+    AND subentity = 'column'
+    AND subsubentity IN (
+      SELECT set 
+      FROM sets 
+      UNION 
+      SELECT 'size_range'
+    )
+  ORDER BY
+    sort_order 
+),
+
+
+-- Filter by spce type (category column)
+----------------------------------------
+
+space_types_data AS (
+  SELECT 
+    DISTINCT category AS value, 
+    category_label AS label,
+    2 AS sort_order
+  FROM
+    spaces_lease_analytics
+  WHERE
+    space_key IN ( '0000ef1ea60cd6eb2ac7b040284268af7f4b4d9b', '000127e64f1b47de2c403d4c23b8baac9a5e9817', '000536455ec78dfaa4d2912681743402a6cd8c2a', '0008de9c8a77303a85d66ff08d934d0257fec483')
+    -- space_key IN (${spaces})
+    AND size_sf IS NOT NULL
+    AND category IS NOT NULL
+    AND category_label IS NOT NULL
+),
+
+space_types_for_filter AS (
+  SELECT 
+    *
+  FROM
+    space_types_data
+  UNION -- Add default filter option
+  SELECT
+    '' AS value, 
+    'All Space Types' AS label,
+    1 AS sort_order
+  WHERE (select COUNT(*) from space_types_data) > 1
+  ORDER BY 
+    sort_order
+),
+
+filter_space_type AS (
+  SELECT 
+    json_build_object(
+      'type', 'single-select',
+      'name', 'space_type',
+      'value', '',
+      -- 'value', '${filter ?? ''}',
+      'options', (
+        SELECT 
+          json_agg(stff.val) as data
+        FROM (
+            SELECT 
+              json_build_object(
+                'value', value,
+                'label', label
+              ) val 
+            FROM space_types_for_filter 
+            ORDER BY sort_order
+        ) as stff
+      )
+    ) AS data
+),
+
+
+-- Chart
+--------
+
+x_axes AS (
+  SELECT
+    json_build_object(
+      'name', (SELECT name FROM metadata_x_axis),
+      'axisType', (SELECT "axisType" FROM metadata_x_axis),
+      'dataType', (SELECT "dataType" FROM metadata_x_axis),
+      'title', (SELECT "title" FROM metadata_x_axis),
+      'categories', json_agg(category)
+    ) AS data
+  FROM
+    space_size_categories
+),
+
+y_axes AS (
+  SELECT 
+    to_json(mya.*) AS data
+  FROM
+    metadata_y_axis mya
+),
+
+points_leased AS (
+  SELECT 
+    json_build_object(
+      'x', ssc.category,
+      'y', COALESCE(sl.count, 0)
+    ) AS data
+  FROM space_size_categories ssc
+  LEFT JOIN size_leased sl
+    ON ssc.category = sl.size_range
+  ORDER BY ssc.sort_order
+),
+
+points_for_lease AS (
+  SELECT 
+    json_build_object(
+      'x', ssc.category,
+      'y', COALESCE(sfl.count, 0)
+    ) AS data
+  FROM space_size_categories ssc
+  LEFT JOIN size_for_lease sfl
+    ON ssc.category = sfl.size_range
+  ORDER BY ssc.sort_order
+),
+
+series AS (
+  SELECT
+    (SELECT count(*) > 0 FROM size_leased) AS has_leased,
+    (SELECT count(*) > 0 FROM size_for_lease) AS has_for_lease,
+    json_build_object(
+      'points', (SELECT json_agg(points_leased.data) FROM points_leased),
+      'metadata', (SELECT to_jsonb(msl.*) FROM metadata_series_leased msl)
+    ) AS leased,
+    json_build_object(
+      'points', (SELECT json_agg(points_for_lease.data) FROM points_for_lease),
+      'metadata', (SELECT to_jsonb(msf.*) FROM metadata_series_forlease msf)
+    ) AS for_lease
+),
+
+
+-- Table
+--------
+
+table_columns AS (
+  SELECT
+    json_agg(mtc.*) AS data
+  FROM
+    metadata_table_columns mtc
+),
+
+table_rows AS (
+  SELECT 
+    json_build_object(
+      'size_range', ssc.category,
+      'leased', sl.count,
+      'for_lease', sfl.count
+    ) AS data
+  FROM
+    space_size_categories ssc
+  LEFT JOIN size_for_lease sfl
+    ON ssc.category = sfl.size_range
+  LEFT JOIN size_leased sl
+    ON ssc.category = sl.size_range
+  ORDER BY ssc.sort_order
+),
+
+
+-- Visualization
+----------------
+
+metadata_visualization AS (
+  SELECT 
+    label AS title,
+    show_header AS "showHeader",
+    show_time_range AS "showTimeRange",
+    show_time_scale AS "showTimeScale",
+    json_build_object(
+    'disabledInTable', json_build_array(),
+    'filters', json_build_array(fst.data)
+    ) AS "multipleFilters",
+    (select count(*) > 0 from sizes) as "hasChart"
+  FROM 
+    metadata_as_rows, filter_space_type fst
+  WHERE 
+    entity = 'distribution_by_space'
+    AND media = 'WEB'
+    AND subentity = 'visualization'
+)
+         
+SELECT
+  json_build_object(
+    'chart', json_build_object(), 
+    'xAxes', (SELECT json_agg(x_axes.data) FROM x_axes), 
+    'yAxes', (SELECT json_agg(y_axes.data) FROM y_axes),
+    'series', (
+      SELECT
+        CASE 
+          WHEN series.has_leased IS TRUE AND series.has_for_lease IS TRUE THEN json_build_array(series.leased, series.for_lease) 
+          WHEN series.has_leased IS TRUE THEN json_build_array(series.leased) 
+          WHEN series.has_for_lease IS TRUE THEN json_build_array(series.for_lease) 
+          ELSE NULL
+        END
+      FROM series
+    )
+  ) as chart,
+
+  (SELECT to_json(md.*) FROM metadata_visualization md) as visualization,
+  
+  json_build_object(
+    'rows', (SELECT json_agg(tr.data) FROM table_rows tr),
+    'columns', (SELECT data FROM table_columns)
+  ) as table
+

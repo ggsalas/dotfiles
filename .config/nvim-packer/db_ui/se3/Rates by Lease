@@ -1,0 +1,451 @@
+select min(null) / sum(null)
+select * from spaces_lease_analytics WHERE
+price IS NOT NULL
+and size_sf is null
+
+with
+    categories AS (
+      SELECT 
+        DISTINCT type_label AS type
+      FROM
+        spaces_lease_analytics
+      WHERE
+        AND space_key IN ('000586199e919c4a86a92bdedfa372fb617b6bde')
+      ORDER BY 
+        type_label
+    ),
+
+    points_for_lease_data AS (
+      SELECT 
+        type_label AS type, 
+        AVG(price) AS price
+      FROM spaces_lease_analytics
+      WHERE
+        leased
+        AND price IS NOT NULL
+        AND space_key IN ('000586199e919c4a86a92bdedfa372fb617b6bde')
+      GROUP BY
+        type_label
+    ),
+
+    points_for_lease AS (
+      SELECT 
+        json_build_object(
+          'x', pl.type,
+          'y', pl.price
+        ) AS data
+      FROM categories c
+      LEFT JOIN points_for_lease_data pl
+        ON c.type = pl.type 
+      GROUP BY
+        c.type,
+        pl.type,
+        pl.price
+    )
+
+select points_for_lease.data
+
+select * 
+from spaces_lease_analytics 
+where 
+space_key in (
+  '0002770120c7bb451a804cea29af66f294a68b96',
+  'fffd9a324a47dd3acbbf99a161dfcf835425d1c4',
+  '00006137385473f8d73fabcdf1b3e71a0c4de226',
+  'fff84a693bdb63ef0f6715f27ed1093e5967bf02',
+  '0029b5b6d8113bbc871ef02edd540c997a3ad6c1',
+  'ffdae737c8f6a926643213dadca3d80487834667',
+  '001daa0fd4710fed771ee40916ffc5561c78fce7',
+  'ffb9c6c6e65d0133ba172b4d5e2da5329eb0839a',
+  '000245c00574097ae21423b0be49082e09fad985',
+  'ffffa3b7bfedd3416d84cc20f135cd98588c89f6',
+  '0003a0af1208084c3ea0e60504d068b2194e5532',
+  'fff928faf1c9b5706fa385982e7b441c2f124fa6',
+  '0000dffe7e51b30150bab82350ac2316c2495226',
+  'ffff27c508334f7d39decda0c70e7ad2cc2e4c83',
+  '0077cc5ded3ba018a026e3ca0150e0a9b724bc08',
+  'ffbca4b1a1207e29105aa5f70f09271b6670a21e',
+  '0004ce5656ae35879cf075b84bcc4344ed23b51b',
+  'ffe53d7acd36e474ea9baa01369bca948d14748f',
+  '001b17434b7c77700856832a0a17080acb777464',
+  'ffa6733a94d3e5051d1a8bdfd4159f8da8b2005d',
+  '001e57f139bd1b9e3f1ffe5e62fb9913ce4fdecc',
+  'ff9e9ddff51e146312c82eadc23609221e60933e',
+  '000127e64f1b47de2c403d4c23b8baac9a5e9817',
+  'ffff0b944689284dea36a75e50d9ea5fd752f95f',
+  '0003f767e7aec50155224b6d4dc0d57bbdb6f2db',
+  'fffe493c82a824c0d5ce4808762d23e0a72b6e9f',
+  '001266bff0595266187093eb3a9fe6bd097d40df',
+  'ff50578d114cea5f795e3509b393da19e25f22b7',
+  '005c0849be9e4f430fd6027fa0c44d5898a704b9',
+  'fffe297750fe7f691a3ca6d73f620837b4af50f3',
+  '00064e54ae36c1f22cd72dbf4a7a69300540b66c',
+  'fffb90c906ccf1fb98d756a72a8451ec56d272aa',
+  '00164d348f666b302ecfe82e2b03df341935b98d',
+  'ffe182cd5baeb5f3169ceae980d24c98f2811e57',
+  '0000ccf5bf1cf276adc25c1c2a50742d403eaef3',
+  'fffc6f8a4bca27703421a493bf1308bb6d47ab91',
+  '001956d14e6c44ead05ce493aed8cac7df7fe65e',
+  'ffd849b885183464881040d26b15f3dd85f96aaa',
+  '00088eb20897b50d21294379a3538f4eb916b7c1',
+  'ffff59710568897140629fc6b1bda998660e192b',
+  '000d48b0c734d6c8cd7d25ca377687f0058d28a3',
+  'ff7eb14402dd0eac111f4c74279279cb5e8052ee',
+  '00b06a9d68deaa49f0c55cfa25f1882fb7ec3557',
+  'ffe62b4f6c55ecf5a223db9ae55e7529085f7207'
+)
+and category in ('SPECIALTY')
+
+-- where type in(select DISTINCT type from spaces_lease_analytics)
+-- limit 11
+--
+-- SELECT type, MIN(space_key), max(space_key)
+-- FROM spaces_lease_analytics
+-- where price is not null and leased = false
+-- GROUP BY type
+--
+-- select *
+-- from spaces_lease_analytics
+-- WHERE
+--   space_key IN (
+-- '00006137385473f8d73fabcdf1b3e71a0c4de226'
+-- )
+-- order by type, leased
+--
+--
+--
+-- select *  from spaces_lease_analytics limit 5
+
+-- select leased, type_label, min(price), avg(price), max(price)
+-- select *
+-- from spaces_lease_analytics
+-- WHERE
+--   space_key IN (
+--     '0000ef1ea60cd6eb2ac7b040284268af7f4b4d9b', 
+--     '000127e64f1b47de2c403d4c23b8baac9a5e9817', 
+--     '000536455ec78dfaa4d2912681743402a6cd8c2a', 
+--     '000516839f5236a8e7928fa0e949f8744c09c69b', 
+--     '0000dffe7e51b30150bab82350ac2316c2495226',
+--     '0008de9c8a77303a85d66ff08d934d0257fec483')
+-- GROUP BY
+--   type_label,
+--   leased
+--
+-- select space_key from spaces_lease_analytics where leased AND type = 'NNN' limit 5
+
+
+WITH 
+category_types AS (
+  SELECT 
+    DISTINCT category as name, 
+    category as label,
+    2 as sort_order
+  FROM
+    spaces_lease_analytics
+  WHERE
+    space_key IN (
+      '0000ef1ea60cd6eb2ac7b040284268af7f4b4d9b', 
+      '000127e64f1b47de2c403d4c23b8baac9a5e9817', 
+      '000536455ec78dfaa4d2912681743402a6cd8c2a', 
+    '0000dffe7e51b30150bab82350ac2316c2495226',
+      '000516839f5236a8e7928fa0e949f8744c09c69b', 
+      '0008de9c8a77303a85d66ff08d934d0257fec483')
+  UNION
+  SELECT 
+    '' as name, 
+    'All Space Types' as label,
+    1 as sort_order
+),
+
+filter_category_type AS (
+  SELECT 
+    json_agg(
+      json_build_object(
+        'name', name,
+        'label', label
+      )
+    ) as data
+  FROM 
+    category_types ct
+),
+
+table_rows AS (
+SELECT 
+  CASE WHEN leased 
+    THEN (
+      SELECT label 
+      FROM metadata_as_rows 
+      WHERE 
+        entity = 'rates_by_lease' 
+        AND subentity = 'row_group' 
+        AND subsubentity = 'leased' 
+        AND media = 'WEB'
+    )
+    ELSE (
+      SELECT label 
+      FROM metadata_as_rows 
+      WHERE 
+        entity = 'rates_by_lease' 
+        AND subentity = 'row_group' 
+        AND subsubentity = 'for_lease' 
+        AND media = 'WEB'
+    )
+  END AS sets,
+  type_label as type,
+  MIN(price) as low,
+  AVG(price) as mean,
+  AVG(price) * AVG(size_sf) / SUM(size_sf) as weighted_mean,
+  PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) as median,
+  MAX(price) as high
+FROM spaces_lease_analytics
+WHERE
+  space_key IN (
+    '0000ef1ea60cd6eb2ac7b040284268af7f4b4d9b', 
+    '000127e64f1b47de2c403d4c23b8baac9a5e9817', 
+    '000536455ec78dfaa4d2912681743402a6cd8c2a', 
+    '0000dffe7e51b30150bab82350ac2316c2495226',
+      '000516839f5236a8e7928fa0e949f8744c09c69b', 
+    '0008de9c8a77303a85d66ff08d934d0257fec483')
+  AND price IS NOT NULL
+  AND size_sf IS NOT NULL
+  -- AND type in ('FULL_SERVICE')
+GROUP BY
+  type_label,
+  leased
+),
+
+table_columns_data AS (
+SELECT 
+  label as title,
+  subsubentity as column,
+  datatype as "dataType",
+  sortable,
+  is_row_group as "isRowGroup",
+  sort_order as "sortOrder"
+FROM 
+  metadata_as_rows
+WHERE 
+  entity = 'rates_by_lease'
+  AND media = 'WEB'
+  AND subentity = 'column'
+ORDER BY
+  sort_order 
+),
+
+table_columns AS (
+SELECT
+  json_agg(tcd.*) AS data
+FROM
+  table_columns_data tcd
+),
+
+metadata_visualization AS (
+  SELECT 
+    label as title,
+    show_header as "showHeader",
+    show_time_range as "showTimeRange",
+    show_time_scale as "showTimeScale",
+    fct.data as filters 
+  FROM 
+    metadata_as_rows, filter_category_type fct
+  WHERE 
+    entity = 'rates_by_lease'
+    AND media = 'WEB'
+    AND subentity = 'visualization'
+),
+
+metadata_x_axis AS (
+  SELECT 
+    'x' as name,
+    axis_type as "axisType",
+    datatype as "dataType"
+  FROM 
+    metadata_as_rows
+  WHERE 
+    entity = 'rates_by_lease'
+    AND media = 'WEB'
+    AND subentity = 'x_axis'
+),
+
+metadata_y_axis AS (
+  SELECT 
+    'y' as name,
+    'left' as side,
+    'rates_by_lease' as chart,
+    label as title,
+    datatype as "dataType",
+    1 as "lineWidth"
+  FROM 
+    metadata_as_rows
+  WHERE 
+    entity = 'rates_by_lease'
+    AND media = 'WEB'
+    AND subentity = 'y_axis'
+),
+
+metadata_series_leased AS (
+  SELECT 
+    'leased' as name,
+    color,
+    sort_order as order,
+    label as title,
+    'x' as "xAxis",
+    'y' as "yAxis",
+    datatype as "dataType",
+    chart_type as "chartType",
+    show_in_legend as "showInLegend"
+  FROM 
+    metadata_as_rows
+  WHERE 
+    entity = 'rates_by_lease'
+    AND media = 'WEB'
+    AND subentity = 'leased_series'
+),
+
+metadata_series_forlease AS (
+  SELECT 
+    'for_lease' as name,
+    color,
+    sort_order as order,
+    label as title,
+    'x' as "xAxis",
+    'y' as "yAxis",
+    datatype as "dataType",
+    chart_type as "chartType",
+    show_in_legend as "showInLegend"
+  FROM 
+    metadata_as_rows
+  WHERE 
+    entity = 'rates_by_lease'
+    AND media = 'WEB'
+    AND subentity = 'for_lease_series'
+),
+
+categories AS (
+  SELECT DISTINCT type_label as type
+  FROM
+    spaces_lease_analytics
+  WHERE
+    space_key IN (
+      '0000ef1ea60cd6eb2ac7b040284268af7f4b4d9b', 
+      '000127e64f1b47de2c403d4c23b8baac9a5e9817', 
+      '000536455ec78dfaa4d2912681743402a6cd8c2a', 
+    '0000dffe7e51b30150bab82350ac2316c2495226',
+      '000516839f5236a8e7928fa0e949f8744c09c69b', 
+      '0008de9c8a77303a85d66ff08d934d0257fec483')
+    -- AND type in ('FULL_SERVICE')
+),
+
+x_axes AS (
+  SELECT
+    json_build_object(
+      'name', (SELECT name FROM metadata_x_axis),
+      'axisType', (SELECT "axisType" FROM metadata_x_axis),
+      'dataType', (SELECT "dataType" FROM metadata_x_axis),
+      'categories', json_agg(categories.type)
+    ) AS data
+  FROM
+    categories
+),
+
+y_axes AS (
+  SELECT
+    to_json(mya.*) AS data
+  FROM
+    metadata_y_axis mya
+),
+
+points_leased_data AS (
+  SELECT 
+    type_label as type, 
+    AVG(price) as price
+  FROM spaces_lease_analytics
+  WHERE
+    leased
+    AND space_key IN (
+      '0000ef1ea60cd6eb2ac7b040284268af7f4b4d9b', 
+      '000127e64f1b47de2c403d4c23b8baac9a5e9817', 
+      '000536455ec78dfaa4d2912681743402a6cd8c2a', 
+    '0000dffe7e51b30150bab82350ac2316c2495226',
+      '000516839f5236a8e7928fa0e949f8744c09c69b', 
+      '0008de9c8a77303a85d66ff08d934d0257fec483')
+    -- AND type in ('FULL_SERVICE')
+  GROUP BY
+    type_label
+),
+
+points_leased AS (
+  SELECT 
+    json_build_object(
+      'x', c.type,
+      'y', pl.price
+    ) AS data
+  FROM categories c
+  LEFT JOIN points_leased_data pl
+    ON c.type = pl.type 
+  GROUP BY
+    c.type,
+    pl.type,
+    pl.price
+),
+
+points_for_lease AS (
+  SELECT 
+      json_build_object(
+        'x', type_label, 
+        'y', AVG(price)
+      ) AS data
+  FROM spaces_lease_analytics
+  WHERE
+    leased = FALSE
+    AND space_key IN (
+      '0000ef1ea60cd6eb2ac7b040284268af7f4b4d9b', 
+      '000127e64f1b47de2c403d4c23b8baac9a5e9817', 
+      '000536455ec78dfaa4d2912681743402a6cd8c2a', 
+    '0000dffe7e51b30150bab82350ac2316c2495226',
+      '000516839f5236a8e7928fa0e949f8744c09c69b', 
+      '0008de9c8a77303a85d66ff08d934d0257fec483')
+    -- AND type in ('FULL_SERVICE')
+  GROUP BY
+    type_label
+),
+
+series AS (
+  SELECT
+    (SELECT json_agg(points_leased.data) FROM points_leased) AS points_leased,
+    (SELECT json_agg(points_for_lease.data) FROM points_for_lease) AS points_for_lease,
+    json_build_object(
+      'points', (SELECT json_agg(points_leased.data) FROM points_leased),
+      'metadata', (SELECT to_jsonb(msl.*) FROM metadata_series_leased msl)
+    ) AS leased,
+    json_build_object(
+      'points', (SELECT json_agg(points_for_lease.data) FROM points_for_lease),
+      'metadata', (SELECT to_jsonb(msf.*) FROM metadata_series_forlease msf)
+    ) AS for_lease
+)
+
+select * from metadata_visualization;
+-- SELECT
+--   json_build_object(
+--     'chart', json_build_object(), 
+--     'xAxes', (SELECT json_agg(x_axes.data) FROM x_axes), 
+--     'yAxes', (SELECT json_agg(y_axes.data) FROM y_axes),
+--     'series', (
+--       SELECT
+--         CASE 
+--           WHEN series.points_leased IS NULL THEN json_build_array(series.for_lease) 
+--           WHEN series.points_for_lease IS NULL THEN json_build_array(series.leased) 
+--           ELSE json_build_array(series.leased, series.for_lease) 
+--         END
+--       FROM series
+--     )
+--   ) as chart
+--   
+--   (SELECT to_json(md.*) FROM metadata_visualization md) as visualization,
+--
+--   json_build_object(
+--     'rows', (SELECT json_agg(tr.*) FROM table_rows tr),
+--     'columns', (SELECT data FROM table_columns)
+--   ) as table
+
+
