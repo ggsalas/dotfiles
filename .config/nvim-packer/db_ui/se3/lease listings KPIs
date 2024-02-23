@@ -1,0 +1,235 @@
+-- get data
+WITH leased_spaces_data AS (
+    SELECT
+        mdls.listed_space_key,
+        mdls.property_source_key,
+        mdls.listed_space_availability_available_dt_key,
+        mdls.listed_space_availability_off_market_dt_key,
+        mdls.space_size_available,
+        mdls.vacantdatedate,
+        mflr.lease_rent_index,
+        mflr.lease_rent_price_maximum_amount,
+        mflr.lease_rent_price_maximum_currency,
+        mflr.lease_rent_price_minimum_amount,
+        mflr.lease_rent_price_minimum_currency,
+        mflr.lease_rent_price_is_negotiable_flag,
+        mflr.lease_rent_price_period,
+        mflr.lease_rent_price_size,
+        mflr.lease_rent_price_type,
+        mflr.lease_rent_price_size
+    FROM
+        consumption.mv_d_listed_space mdls
+        JOIN consumption.mv_f_lease_rent mflr ON mdls.listed_space_key = mflr.listed_space_key
+    WHERE
+        mdls.listed_space_type = 'LEASE'
+        AND mdls.listed_space_availability_status = 'LEASED'
+        -- exclude listings that do not include sqft as measurement
+        AND mdls.space_size_units IS NOT NULL
+        AND mdls.space_size_units = 'SQUARE_FEET'
+        AND mflr.lease_rent_price_size = 'SF'
+        -- filter selected properties
+        -- VAR: properties
+        AND mdls.property_source_key IN ('50b1f2f7009c08f3d82a5b63023c932b858b1e0d', '2642fdab305c97aa54c60e86195d312274d60d6a', '5ed7a5fab8cde3af6f9b236573a7666a5a48af05')
+        AND mdls.space_category IN ('Office', 'Retail', 'Industrial', 'Land', 'Multifamily', 'Specialty', 'Flex', 'Mixed Use', 'Medical', 'Other')
+),
+leased_spaces_primary AS (
+    SELECT
+        *
+    FROM
+        leased_spaces_data
+    WHERE
+        listed_space_availability_off_market_dt_key::text::date > (now() - interval '90 days')
+),
+leased_spaces_relative AS (
+    SELECT
+        *
+    FROM
+        leased_spaces_data
+    WHERE
+        listed_space_availability_off_market_dt_key::text::date > (now() - interval '180 days')
+        AND listed_space_availability_off_market_dt_key::text::date < (now() - interval '90 days')
+),
+properties_kpi AS (
+    SELECT
+        'Properties' AS title,
+        'properties' AS subtitle,
+        'properties' AS name,
+        count(DISTINCT leased_spaces_primary.property_source_key) AS value,
+        'number' AS datatype,
+        'false' AS showCents,
+        NULL AS deltaDatatype,
+        NULL AS delta,
+        NULL AS deltaLabel,
+        NULL AS deltaPrefix,
+        NULL AS direction,
+        NULL AS goodDirection,
+        'WEB' AS media,
+        1 AS sort_order
+    FROM
+        leased_spaces_primary
+),
+spaces_kpi_data AS (
+    SELECT
+        count(leased_spaces_primary.listed_space_key) AS value,
+        (
+            SELECT
+                (
+                    CASE WHEN count(leased_spaces_relative.listed_space_key) > 0 THEN
+                        count(leased_spaces_primary.listed_space_key) * 100 / count(leased_spaces_relative.listed_space_key)
+                    ELSE
+                        100
+                    END) AS data
+            FROM
+                leased_spaces_relative) AS delta
+        FROM
+            leased_spaces_primary
+),
+spaces_kpi AS (
+    SELECT
+        'Leased Spaces' AS title,
+        'spaces' AS subtitle,
+        'leased' AS name,
+        value,
+        'number' AS datatype,
+        'false' AS showCents,
+        'percent' AS deltaDatatype,
+        delta::text AS delta,
+        'since Q2 2023' AS deltaLabel, -- TODO: change to dynamic date
+        NULL AS deltaPrefix,
+        (
+            CASE WHEN delta > 0 THEN
+                'up'
+            WHEN delta < 0 THEN
+                'down'
+            ELSE
+                'flat'
+            END) AS direction,
+        'up' AS goodDirection,
+        'WEB' AS media,
+        2 AS sort_order
+    FROM
+        spaces_kpi_data
+),
+leased_sf_kpi AS (
+    SELECT
+        'Leased SF' AS title,
+        'SF' AS subtitle,
+        'leased_sf' AS name,
+        sum(cast(leased_spaces_primary.space_size_available AS numeric)) AS value,
+        'number' AS datatype,
+        'false' AS showCents,
+        NULL AS deltaDatatype,
+        NULL AS delta,
+        NULL AS deltaLabel,
+        NULL AS deltaPrefix,
+        NULL AS direction,
+        NULL AS goodDirection,
+        'WEB' AS media,
+        3 AS sort_order
+    FROM
+        leased_spaces_primary
+),
+average_leased_sf_kpi AS (
+    SELECT
+        'Average Leased SF' AS title,
+        'SF' AS subtitle,
+        'average_leased_sf' AS name,
+        cast(avg(cast(leased_spaces_primary.space_size_available AS numeric)) AS int) AS value,
+        'number' AS datatype,
+        'false' AS showCents,
+        NULL AS deltaDatatype,
+        NULL AS delta,
+        NULL AS deltaLabel,
+        NULL AS deltaPrefix,
+        NULL AS direction,
+        NULL AS goodDirection,
+        'WEB' AS media,
+        4 AS sort_order
+    FROM
+        leased_spaces_primary
+),
+average_leased_rate_kpi AS (
+    SELECT
+        'Average Leased Rate' AS title,
+        'SF' AS subtitle,
+        'average_leased_rate' AS name,
+        round(avg((leased_spaces_primary.lease_rent_price_maximum_amount::numeric + leased_spaces_primary.lease_rent_price_minimum_amount::numeric) / 2), 2) AS value,
+        'currency' AS datatype,
+        'false' AS showCents,
+        NULL AS deltaDatatype,
+        NULL AS delta,
+        NULL AS deltaLabel,
+        NULL AS deltaPrefix,
+        NULL AS direction,
+        NULL AS goodDirection,
+        'WEB' AS media,
+        5 AS sort_order
+    FROM
+        leased_spaces_primary
+),
+-- average (mean) of all of the Days on Market for the spaces that were Leased in the lookback period
+leased_spaces_average_days_on_market_kpi AS (
+    SELECT
+        'Leased Spaces Days on Market' AS title,
+        'SF' AS subtitle,
+        'leased_spaces_average_days_on_market' AS name,
+        round(avg(leased_spaces_primary.listed_space_availability_off_market_dt_key::text::date - leased_spaces_primary.listed_space_availability_available_dt_key::text::date), 0) AS value,
+        'currency' AS datatype,
+        'false' AS showCents,
+        NULL AS deltaDatatype,
+        NULL AS delta,
+        NULL AS deltaLabel,
+        NULL AS deltaPrefix,
+        NULL AS direction,
+        NULL AS goodDirection,
+        'WEB' AS media,
+        6 AS sort_order
+    FROM
+        leased_spaces_primary
+)
+SELECT
+    -- Get all the KPIs for LEASED spaces
+    *
+FROM
+    properties_kpi
+UNION ALL
+SELECT
+    *
+FROM
+    spaces_kpi
+UNION ALL
+SELECT
+    *
+FROM
+    leased_sf_kpi
+UNION ALL
+SELECT
+    *
+FROM
+    average_leased_sf_kpi
+UNION ALL
+SELECT
+    *
+FROM
+    average_leased_rate_kpi
+UNION ALL
+SELECT
+    *
+FROM
+    leased_spaces_average_days_on_market_kpi
+    -- --------------------------------------------------------------------------------
+    -- -- other queries
+    -- --------------------------------------------------------------------------------
+    -- -- all data
+    -- SELECT
+    --     mdls.listed_space_key,
+    --     mdls.listed_space_availability_status
+    -- FROM
+    --     consumption.mv_d_listed_space mdls
+    -- WHERE
+    --     mdls.listed_space_type = 'LEASE'
+    --     AND mdls.listed_space_availability_status != 'LEASED' -- AVAILABLE
+    --     -- exclude listings that do not include sqft as measurement
+    --     AND mdls.space_size_units IS NOT NULL
+    --     AND mdls.space_size_units = 'SQUARE_FEET'
+    -- LIMIT 1000

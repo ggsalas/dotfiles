@@ -1,13 +1,15 @@
-require 'ggsalas.packer'
-require 'ggsalas.quickfix'
-require 'ggsalas.remap'
-require 'ggsalas.set'
-require 'ggsalas.tabs'
-require 'ggsalas.terminal'
-require 'ggsalas.diagnostics'
-require 'ggsalas.folding'
-require 'ggsalas.spell'
-require 'ggsalas.help'
-require 'ggsalas.dadbod'
-require 'ggsalas.markdown'
-require 'ggsalas.rest'
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("configs")
+require("lazy").setup("plugins")

@@ -1,0 +1,4 @@
+-- find property using catylist property id
+-- https://unity-members.catylist.net/property/60e4c674a97ec20006eefee1/details/
+select * from consumption.mv_d_property c
+where c.property_source_id     = '60e4c674a97ec20006eefee1'

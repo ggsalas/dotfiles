@@ -1,0 +1,11 @@
+[
+  {
+    "url": "postgresql://ggsalas:dept?Manzana@localhost/exercises",
+    "name": "exercises"
+  },
+  { "url": "postgresql://ggsalas:dept?Manzana@localhost/test", "name": "test" },
+  {
+    "url": "sqlite:/Users/ggsalas/Developer/learn/Job-Ready-SQL-in-an-Afternoon/Exercise%201/Training.db",
+    "name": "Job-Ready-SQL-in-an-Afternoon"
+  }
+]

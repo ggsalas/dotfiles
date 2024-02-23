@@ -1,3 +1,10 @@
+-- Set colorscheme
+vim.o.termguicolors = true
+vim.cmd [[colorscheme base16-solarized-light]]
+
+-- Visual options
+vim.o.cursorline = true
+
 -- set colors and change automatically with the theme
 vim.api.nvim_exec([[
 " Ugly fix... set vars first

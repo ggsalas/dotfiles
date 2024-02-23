@@ -1,0 +1,217 @@
+
+
+WITH
+    categories AS (
+        SELECT
+            cls.property_source_key AS property_id,
+            jsonb_build_object(
+               'name', 'Business Vitality',
+               'id', 'business_vitality',
+               'score', cls.business_vitality_score,
+               'percentile', cls.business_vitality_percentile,
+               'pctNational', cls.business_vitality_percentile_national,
+               'description', 'Measures of the business environment and how competitive the business landscape is compared to its surroundings.'
+            ) AS business,
+            jsonb_build_object(
+               'name', 'Economic Prosperity',
+               'id', 'economic_prosperity',
+               'score', cls.economic_prosperity_score,
+               'percentile', cls.economic_prosperity_percentile,
+               'pctNational', cls.economic_prosperity_percentile_national,
+               'description', 'Measure of wealth and economic activity using the relationship between household income and business payroll data.'
+            ) AS economic,
+            jsonb_build_object(
+                'name', 'Safety',
+                'id', 'safety',
+                'score', cls.safety_score,
+                'percentile', cls.safety_percentile,
+                'pctNational', cls.safety_percentile_national,
+                'description', 'Measure of the safety in a particular area based on the count of property and violent crime per the ambient population.',
+                'breakdownTable', json_build_object(
+                    'header', json_build_array(
+                        json_build_object('label', 'Breakdown'),
+                        json_build_object('label', 'Score'),
+                        json_build_object('label', 'Percentile')
+                    ),
+                    'rows', json_build_array(
+                        json_build_object(
+                            'breakdown', 'Personal Safety',
+                            'score', cls.personal_safety_score,
+                            'percentile', cls.personal_safety_percentile,
+                            'pctNational', cls.personal_safety_percentile_national
+                        ),
+                        json_build_object(
+                            'breakdown', 'Property Crime',
+                            'score', cls.property_safety_score,
+                            'percentile', cls.property_safety_percentile,
+                            'pctNational', cls.property_safety_percentile_national
+                        )
+                    )
+               )
+            ) AS safety,
+            jsonb_build_object(
+               'name', 'Spatial Demand',
+               'id', 'spatial_demand',
+               'score', cls.spatial_demand,
+               'percentile', cls.spatial_demand_percentile,
+               'pctNational', cls.spatial_demand_percentile_national,
+               'description', 'Measure of demand for properties based on vacancy rates in the nearby area.',
+               'breakdownTable', json_build_object(
+                    'header', json_build_array(
+                        json_build_object('label', 'Breakdown'),
+                        json_build_object('label', 'Score'),
+                        json_build_object('label', 'Percentile')
+                    ),
+                    'rows', json_build_array(
+                        json_build_object(
+                            'breakdown', 'Spatial Demand for Multi-Family Space',
+                            'score', cls.spatial_demand_multi_family,
+                            'percentile', cls.spatial_demand_multi_family_percentile,
+                            'pctNational', cls.spatial_demand_multi_family_percentile_national
+                        ),
+                        json_build_object(
+                            'breakdown', 'Spatial Demand for Office Space',
+                            'score', cls.spatial_demand_office_space,
+                            'percentile', cls.spatial_demand_office_space_percentile,
+                            'pctNational', cls.spatial_demand_office_space_percentile_national
+                        ),
+                        json_build_object(
+                            'breakdown', 'Spatial Demand for Industrial Space',
+                            'score', cls.spatial_demand_industrial_space,
+                            'percentile', cls.spatial_demand_industrial_space_percentile,
+                            'pctNational', cls.spatial_demand_industrial_space_percentile_national
+                        ),
+                        json_build_object(
+                            'breakdown', 'Spatial Demand for Retail Space',
+                            'score', cls.spatial_demand_retail_space,
+                            'percentile', cls.spatial_demand_retail_space_percentile,
+                            'pctNational', cls.spatial_demand_retail_space_percentile_national
+                        )
+                    )
+               )
+            ) AS spatial,
+            jsonb_build_object(
+               'name', 'Transportation',
+               'id', 'transportation',
+               'score', cls.transportation_accessibility_score,
+               'percentile', cls.transportation_accessibility_percentile,
+               'pctNational', cls.transportation_accessibility_percentile_national,
+               'description', 'Measure of accessibility to transportation nodes with an emphasis on highways and subways.',
+               'breakdownTable', json_build_object(
+                    'header', json_build_array(
+                        json_build_object('label', 'Breakdown'),
+                        json_build_object('label', 'Score'),
+                        json_build_object('label', 'Percentile')
+                    ),
+                    'rows', json_build_array(
+                        json_build_object(
+                            'breakdown', 'Access to Subway',
+                            'score', cls.subway_accessibility_score,
+                            'percentile', cls.subway_accessibility_percentile,
+                            'pctNational', cls.subway_accessibility_percentile_national
+                        ),
+                        json_build_object(
+                            'breakdown', 'Access to Highway',
+                            'score', cls.highway_accessibility_score,
+                            'percentile', cls.highway_accessibility_percentile,
+                            'pctNational', cls.highway_accessibility_percentile_national
+                        ),
+                        json_build_object(
+                            'breakdown', 'Access to Airport',
+                            'score', cls.airport_accessibility_score,
+                            'percentile', cls.airport_accessibility_percentile,
+                            'pctNational', cls.airport_accessibility_percentile_national
+                        ),
+                        json_build_object(
+                            'breakdown', 'Access to Seaport',
+                            'score', cls.seaport_accessibility_score,
+                            'percentile', cls.seaport_accessibility_percentile,
+                            'pctNational', cls.seaport_accessibility_percentile_national
+                        )
+                    )
+               )
+            ) AS transport,
+            jsonb_build_object(
+               'name', 'Local Amenities',
+               'id', 'local_amenities',
+               'score', cls.consumer_amenity_score,
+               'percentile', cls.consumer_amenity_percentile,
+               'pctNational', cls.consumer_amenity_percentile_national,
+               'description', 'Measure of accessibility of local amenities such as restaurants, retail and parks.',
+               'breakdownTable', json_build_object(
+                    'header', json_build_array(
+                        json_build_object('label', 'Breakdown'),
+                        json_build_object('label', 'Score'),
+                        json_build_object('label', 'Percentile')
+                    ),
+                    'rows', json_build_array(
+                        json_build_object(
+                            'breakdown', 'Consumer Amenity Volume',
+                            'score', cls.consumer_amenity_volume_score,
+                            'percentile', cls.consumer_amenity_volume_percentile,
+                            'pctNational', cls.consumer_amenity_volume_percentile_national
+                        ),
+                        json_build_object(
+                            'breakdown', 'Consumer Amenity Variety',
+                            'score', cls.consumer_amenity_variety_score,
+                            'percentile', cls.consumer_amenity_variety_percentile,
+                            'pctNational', cls.consumer_amenity_variety_percentile_national
+                        ),
+                        json_build_object(
+                            'breakdown', 'Natural Amenities',
+                            'score', cls.park_accessibility_score,
+                            'percentile', cls.park_accessibility_percentile,
+                            'pctNational', cls.park_accessibility_percentile_national
+                        )
+                    )
+               )
+            ) AS amenities
+        FROM "se3"."gsalas"."commercial_location_score" cls
+    ),
+    categories_json AS (
+        SELECT c.property_id,
+        jsonb_build_array(c.business, c.economic, c.safety, c.spatial, c.transport, c.amenities) AS data
+        FROM
+            categories c
+    )
+SELECT
+    cls.property_source_key AS property_id,
+    jsonb_build_object(
+        'overall', json_build_object(
+            'overallScore', cls.cre_overall_desirability_score,
+            'overallPct', cls.cre_overall_desirability_percentile,
+            'overallPctNational', cls.cre_overall_desirability_percentile_national,
+            'assetClass', json_build_object(
+                'office', json_build_object(
+                    'overallScore', cls.cre_office_space_desirability_score,
+                    'overallPct', cls.cre_office_space_desirability_percentile,
+                    'overallPctNational', cls.cre_office_space_desirability_percentile_national
+                ),
+                'multi-family', json_build_object(
+                    'overallScore', cls.cre_multi_family_desirability_score,
+                    'overallPct', cls.cre_multi_family_desirability_percentile,
+                    'overallPctNational', cls.cre_multi_family_desirability_percentile_national
+                ),
+                'industrial', json_build_object(
+                    'overallScore', cls.cre_industrial_space_desirability_score,
+                    'overallPct', cls.cre_industrial_space_desirability_percentile,
+                    'overallPctNational', cls.cre_industrial_space_desirability_percentile_national
+                ),
+                'retail', json_build_object(
+                    'overallScore', cls.cre_retail_space_desirability_score,
+                    'overallPct', cls.cre_retail_space_desirability_percentile,
+                    'overallPctNational', cls.cre_retail_space_desirability_percentile_national
+                ),
+                'hotel', json_build_object(
+                    'overallScore', cls.cre_hotel_space_desirability_score,
+                    'overallPct', cls.cre_hotel_space_desirability_percentile,
+                    'overallPctNational', cls.cre_hotel_space_desirability_percentile_national
+                )
+            )
+        ),
+        'kpis', c.data) AS data
+FROM "se3"."gsalas"."commercial_location_score" cls
+LEFT JOIN categories_json c ON cls.property_source_key = c.property_id
+limit 10
+
+
