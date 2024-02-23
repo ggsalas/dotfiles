@@ -77,7 +77,7 @@ bindkey '^P' autosuggest-execute
 # Aliases
 #################################################################################
 # Neovim
-alias vi="nvim"
+alias vi='nvim'
 alias vip='NVIM_APPNAME=nvim-packer nvim'
 
 # file snd folders
