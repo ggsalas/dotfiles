@@ -102,8 +102,18 @@ return {
     'Wansmer/treesj',
     requires = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      require('treesj').setup()
+      require('treesj').setup({
+        max_join_length = 10000,
+        use_default_keymaps = false,
+      })
+
+      -- For default preset
+      vim.keymap.set('n', '<leader>gj', require('treesj').toggle)
+
+      -- For extending default preset with `recursive = true`
+      vim.keymap.set('n', '<leader>gJ', function()
+        require('treesj').toggle({ split = { recursive = true } })
+      end)
     end,
   }
-
 }

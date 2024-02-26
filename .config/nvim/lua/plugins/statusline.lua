@@ -27,7 +27,7 @@ return {
     }
 
 
-    function statusline()
+    local function statusline()
       vim.api.nvim_exec(
         [[
         function! LspStatus() abort

@@ -1,5 +1,3 @@
--- git --git-dir $HOME/.dotfiles/ ls-files --full-name | sed "s,^,$HOME/,"
-
 return {
   {
     "nvim-telescope/telescope-ui-select.nvim",
@@ -240,6 +238,7 @@ return {
       vim.keymap.set('n', '<leader>do', search_dot_files)
 
       vim.api.nvim_create_user_command('Notes', search_notes, {})
+      vim.api.nvim_create_user_command('NotesFolder', "e ~/Google Drive/My\\ Drive/Notas/" , {})
     end,
   },
 }

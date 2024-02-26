@@ -44,12 +44,9 @@ return {
           map('n', '<leader>cd', gs.reset_hunk)
           map('v', '<leader>ca', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
           map('v', '<leader>cd', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-
           map('n', '<leader>cu', gs.undo_stage_hunk)
-
           map('n', '<leader>cp', gs.preview_hunk)
           map('n', '<leader>cb', function() gs.blame_line{full=true} end)
-
           -- map('n', '<leader>tb', gs.toggle_current_line_blame)
 
           -- Text object

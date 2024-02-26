@@ -80,4 +80,3 @@ vim.keymap.set('n', '<Esc>', ':nohlsearch<cr>', { silent = true })
 
 -- Node
 vim.keymap.set('n', '<Leader>no', ':!node % <CR>', { silent = true })
-

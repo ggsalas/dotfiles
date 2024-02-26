@@ -102,6 +102,11 @@ luarocks install --server=https://luarocks.org/dev luaformatter
 brew install stylua # like prettier for lua code
 brew install fd
 
+# to handle jason files in command line and required by rest.nvim
+brew install jq 
+
+# html tools, required by rest.nvim
+brew install tidy-html5
 
 # install Plug for vim
 # curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \

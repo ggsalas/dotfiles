@@ -3,8 +3,9 @@ return {
 
   config = function()
     vim.keymap.set({ 'n', 'v' }, '<leader>i', ':Gen<CR>')
-    vim.keymap.set({ 'n', 'v' }, '<leader>ii', ':Gen General_Chat<CR>')
+    vim.keymap.set({ 'n', 'v' }, '<leader>ii', ':Gen Code_Chat<CR>')
     vim.keymap.set({ 'n', 'v' }, '<leader>ij', ':Gen Code_File_Chat<CR>')
+    vim.keymap.set({ 'n', 'v' }, '<leader>ig', ':Gen General_Chat<CR>')
 
     require('gen').setup({
       model = "mistral",      -- The default model to use. // codellama //
@@ -54,19 +55,12 @@ return {
         extract = "```$filetype\n(.-)```"
       },
 
-      -- Code_Complete_the_3_dots = {
-      --   prompt = "Reading the following code, complete the missimg part where you see this: '...'. Only output the result in format ```$filetype\n...\n```:\n```$filetype\n$text\n```",
-      --   replace = true,
-      --   extract = "```$filetype\n(.-)```"
-      -- },
-
       Code_Unit_test_case = {
         prompt =
         "You are an expert programmer that writes simple, concise code. Write unit test case for, $input, only output the result in format ```$filetype\n...\n```:\n```$filetype\n$text\n```",
         replace = false,
         extract = "```$filetype\n(.-)```",
       },
-
 
       -- Txt inputs
       -------------

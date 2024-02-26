@@ -27,4 +27,3 @@ vim.api.nvim_create_autocmd('TermOpen', {
   command = ':setlocal nonumber nocursorline',
   group = terminal_mode,
 })
-

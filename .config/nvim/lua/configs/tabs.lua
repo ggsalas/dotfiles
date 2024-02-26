@@ -30,4 +30,3 @@ endfunction
 
 set tabline=%!NewTabLine()
 ]], true)
-
