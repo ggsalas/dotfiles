@@ -75,33 +75,16 @@ return {
         layouts = {
           {
             elements = {
-              {
-                id = "breakpoints",
-                size = 0.30
-              },
-              {
-                id = "watches",
-                size = 0.30
-              },
-              {
-                id = "stacks",
-                size = 0.20
-              },
-              {
-                id = "console", -- don't know what is for yet
-                size = 0.20
-              },
+              { id = "breakpoints", size = 0.30 },
+              { id = "watches",     size = 0.30 },
+              { id = "stacks",      size = 0.20 },
+              { id = "console",     size = 0.20 }, -- don't know what is for yet
             },
             position = "right",
             size = 50
           },
           {
-            elements = {
-              {
-                id = "repl",
-                size = 1
-              },
-            },
+            elements = { { id = "repl", size = 1 } },
             position = "bottom",
             size = 10
           }
@@ -120,15 +103,9 @@ return {
         }
       })
 
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open({})
-      end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close({})
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close({})
-      end
+      dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open({}) end
+      dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close({}) end
+      dap.listeners.before.event_exited["dapui_config"] = function() dapui.close({}) end
 
       -- mappings
       vim.keymap.set('n', '<leader>de', require 'dapui'.toggle)

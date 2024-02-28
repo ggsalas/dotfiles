@@ -107,10 +107,26 @@ return {
               capabilities = capabilities,
               settings = {
                 Lua = {
-                  diagnostics = {
-                    globals = { "vim", "it", "describe", "before_each", "after_each" },
-                  }
-                }
+                  runtime = { version = 'LuaJIT' },
+                  workspace = {
+                    checkThirdParty = false,
+                    -- Tells lua_ls where to find all the Lua files that you have loaded
+                    -- for your neovim configuration.
+                    library = {
+                      '${3rd}/luv/library',
+                      unpack(vim.api.nvim_get_runtime_file('', true)),
+                    },
+                    -- If lua_ls is really slow on your computer, you can try this instead:
+                    -- library = { vim.env.VIMRUNTIME },
+                  },
+                  -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+                  -- diagnostics = { disable = { 'missing-fields' } },
+                },
+                -- Lua = {
+                --   diagnostics = {
+                --     globals = { "vim", "it", "describe", "before_each", "after_each" },
+                --   }
+                -- }
               }
             }
           end,
@@ -166,7 +182,7 @@ return {
           -- eslint or eslint_d
           null_ls.builtins.diagnostics.eslint_d.with({
             diagnostics_postprocess = function(diagnostic)
-              diagnostic.severity = vim.diagnostic.severity["HINT"]   -- ERROR, WARN, INFO, HINT
+              diagnostic.severity = vim.diagnostic.severity["HINT"] -- ERROR, WARN, INFO, HINT
             end,
           }),
           null_ls.builtins.code_actions.eslint_d, -- eslint or eslint_d

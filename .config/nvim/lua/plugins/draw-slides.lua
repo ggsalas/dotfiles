@@ -17,21 +17,19 @@ return {
   {
     "jbyuki/venn.nvim",
     config = function()
-      vim.api.nvim_exec([[
-        function! DrawStart() 
-          set virtualedit=all
-          set cursorcolumn
-        endfunction
+      local function drawStart()
+        vim.o.virtualedit = 'all'
+        vim.o.cursorcolumn = true
+      end
 
-        function! DrawStop() 
-          set virtualedit=""
-          set nocursorcolumn
-        endfunction
+      local function drawStop()
+        vim.o.virtualedit = ''
+        vim.o.cursorcolumn = false
+      end
 
-        command -bang DrawStart call DrawStart()<bang>
-        command -bang DrawStop call DrawStop()<bang>
-        vmap . :VBox<cr>
-      ]], true)
+      vim.api.nvim_create_user_command('DrawStart', drawStart, {})
+      vim.api.nvim_create_user_command('DrawStop', drawStop, {})
+      vim.keymap.set('v', '.', ':VBox<cr>')
     end
   },
 

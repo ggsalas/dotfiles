@@ -27,23 +27,23 @@ return {
     }
 
 
+    -- Custom statusline
+    --------------------
     local function statusline()
-      vim.api.nvim_exec(
-        [[
-        function! LspStatus() abort
-          if luaeval('#vim.lsp.buf_get_clients() > 0')
-            return luaeval("require('lsp-status').status()")
-          endif
+      -- _G is a global Vim variable that allows to call lua functions directly from Vimscript
+      function _G.get_lsp_status()
+        if #vim.lsp.buf_get_clients() > 0 then
+          return require('lsp-status').status()
+        else
+          return " "
+        end
+      end
 
-          return ''
-        endfunction
+      local file_and_modified = '%f %m'
+      local align_right = '%='
+      local status = '%{%v:lua.get_lsp_status()%}'
 
-        set statusline =\ %f\ %m
-        set statusline +=\ %*%=\ %*
-        set statusline +=\ %*%=\ %*%{LspStatus()}\ %*
-        ]],
-        true
-      )
+      vim.opt.statusline = file_and_modified .. align_right .. status
     end
 
     statusline()
